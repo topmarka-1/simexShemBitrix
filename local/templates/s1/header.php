@@ -16,7 +16,7 @@
 	<? $APPLICATION->ShowPanel(); ?>
 </div>
 <body>
-    <div id="wrapper" class="wrapper <? $isMainPage ? 'index' : '' ?>">
+    <div id="wrapper" class="wrapper <?= $isMainPage ? 'index' : '' ?>">
         <header class="header <? $isMainPage ? 'index' : '' ?>">
             <div class="container">
                 <div class="header__row">

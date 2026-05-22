@@ -52,7 +52,7 @@ for($index = 0; $index < $itemSize; $index++)
 	}
 }
 
-$strReturn .= '<div style="clear:both"></div></div>';
+$strReturn .= '</ul></div></div>';
 
 return $strReturn;
 

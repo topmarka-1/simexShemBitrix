@@ -13,9 +13,9 @@
 $this->setFrameMode(true);
 ?>
 
-<section class="section brands">
+<section class="section brands anim-fade-in-up">
     <div class="container">
-        <div class="heading">
+        <div class="heading anim-fade-in-left">
             <h2>Наши бренды</h2>
             <div class="hand_icon">
                 <svg width="18" height="26" viewBox="0 0 18 26" fill="none" xmlns="http://www.w3.org/2000/svg">

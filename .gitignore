@@ -1,0 +1,64 @@
+# ======================
+# Bitrix core
+# ======================
+
+/bitrix/cache/
+/bitrix/managed_cache/
+/bitrix/stack_cache/
+/bitrix/html_pages/
+/bitrix/backup/
+/bitrix/tmp/
+/bitrix/updates/
+/bitrix/php_interface/dbconn.php
+
+# Логи
+/bitrix/modules/error.log
+*.log
+
+# Сессии
+/bitrix/sessions/
+
+# Загруженные файлы
+/upload/
+
+# ======================
+# Docker
+# ======================
+
+docker-data/
+data/
+mysql/
+postgres/
+
+# env
+.env
+.env.local
+
+# ======================
+# IDE
+# ======================
+
+.idea/
+.vscode/
+*.swp
+
+# ======================
+# Node
+# ======================
+
+node_modules/
+dist/
+build/
+
+# ======================
+# Composer
+# ======================
+
+vendor/
+
+# ======================
+# OS
+# ======================
+
+.DS_Store
+Thumbs.db

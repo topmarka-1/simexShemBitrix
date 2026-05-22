@@ -1,7 +1,0 @@
-<?
-if($INCLUDE_FROM_CACHE!='Y')return false;
-$datecreate = '001778765648';
-$dateexpire = '001778769248';
-$ser_content = 'a:2:{s:7:"CONTENT";s:0:"";s:4:"VARS";a:7:{i:0;a:7:{s:2:"ID";s:2:"14";s:4:"NAME";s:14:"catalog_denied";s:6:"LETTER";s:1:"D";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}i:1;a:7:{s:2:"ID";s:2:"15";s:4:"NAME";s:12:"catalog_view";s:6:"LETTER";s:1:"M";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}i:2;a:7:{s:2:"ID";s:2:"16";s:4:"NAME";s:12:"catalog_read";s:6:"LETTER";s:1:"R";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}i:3;a:7:{s:2:"ID";s:2:"18";s:4:"NAME";s:18:"catalog_store_edit";s:6:"LETTER";s:1:"S";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}i:4;a:7:{s:2:"ID";s:2:"17";s:4:"NAME";s:18:"catalog_price_edit";s:6:"LETTER";s:1:"T";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}i:5;a:7:{s:2:"ID";s:2:"19";s:4:"NAME";s:21:"catalog_export_import";s:6:"LETTER";s:1:"U";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}i:6;a:7:{s:2:"ID";s:2:"20";s:4:"NAME";s:19:"catalog_full_access";s:6:"LETTER";s:1:"W";s:9:"MODULE_ID";s:7:"catalog";s:3:"SYS";s:1:"Y";s:11:"DESCRIPTION";N;s:7:"BINDING";s:6:"module";}}}';
-return true;
-?>

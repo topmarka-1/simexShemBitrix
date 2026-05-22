@@ -13,6 +13,7 @@
                                 ]
                             );
                         ?>
+                        <div class="subscribe__contacts">
                         <?
                             $APPLICATION->IncludeFile(
                                 SITE_TEMPLATE_PATH . '/include/subscribe_contacts.php',
@@ -22,6 +23,7 @@
                                 ]
                             );
                         ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,10 +163,6 @@
     <div class="popup" id="subscribe">
     <div class="popup__content">
         <div class="popup__container">
-            <!-- <div class="heading">
-                <div class="h2">Войти в личный
-                    кабинет клиента</div>
-            </div> -->
             <?$APPLICATION->IncludeComponent("bitrix:form", "subscribe", Array(
                 "AJAX_MODE" => "Y",	// Включить режим AJAX
                     "AJAX_OPTION_ADDITIONAL" => "",	// Дополнительный идентификатор
@@ -205,107 +203,16 @@
                 ),
                 false
             );?>
-            <!-- <div class="popup__content_form">
-
-                <form action="#" class="login-form">
-                    <div class="form__content">
-                        <div class="login-form__fields form__fields">
-                            <div class="form__field">
-                                <div class="form__field_title h6">
-                                    Ваш логин:
-                                </div>
-                                <label class="label-text">
-                                    <input type="text" name="login" placeholder="login">
-                                </label>
-                            </div>
-                            <div class="form__field">
-                                <div class="form__field_title h6">
-                                    Ваш пароль:
-                                </div>
-                                <label class="label-text">
-                                    <input type="password" name="password" placeholder="password">
-                                </label>
-                            </div>
-                            <div class="form__field">
-                                <input type="submit" value="Войти" class="btn btn-primary btn-full">
-                                <div class="form__field_link">
-                                    Нет аккаунта? <a href="/register">Зарегистрироваться</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div> -->
         </div>
     </div>
 </div>
-
-    <!-- <div class="popup">
-        <div class="popup__content">
-            <div class="popup__container">
-                <div class="heading">
-                    <h1 class="h2">Регистрация<br>
-                        нового профиля</h1>
-                </div>
-                <div class="popup__content_form">
-                    <form action="#" class="login-form">
-                        <div class="form__content">
-                            <div class="login-form__fields form__fields">
-                                <div class="form__field">
-                                    <div class="form__field_title h6">
-                                        Как вас зовут?
-                                    </div>
-                                    <label class="label-text">
-                                        <input type="text" name="company" placeholder="Иван">
-                                    </label>
-                                </div>
-                                <div class="form__field">
-                                    <div class="form__field_title h6">
-                                        ИНН организации
-                                    </div>
-                                    <label class="label-text">
-                                        <input type="text" name="company" value="123456789012345"
-                                            placeholder="ИНН организации">
-                                    </label>
-                                </div>
-                                <div class="form__field">
-                                    <div class="form__field_title h6">
-                                        Название вашей компании
-                                    </div>
-                                    <label class="label-text">
-                                        <input type="text" name="company" value="ИП Марянов Кирилл Александрович"
-                                            placeholder="Название вашей компании">
-                                    </label>
-                                </div>
-                                <div class="form__field">
-                                    <div class="form__field_title h6">
-                                        Придумайте логин
-                                    </div>
-                                    <label class="label-text">
-                                        <input type="text" name="login" placeholder="login">
-                                    </label>
-                                </div>
-                                <div class="form__field">
-                                    <div class="form__field_title h6">
-                                        Придумайте пароль
-                                    </div>
-                                    <label class="label-text">
-                                        <input type="password" name="password" placeholder="password">
-                                    </label>
-                                </div>
-                                <div class="form__field">
-                                    <input type="submit" value="Зарегистрироваться" class="btn btn-primary btn-full">
-                                    <div class="form__field_link">
-                                        Есть аккаунт? <a href="/login">Авторизироваться</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> -->
+<? $APPLICATION->IncludeFile(
+                                SITE_TEMPLATE_PATH . '/include/mobileMenu.php',
+                                [],
+                                [
+                                    'MODE'      => 'html',
+                                ]
+                            ); ?>
     <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/index.js"></script>
 </body>
 

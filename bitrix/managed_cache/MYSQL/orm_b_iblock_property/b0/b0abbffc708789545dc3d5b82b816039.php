@@ -1,7 +1,0 @@
-<?
-if($INCLUDE_FROM_CACHE!='Y')return false;
-$datecreate = '001779085571';
-$dateexpire = '001779171971';
-$ser_content = 'a:2:{s:7:"CONTENT";s:0:"";s:4:"VARS";a:4:{i:0;a:13:{s:2:"ID";s:3:"239";s:9:"IBLOCK_ID";s:2:"15";s:4:"NAME";s:18:"Заголовок";s:6:"ACTIVE";s:1:"Y";s:4:"SORT";s:3:"500";s:4:"CODE";s:5:"TITLE";s:13:"DEFAULT_VALUE";s:0:"";s:13:"PROPERTY_TYPE";s:1:"S";s:8:"MULTIPLE";s:1:"N";s:14:"LINK_IBLOCK_ID";s:1:"0";s:7:"VERSION";s:1:"1";s:9:"USER_TYPE";N;s:18:"USER_TYPE_SETTINGS";s:6:"a:0:{}";}i:1;a:13:{s:2:"ID";s:3:"240";s:9:"IBLOCK_ID";s:2:"15";s:4:"NAME";s:24:"Подзаголовок";s:6:"ACTIVE";s:1:"Y";s:4:"SORT";s:3:"500";s:4:"CODE";s:8:"SUBTITLE";s:13:"DEFAULT_VALUE";s:0:"";s:13:"PROPERTY_TYPE";s:1:"S";s:8:"MULTIPLE";s:1:"N";s:14:"LINK_IBLOCK_ID";s:1:"0";s:7:"VERSION";s:1:"1";s:9:"USER_TYPE";N;s:18:"USER_TYPE_SETTINGS";s:6:"a:0:{}";}i:2;a:13:{s:2:"ID";s:3:"241";s:9:"IBLOCK_ID";s:2:"15";s:4:"NAME";s:23:"Текст кнопки";s:6:"ACTIVE";s:1:"Y";s:4:"SORT";s:3:"500";s:4:"CODE";s:11:"BUTTON_TEXT";s:13:"DEFAULT_VALUE";s:0:"";s:13:"PROPERTY_TYPE";s:1:"S";s:8:"MULTIPLE";s:1:"N";s:14:"LINK_IBLOCK_ID";s:1:"0";s:7:"VERSION";s:1:"1";s:9:"USER_TYPE";N;s:18:"USER_TYPE_SETTINGS";s:6:"a:0:{}";}i:3;a:13:{s:2:"ID";s:3:"242";s:9:"IBLOCK_ID";s:2:"15";s:4:"NAME";s:12:"Ссылка";s:6:"ACTIVE";s:1:"Y";s:4:"SORT";s:3:"500";s:4:"CODE";s:4:"LINK";s:13:"DEFAULT_VALUE";s:0:"";s:13:"PROPERTY_TYPE";s:1:"S";s:8:"MULTIPLE";s:1:"N";s:14:"LINK_IBLOCK_ID";s:1:"0";s:7:"VERSION";s:1:"1";s:9:"USER_TYPE";N;s:18:"USER_TYPE_SETTINGS";s:6:"a:0:{}";}}}';
-return true;
-?>
