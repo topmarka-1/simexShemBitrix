@@ -1,0 +1,17 @@
+.form__success {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 24px 0;
+}
+
+.form__success_icon {
+	margin-bottom: 1.5rem;
+}
+.form__success_content {
+	min-width: 350px;
+}
+.form__success_title {
+	margin-bottom: 2.75rem;
+}

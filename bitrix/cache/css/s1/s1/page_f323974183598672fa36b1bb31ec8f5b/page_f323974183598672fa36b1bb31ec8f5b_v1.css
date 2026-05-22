@@ -1,0 +1,350 @@
+
+
+/* Start:/local/templates/s1/components/bitrix/news.list/hero_index/style.css?17786694337368*/
+/*!***************************************************************************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/postcss-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./sections/hero/hero.scss ***!
+  \***************************************************************************************************************************************************************/
+/* :root {
+  --font: "Manrope", sans-serif;
+  --font-accent: "Inter Tight", sans-serif;
+  --clr-white: #ffffff;
+  --clr-white-100: #f5f6f7;
+  --clr-white-200: #ecedee;
+  --clr-white-300: #d9d9d9;
+  --clr-white-400: #d7d8d9;
+  --clr-white-500: #7A7C81;
+  --clr-base: #232C42;
+  --clr-black-900: #21242d;
+  --clr-black-800: #252833;
+  --clr-white: #ffffff;
+  --clr-white-30: rgba(255, 255, 255, 0.3);
+  --clr-accent: #f9d840;
+  --clr-accent-hover: #FFE159;
+  --clr-grey: #8C8D90;
+  --clr-blue: #464F64;
+  --clr-blue-grey: #B2C2CC;
+  --clr-blue-light: #00AAFF;
+  --blur-base: blur(48px);
+  --radius-btn-sm: 8px;
+  --radius-btn: 12px;
+  --radius-item: 24px;
+  --radius-section: 48px;
+} */
+
+.hero {
+  position: relative;
+  min-height: 700px;
+  display: flex;
+}
+.hero.light .hero__video::before {
+  background: linear-gradient(180deg, rgba(25, 27, 34, 0) 30%, rgb(25, 27, 34) 100%);
+}
+.hero.light .hero__content_title {
+  margin-top: auto;
+}
+.hero.light .hero__content_desc {
+  margin-top: 0;
+}
+.hero__images {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero__images video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.hero__images_slider {
+  width: 100%;
+  height: 100%;
+}
+.hero__images_slide {
+  height: auto;
+}
+.hero__images_slide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.hero__images::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 101%;
+  top: 0;
+  left: 0;
+  background-size: cover;
+}
+.hero__content {
+  width: 100%;
+  height: auto;
+  color: #ffffff;
+  color: var(--clr-white);
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  padding-top: 74px;
+}
+.hero__content .container {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+.hero__content_col {
+  width: calc((100% - 24px) / 2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(20px, 0.7643312102vw + 17.3248407643px, 32px);
+}
+.hero__content_desc {
+  max-width: 630px;
+  margin-top: clamp(16px, 0.5095541401vw + 14.2165605096px, 24px);
+  font-size: clamp(16px, 0.2547770701vw + 15.1082802548px, 20px);
+  letter-spacing: 0.15px;
+  line-height: 1.6;
+  padding: 22px 16px;
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ffffff;
+  border: 1px solid var(--clr-white);
+}
+.hero__content_more {
+  display: flex;
+  margin-top: auto;
+}
+.hero__content_slider {
+  width: 100%;
+  flex-grow: 1;
+}
+.hero__content .swiper-slide {
+  display: flex;
+}
+.hero__content .swiper-slide .hero__content_title {
+  opacity: 0;
+  transition: 0.5s;
+}
+.hero__content .swiper-slide .hero__content_desc {
+  opacity: 0;
+}
+.hero__content .swiper-slide .hero__content_more {
+  opacity: 0;
+}
+.hero__content .swiper-slide-active .hero__content_title {
+  -webkit-animation: fadeInUp 1s 0.5s ease forwards;
+          animation: fadeInUp 1s 0.5s ease forwards;
+}
+.hero__content .swiper-slide-active .hero__content_desc {
+  -webkit-animation: fadeInUp 1s 0.7s ease forwards;
+          animation: fadeInUp 1s 0.7s ease forwards;
+}
+.hero__content .swiper-slide-active .hero__content_more {
+  -webkit-animation: fadeInUp 1s 0.9s ease forwards;
+          animation: fadeInUp 1s 0.9s ease forwards;
+}
+.hero__slider_navigation {
+  display: flex;
+  align-items: center;
+  position: static;
+  margin-top: auto;
+  gap: clamp(12px, 0.7643312102vw + 9.3248407643px, 24px);
+  margin-left: auto;
+}
+.hero__slider_control-btn {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(9px);
+  color: #ffffff;
+  color: var(--clr-white);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.hero__slider_control-btn:hover {
+  background: #ffffff;
+  background: var(--clr-white);
+  color: #f9d840;
+  color: var(--clr-accent);
+}
+.hero__slider_pagination {
+  margin-top: 2rem;
+  display: flex;
+  gap: 8px;
+}
+.hero__slider_pagination .swiper-pagination-bullet {
+  max-width: 72px;
+  flex-grow: 1;
+  height: 4px;
+  background: #2a2d37;
+  position: relative;
+  margin: 0 !important;
+  border-radius: 512px;
+  opacity: 1;
+}
+.hero__slider_pagination .swiper-pagination-bullet span {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #f9d840;
+  background-color: var(--clr-accent);
+  width: 0%;
+  width: var(--progress-width, 0%);
+  will-change: width;
+}
+.hero__slide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+.hero__slide_image {
+  width: 100%;
+  aspect-ratio: 515/240;
+  border-radius: 24px;
+  border-radius: var(--radius-item);
+  overflow: hidden;
+}
+.hero__slide_image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.hero__slide_type {
+  color: rgba(255, 255, 255, 0.3);
+  color: var(--clr-white-30);
+  font-size: clamp(16px, 0.2547770701vw + 15.1082802548px, 20px);
+  line-height: 1;
+}
+.hero__slide h3 {
+  font-size: clamp(20px, 0.7643312102vw + 17.3248407643px, 32px);
+  line-height: 1.2;
+}
+.hero__slide_date {
+  color: rgba(255, 255, 255, 0.3);
+  color: var(--clr-white-30);
+  font-size: clamp(16px, 0.2547770701vw + 15.1082802548px, 20px);
+  line-height: 1;
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    -webkit-transform: translateY(20px);
+            transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    -webkit-transform: translateY(20px);
+            transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .hero__content {
+    padding-top: 76px;
+  }
+  .hero__content_col {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 991px) {
+  .hero {
+    height: auto;
+  }
+  .hero.light .hero__content_title {
+    margin-bottom: 0;
+  }
+  .hero.light .hero__content_desc {
+    margin-top: 0;
+  }
+  .hero__images_slide img {
+    -o-object-position: 66%;
+       object-position: 66%;
+  }
+  .hero__content {
+    padding-top: 56px;
+  }
+  .hero__content .container {
+    flex-direction: column;
+  }
+  .hero__content_col {
+    width: 100%;
+  }
+  .hero__content_desc {
+    padding: 18px 12px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .hero__content {
+    padding-top: 32px;
+  }
+  .hero__content_desc {
+    padding: 0;
+    backdrop-filter: none;
+    border: none;
+  }
+  .hero__slide {
+    gap: 1.125rem;
+  }
+  .hero__slide_image {
+    border-radius: 16px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .hero__slide_btn {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=hero.css.map*/
+
+/* End */
+
+
+/* Start:/bitrix/components/bitrix/news.list/templates/.default/style.css?1757940506150*/
+div.news-list
+{
+	word-wrap: break-word;
+}
+div.news-list img.preview_picture
+{
+	float:left;
+	margin:0 4px 6px 0;
+}
+.news-date-time {
+	color:#486DAA;
+}
+
+/* End */
+/* /local/templates/s1/components/bitrix/news.list/hero_index/style.css?17786694337368 */
+/* /bitrix/components/bitrix/news.list/templates/.default/style.css?1757940506150 */

@@ -1,0 +1,24 @@
+.cart_btn {
+	position: relative;
+}
+.header .btn-quad.cart_btn.active {
+	background: var(--clr-white);
+	border-color: #D7D8D9;
+}
+.cart_btn span.total {
+	position: absolute;
+	font-size: 8px;
+	color: var(--clr-white);
+	background: var(--clr-base);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	padding: 2px;
+	bottom: 100%;
+	left: 100%;
+	transform: translate(-50%, 50%);
+	    height: 12px;
+    line-height: 1;	
+}
