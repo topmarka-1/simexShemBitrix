@@ -9,6 +9,13 @@
     <link rel="shortcut icon" href="<?=SITE_TEMPLATE_PATH?>/assets/img/favicon/favicon.svg" type="image/x-icon">
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <?
+//     global $APPLICATION;
+// $css = $APPLICATION->GetCSS();
+// echo "<pre>";
+// print_r($css);
+// echo "</pre>";
+    ?>
     <?$APPLICATION->ShowHead();?>
 <title><?$APPLICATION->ShowTitle()?></title>
 </head>

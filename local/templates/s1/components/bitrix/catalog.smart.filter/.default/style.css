@@ -1,0 +1,239 @@
+.bx-filter .bx-filter-parameters-box-title {
+    font: 500 18px/1.3 "Inter Tight", sans-serif !important;
+    color: #232C42 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 24px !important;
+    border-bottom: none !important;
+    cursor: pointer !important;
+}
+
+.bx-filter .bx-filter-parameters-box-title:hover {
+    color: #f9d840 !important;
+}
+
+.bx-filter .bx-filter-parameters-box-title .bx-filter-parameters-box-hint {
+    display: none !important;
+}
+
+.bx-filter .bx-filter-block {
+    padding: 0 !important;
+}
+
+.bx-filter .bx-filter-parameters-box-container {
+    padding: 24px 0 !important;
+    border-top: 1px solid #ecedee !important;
+}
+
+/* Поля ввода цены */
+.bx-filter .bx-filter-input-container input.min-price,
+.bx-filter .bx-filter-input-container input.max-price {
+    width: 100% !important;
+    padding: 10px 14px !important;
+    border: 1px solid #D7D8D9 !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    font: 14px "Manrope", sans-serif !important;
+    color: #232C42 !important;
+    text-align: center !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+}
+
+.bx-filter .bx-ft-sub {
+    font-size: 12px !important;
+    color: #7A7C81 !important;
+    margin-bottom: 6px !important;
+}
+
+/* Трек слайдера */
+.bx-filter .bx-ui-slider-track-container {
+    padding: 16px 10px !important;
+    margin: 0 !important;
+}
+
+.bx-filter .bx-ui-slider-track {
+    position: relative !important;
+    height: 6px !important;
+    background: #ecedee !important;
+    border-radius: 4px !important;
+    border: none !important;
+}
+
+/* Линии */
+.bx-filter .bx-ui-slider-pricebar-vd,
+.bx-filter .bx-ui-slider-pricebar-vn {
+    position: absolute !important;
+    top: 0 !important;
+    background: #ecedee !important;
+    height: 6px !important;
+    width: 100% !important;
+}
+
+.bx-filter .bx-ui-slider-pricebar-v {
+    position: absolute !important;
+    top: 0 !important;
+    background: #f9d840 !important;
+    height: 6px !important;
+    border-radius: 4px !important;
+}
+
+/* Диапазон + ручки */
+.bx-filter .bx-ui-slider-range {
+    position: absolute !important;
+    top: -7px !important;
+    height: 20px !important;
+    width: 100% !important;
+}
+
+.bx-filter a.bx-ui-slider-handle {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    background: #f9d840 !important;
+    border: 3px solid #fff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15) !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    cursor: pointer !important;
+}
+
+.bx-filter a.bx-ui-slider-handle.left {
+    left: 0;
+    margin-left: -10px !important;
+}
+
+.bx-filter a.bx-ui-slider-handle.right {
+    right: 0;
+    margin-right: -10px !important;
+}
+
+/* Деления шкалы */
+.bx-filter .bx-ui-slider-part {
+    display: none !important;
+}
+
+/* Чекбоксы */
+.bx-filter .bx-filter-param-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    font: 16px/1.4 "Manrope", sans-serif !important;
+    color: #7A7C81 !important;
+    padding: 1rem 0 !important;
+    cursor: pointer !important;
+}
+
+.bx-filter .bx-filter-param-label:hover {
+    color: #232C42 !important;
+}
+
+.bx-filter .bx-filter-param-label input[type="checkbox"] {
+    position: absolute !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-param-text {
+    position: relative !important;
+    padding-left: 36px !important;
+    border: none !important;
+    background: none !important;
+    line-height: 1.4 !important;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-param-text::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: #fff !important;
+    border: 1px solid #D7D8D9 !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-param-text::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 6px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 4px !important;
+    background: #f9d840 !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s !important;
+}
+
+.bx-filter .bx-filter-param-label input:checked ~ .bx-filter-param-text::after {
+    opacity: 1 !important;
+}
+
+/* Радио */
+.bx-filter .radio .bx-filter-param-label input[type="radio"] {
+    position: absolute !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.bx-filter .radio .bx-filter-param-label .bx-filter-param-text::before {
+    border-radius: 50% !important;
+}
+
+.bx-filter .radio .bx-filter-param-label .bx-filter-param-text::after {
+    border-radius: 50% !important;
+    width: 10px !important;
+    height: 10px !important;
+    left: 7px !important;
+}
+
+/* Кнопки */
+.bx-filter .bx-filter-button-box {
+    padding-top: 12px !important;
+}
+
+.bx-filter .bx-filter-button-box .btn-link {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px 48px !important;
+    border-radius: 12px !important;
+    font: 600 16px/1 "Manrope", sans-serif !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    transition: all 0.5s !important;
+    border: none !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:first-child {
+    background: #f9d840 !important;
+    color: #232C42 !important;
+    margin-bottom: 12px !important;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:first-child:hover {
+    background: #FFE159 !important;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:last-child {
+    background: #ecedee !important;
+    color: #959697 !important;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:last-child:hover {
+    background: #FFE159 !important;
+    color: #232C42 !important;
+}
+
+.catalog__filter_fields .swiper {
+    overflow: visible !important;
+}

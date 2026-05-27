@@ -20,17 +20,18 @@ BitrixSmallCart.prototype = {
 			// this.fixAfterRender(); // TODO onready
 			// this.fixAfterRenderClosure = this.closure('fixAfterRender');
 
-			var fixCartClosure = this.closure('fixCart');
-			this.fixCartClosure = fixCartClosure;
+			// fixCart is commented out, so don't reference it
+			// var fixCartClosure = this.closure('fixCart');
+			// this.fixCartClosure = fixCartClosure;
 
-			if (this.topPanelElement && this.verticalPosition == 'top')
-				BX.addCustomEvent(window, 'onTopPanelCollapse', fixCartClosure);
+			// if (this.topPanelElement && this.verticalPosition == 'top')
+			// 	BX.addCustomEvent(window, 'onTopPanelCollapse', fixCartClosure);
 
-			var resizeTimer = null;
-			BX.bind(window, 'resize', function() {
-				clearTimeout(resizeTimer);
-				resizeTimer = setTimeout(fixCartClosure, 200);
-			});
+			// var resizeTimer = null;
+			// BX.bind(window, 'resize', function() {
+			// 	clearTimeout(resizeTimer);
+			// 	resizeTimer = setTimeout(fixCartClosure, 200);
+			// });
 		}
 		this.setCartBodyClosure = this.closure('setCartBody');
 		BX.addCustomEvent(window, 'OnBasketChange', this.closure('refreshCart', {}));

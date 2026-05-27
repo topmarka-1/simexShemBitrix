@@ -71,3 +71,19 @@ function addEmailToSubscription($WEB_FORM_ID, $RESULT_ID)
 		]);  
     }
 }
+
+use Bitrix\Main\EventManager;
+
+EventManager::getInstance()->addEventHandler(
+    'main',
+    'OnEndEpilogContent',
+    'removeBootstrap'
+);
+
+function removeBootstrap(&$content) {
+    $content = preg_replace(
+        '/<link[^>]*href="[^"]*bootstrap\.css[^"]*"[^>]*>/i',
+        '',
+        $content
+    );
+}

@@ -29444,7 +29444,7 @@ function freeMode(_ref) {
     }
     data.velocities.push({
       position: touches[swiper.isHorizontal() ? 'currentX' : 'currentY'],
-      time: now()
+      time: utils_now()
     });
   }
   function onTouchEnd(_ref2) {
@@ -29460,7 +29460,7 @@ function freeMode(_ref) {
       touchEventsData: data
     } = swiper;
     // Time diff
-    const touchEndTime = now();
+    const touchEndTime = utils_now();
     const timeDiff = touchEndTime - data.touchStartTime;
     if (currentPos < -swiper.minTranslate()) {
       swiper.slideTo(swiper.activeIndex);
@@ -29487,7 +29487,7 @@ function freeMode(_ref) {
         }
         // this implies that the user stopped moving a finger then released.
         // There would be no events with distance zero, so the last event is stale.
-        if (time > 150 || now() - lastMoveEvent.time > 300) {
+        if (time > 150 || utils_now() - lastMoveEvent.time > 300) {
           swiper.velocity = 0;
         }
       } else {
@@ -29582,13 +29582,13 @@ function freeMode(_ref) {
         swiper.setTranslate(newPosition);
         swiper.transitionStart(true, swiper.swipeDirection);
         swiper.animating = true;
-        elementTransitionEnd(wrapperEl, () => {
+        utils_elementTransitionEnd(wrapperEl, () => {
           if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
           emit('momentumBounce');
           swiper.setTransition(params.speed);
           setTimeout(() => {
             swiper.setTranslate(afterBouncePosition);
-            elementTransitionEnd(wrapperEl, () => {
+            utils_elementTransitionEnd(wrapperEl, () => {
               if (!swiper || swiper.destroyed) return;
               swiper.transitionEnd();
             });
@@ -29602,7 +29602,7 @@ function freeMode(_ref) {
         swiper.transitionStart(true, swiper.swipeDirection);
         if (!swiper.animating) {
           swiper.animating = true;
-          elementTransitionEnd(wrapperEl, () => {
+          utils_elementTransitionEnd(wrapperEl, () => {
             if (!swiper || swiper.destroyed) return;
             swiper.transitionEnd();
           });
@@ -31351,12 +31351,17 @@ const initGallerySlider = () => {
   });
 };
 const catalogSectionsSlider = () => {
-  const catalogSections = document.querySelector(".catalog-section__slider");
+  const catalogSections = document.querySelector(".catalog-sections__slider");
   if (!catalogSections) return;
   const slider = new Swiper(catalogSections, {
     slidesPerView: "auto",
     spaceBetween: 12,
+    modules: [freeMode],
     freeMode: true,
+    // scrollbar: {
+    //   el: catalogSections.querySelector(".swiper-scrollbar"),
+    //   hide: false,
+    // },
     breakpoints: {
       350: {
         spaceBetween: 12
@@ -34955,7 +34960,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (document.querySelector(".partners__slider")) initPartnersSlider();
   if (document.querySelector(".sertificates__slider")) initSertificatesSlider();
   if (document.querySelector(".about__advs_slider")) initAboutAdvsSlider();
-  if (document.querySelector(".catalog-section__slider")) catalogSectionsSlider();
+  if (document.querySelector(".catalog-sections__slider")) catalogSectionsSlider();
   if (document.querySelector(".catalog-element__picture_slider")) catalogElementSlider();
   if (document.querySelector(".gallery__slider")) initGallerySlider();
   if (document.querySelector(".catalog-element__volume_list")) initVolumeSlider();
@@ -36717,23 +36722,7 @@ var es_iterator_filter = __webpack_require__(1975);
 
 
 
+
 }();
 /******/ })()
 ;
-
-document.addEventListener("DOMContentLoaded", function(){
-	const agrees = document.querySelectorAll('.agree')
-
-	agrees.forEach(agree => {
-		const input = agree.querySelector('input[type=checkbox]')
-		const form = agree.closest('form')
-		const submit = form.querySelector('input[type=submit]')
-		if (input.required){
-		submit.disabled = !input.checked
-
-		input.addEventListener('change', function(e){
-			submit.disabled = !e.currentTarget.checked
-		})}
-	})
-})
-//# sourceMappingURL=index.js.map
