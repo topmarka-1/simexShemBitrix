@@ -19,10 +19,10 @@
     <?$APPLICATION->ShowHead();?>
 <title><?$APPLICATION->ShowTitle()?></title>
 </head>
-<div id="panel" style="position:fixed;left:0;right:0;bottom:0;z-index:100;">
+<body>
+<div id="panel" style="position:fixed;left:0;right:0;bottom:0;z-index:1001;">
 	<? $APPLICATION->ShowPanel(); ?>
 </div>
-<body>
     <div id="wrapper" class="wrapper <?= $isMainPage ? 'index' : '' ?>">
         <header class="header <? $isMainPage ? 'index' : '' ?>">
             <div class="container">
@@ -115,6 +115,12 @@
         </div>
         <div class="scroll-trigger"></div>
         <? if (!$isMainPage) : ?>
+            <?
+            $requestUri = $_SERVER['REQUEST_URI'];
+            if (strpos($requestUri, '/catalog/opk/') !== false):
+                $APPLICATION->AddChainItem("Оборонно-промышленный комплекс", "/catalog/opk/");
+            endif;
+            ?>
             <?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "breadcrumbs", Array(
                 "PATH" => "",	// Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
                     "SITE_ID" => "s1",	// Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)

@@ -520,11 +520,9 @@ use Bitrix\Catalog\ProductTable;
 			const cardBottom = card.querySelector('.catalog__item_bottom')
 			const counter = card.querySelector('[name=quantity]')
 			const qty = counter.value
-			
-			if (!btn) {
-				return;
-			}
-				btn.disabled = true
+
+			if (!btn) return;
+			btn.disabled = true
 
 			if (qty <= 0) {
 				BX.ajax({
@@ -544,16 +542,9 @@ use Bitrix\Catalog\ProductTable;
 						processData: false,
 						onsuccess: (res) => {
 							btn.disabled = false
-							// const newCardBottom = $(res).find(`#${cardBottom.id}`);
-
-							// if (newCardBottom) {
-							// 	$(cardBottom).replaceWith($(newCardBottom));
-							// }
 							const parser = new DOMParser();
 							const doc = parser.parseFromString(res, 'text/html');
-
 							const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
-
 							if (newCardBottom) {
 								cardBottom.replaceWith(newCardBottom);
 							}
@@ -562,12 +553,10 @@ use Bitrix\Catalog\ProductTable;
 				}
 			});
 			} else {
-
 				BX.ajax({
 					url: '/local/ajax/cart.php',
 					method: 'POST',
 					dataType: 'json',
-					
 					data: {
 						action: 'update',
 						id: card.dataset.basketId,
@@ -576,11 +565,9 @@ use Bitrix\Catalog\ProductTable;
 					onsuccess: function(response) {
 						BX.onCustomEvent('OnBasketChange');
 						btn.disabled = false
-						
 					}
 				});
 			}
-			
 		}
 
 		if (e.target.closest('.inc')) {
@@ -589,12 +576,8 @@ use Bitrix\Catalog\ProductTable;
 			const cardBottom = card.querySelector('.catalog__item_bottom')
 			const counter = card.querySelector('[name=quantity]')
 			const qty = counter.value
-			
-			if (!btn) {
-				return;
-			}
 
-			
+			if (!btn) return;
 			btn.disabled = true
 
 			BX.ajax({
@@ -609,24 +592,8 @@ use Bitrix\Catalog\ProductTable;
 				onsuccess: function(response) {
 					BX.onCustomEvent('OnBasketChange');
 					btn.disabled = false
-					// BX.ajax({
-					// 	url: location.href,
-					// 	method: 'GET',
-					// 	dataType: 'html',
-					// 	onsuccess: (res) => {
-
-					// 		const newCardBottom = $(res).find(`#${cardBottom.id}`);
-
-					// 		if (newCardBottom) {
-					// 			$(cardBottom).replaceWith($(newCardBottom));
-					// 		}
-					// 	}
-					// })
-					
 				},
 			});
-			
-			
 		}
 		
 	});

@@ -158,9 +158,76 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
 		}
 	}
 }
+if ($article) {
+    $articleElements = [];
+    //http://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/getlist.php
+    /*
+    Обязательно должно быть использовано поле IBLOCK_ID.
+    В качестве одного из полей необходимо указать PROPERTY_<PROPERTY_CODE>,
+    где PROPERTY_CODE - ID или мнемонический код.
+    Будут выведены значения свойств элемента
+    в виде полей PROPERTY_<PROPERTY_CODE>_VALUE - значение;
+    PROPERTY_<PROPERTY_CODE>_ID - код значения у элемента;
+    PROPERTY_<PROPERTY_CODE>_ENUM_ID - код значения (для свойств типа список).
+    При установленном модуле торгового каталога можно выводить цены элемента.
+    Для этого в качестве одного из полей необходимо указать CATALOG_GROUP_<PRICE_CODE>,
+    где PRICE_CODE - ID типа цены.
+    Есть возможность выбрать поля элементов по значениям свойства типа "Привязка к элементам".
+    Для этого необходимо указать  PROPERTY_<PROPERTY_CODE>.<FIELD>,
+    где PROPERTY_CODE - ID или мнемонический код свойства привязки,
+    а FIELD - поле указанного в привязке элемента.
+    */
+    $lstSelect = [
+            "ID",
+    "IBLOCK_ID",
+    "IBLOCK_SECTION_ID",
+    "NAME",
+    "DETAIL_PAGE_URL",
+    "LIST_PAGE_URL",
+    "CODE",
+    "SECTION_CODE"
+        ];
+    /*
+    PROPERTY_<PROPERTY_CODE> - фильтр по значениям свойств.
+    PROPERTY_<PROPERTY_CODE>_VALUE - фильтр по значениям списка для свойств типа "список".
+    CATALOG_<CATALOG_FIELD>_<PRICE_TYPE> - по полю CATALOG_FIELD из цены типа PRICE_TYPE (ID типа цены),
+    где CATALOG_FIELD может быть: PRICE - цена, CURRENCY - валюта.
+    PROPERTY_<PROPERTY_CODE>.<FIELD> - фильтр по значениям полей связанных элементов,
+    где PROPERTY_CODE - ID или мнемонический код свойства привязки,
+    а FIELD - поле указанного в привязке элемента.
+    */
+    $dctFilter = [
+            'IBLOCK_ID'=> $arResult['ORIGINAL_PARAMETERS']['IBLOCK_ID'],
+            'SECTION_CODE'=> $arResult['ORIGINAL_PARAMETERS']['SECTION_CODE'],
+            'PROPERTY_CML2_ARTICLE' => $article
+         ];
+    /*
+    CIBlockElement::GetList(
+         array arOrder = ['SORT'=>'ASC'], - сортировка
+         array arFilter = [], - фильтр.
+         mixed arGroupBy = false, - группировка.
+         mixed arNavStartParams = false, - параметры для постраничной навигации.
+         array arSelectFields = [] - выбираемые поля и свойства.
+         );
+    */
+    $rdb = \CIBlockElement::GetList([], $dctFilter, false, false, $lstSelect);
+    //while($element = $rdb->GetNextElement()) {
+    //	$dctElement = $element->GetFields();
+    //	$lstElements[] = $dctElement;
+    //}
+    //$CNT = $rdb->SelectedRowsCount(); // количестов елементов
+    while($dctElement = $rdb->GetNextElement()) {
+        $fields = $dctElement->GetFields();
+        $props = $dctElement->GetProperties();
+        $fields['PROPERTIES'] = $props;
+        $articleElements[] = $fields;
+    }
+}
+
 ?>
 <section class="catalog-element section section-white section-round-top anim-fade-in-up anim-visible card" data-basket-id="<?=$arResult['ID']?>" data-product-id="<?=$arResult['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($arResult['ID'])?>">
     <div class="container">
+        <?// printR($articleElements); ?>
         <div class="heading anim-fade-in-left anim-visible">
             <h1 class="h2"><?=$name?></h1>
             <?if ($article):?>
@@ -175,66 +242,79 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
             </button>
             <?endif;?>
         </div>
-		<? printR($arResult);?>
         <div class="catalog-element__row">
             <div class="catalog-element__card">
                 <div class="catalog-element__col">
-                    <!-- <div class="catalog-element__picture catalog-element__col_item"> -->
-					<?if (!empty($arResult['PROPERTIES']['NOVINKA']['VALUE']) || !empty($arResult['PROPERTIES']['AKTSIYA']['VALUE'])):?>
-					<div class="catalog-element__picture_sticks">
-						<?if (!empty($arResult['PROPERTIES']['NOVINKA']['VALUE'])):?><div class="stick">Новинка!</div><?endif;?>
-						<?if (!empty($arResult['PROPERTIES']['AKTSIYA']['VALUE'])):?><div class="stick">Акция!</div><?endif;?>
-					</div>
-					<?endif;?>
+                    <div class="catalog-element__picture catalog-element__col_item">
+                        <?if (!empty($arResult['PROPERTIES']['NOVINKA']['VALUE']) || !empty($arResult['PROPERTIES']['AKTSIYA']['VALUE'])):?>
+                        <div class="catalog-element__picture_sticks">
+                            <?if (!empty($arResult['PROPERTIES']['NOVINKA']['VALUE'])):?><div class="stick new">Новинка!</div><?endif;?>
+                            <?if (!empty($arResult['PROPERTIES']['AKTSIYA']['VALUE'])):?><div class="stick action">Акция!</div><?endif;?>
+                        </div>
+                        <?endif;?>
 					<?if (!empty($morePhotos)):?>
-					<div class="catalog-element__picture_slider swiper">
-						<div class="swiper-wrapper">
-							<?foreach ($morePhotos as $photo):?>
-							<div class="swiper-slide">
-								<img src="<?=$photo['SRC']?>" width="266" height="407" alt="<?=$alt?>">
-							</div>
-							<?endforeach;?>
-						</div>
-						<!-- <div class="swiper-pagination"></div> -->
-					</div>
-					<div class="catalog-element__picture_thumbs swiper">
-						<div class="swiper-wrapper">
-							<?foreach ($morePhotos as $photo):?>
-							<div class="swiper-slide">
-								<img src="<?=$photo['SRC']?>" width="58" height="68" alt="<?=$alt?>">
-							</div>
-							<?endforeach;?>
-						</div>
-					</div>
+                        <div class="catalog-element__picture_slider swiper">
+                            <div class="swiper-wrapper">
+                                <?foreach ($morePhotos as $photo):?>
+                                <div class="swiper-slide">
+                                    <img src="<?=$photo['SRC']?>" width="266" height="407" alt="<?=$alt?>">
+                                </div>
+                                <?endforeach;?>
+                            </div>
+                            <!-- <div class="swiper-pagination"></div> -->
+                        </div>
+                        <div class="catalog-element__picture_thumbs swiper">
+                            <div class="swiper-wrapper">
+                                <?foreach ($morePhotos as $photo):?>
+                                <div class="swiper-slide">
+                                    <img src="<?=$photo['SRC']?>" width="58" height="68" alt="<?=$alt?>">
+                                </div>
+                                <?endforeach;?>
+                            </div>
+                        </div>
+
+                    <? else : ?>
+                        <div class="catalog-element__picture_slider swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="<?=$arResult['DETAIL_PICTURE']['SRC'] ?: $arResult['PREVIEW_PICTURE']['SRC']?: $templateFolder . '/images/no_photo.png'?>" width="266" height="407" alt="<?=$alt?>">
+                                </div>
+                            </div>
+                            <!-- <div class="swiper-pagination"></div> -->
+                        </div>
+                        <div class="catalog-element__picture_thumbs swiper" style="display: none;">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="<?=$arResult['DETAIL_PICTURE']['SRC'] ?: $arResult['PREVIEW_PICTURE']['SRC']?: $templateFolder . '/images/no_photo.png'?>" width="58" height="68" alt="<?=$alt?>">
+                                </div>
+                            </div>
+                        </div>
 					<?endif;?>
+                    </div>
 				</div>
                     
-                    <!-- <div class="catalog-element__chars catalog-element__col_item">
-                        <div class="catalog-element__chars_header">
-                            <div class="h5">Основные характеристики</div>
-                        </div>
-                        <div class="catalog-element__chars_list">
-                            <?//foreach ($displayProps as $propCode => $prop):?>
-                                <?//if ($prop['PROPERTY_TYPE'] === 'F' || $prop['CODE'] === 'CML2_ARTICLE' || $prop['CODE'] === 'NOVINKA' || $prop['CODE'] === 'AKTSIYA') continue;?>
-                                <div class="catalog-element__chars_item">
-                                    <span class="catalog-element__chars_name"><?//=$prop['NAME']?></span>
-                                    <span class="catalog-element__chars_value"><?//=is_array($prop['DISPLAY_VALUE']) ? implode(', ', $prop['DISPLAY_VALUE']) : $prop['DISPLAY_VALUE']?></span>
-                                </div>
-                            <?//endforeach;?>
-                        </div> -->
-				<!-- </div> -->
 				<div class="catalog-element__col">
                     <div class="catalog-element__desc">
                         <div class="catalog-element__volume">
                             <div class="catalog-element__volume_title">Выберите объем</div>
                             <div class="catalog-element__volume_list swiper">
                                 <div class="swiper-wrapper">
-                                    <a href="/catalogElement" class="catalog-element__volume_item swiper-slide">
-                                        <div class="catalog-element__volume_item_name">
-                                            2 л
+                                    <? foreach ($articleElements as $key => $art) : ?>
+                                        <? if ($arResult['ID'] == $art['ID']) : ?>
+                                        <div class="catalog-element__volume_item swiper-slide <?=$arResult['ID'] == $art['ID'] ? 'active' : '' ?>">
+                                            <div class="catalog-element__volume_item_name">
+                                                <?=$art['PROPERTIES']['OBEM_VES_NETTO']['VALUE'] . ' ' . $art['PROPERTIES']['CML2_BASE_UNIT']['VALUE'] ?>
+                                            </div>
                                         </div>
-                                    </a>
-                                    <a href="/catalogElement" class="catalog-element__volume_item swiper-slide">
+                                        <? else : ?>
+                                            <a href="<?=$art['DETAIL_PAGE_URL']?>" class="catalog-element__volume_item swiper-slide <?=$arResult['ID'] == $art['ID'] ? 'active' : '' ?>">
+                                                <div class="catalog-element__volume_item_name">
+                                                    <?=$art['PROPERTIES']['OBEM_VES_NETTO']['VALUE'] . ' ' . $art['PROPERTIES']['CML2_BASE_UNIT']['VALUE'] ?>
+                                                </div>
+                                            </a>
+                                        <? endif; ?>
+                                    <? endforeach; ?>
+                                    <!-- <a href="/catalogElement" class="catalog-element__volume_item swiper-slide">
                                         <div class="catalog-element__volume_item_name">
                                             10 л
                                         </div>
@@ -248,7 +328,7 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
                                         <div class="catalog-element__volume_item_name">
                                             205 л
                                         </div>
-                                    </a>
+                                    </a> -->
                                 </div>
                                 <div class="swiper-scrollbar"></div>
                             </div>
@@ -287,7 +367,7 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
 								</div> -->
 							</div>
 						<?endif;?>
-                        <div class="catalog-element__desc_docs">
+                        <!-- <div class="catalog-element__desc_docs">
                             <div class="catalog-element__desc_heading">
                                 <div class="h5">Допуски и спецификации</div>
                             </div>
@@ -297,7 +377,7 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
                                     4263-3)</a>
                                 <a href="#" class="catalog-element__desc_docs_item">DIN 51524-3 (HVLP)</a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                     
@@ -402,13 +482,13 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
                     <div class="catalog-element__control catalog__item_bottom" id="catalog-item-bottom-<?=$arResult['ID']?>">
                         <? if ($arResult['BASKET_QUANTITY']) : ?>
                         <div class="counter">
-                            <button class="btn btn-quad white dec">
+                            <button class="btn btn-quad grey dec">
                                 <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 3V0H12V3H0Z" fill="black" />
                                 </svg>
                             </button>
-                            <input type="text" name="<?=$arParams['PRODUCT_QUANTITY_VARIABLE']?>" class="btn btn-quad counter_value" value="<?=$arResult['BASKET_QUANTITY']?>" data-value="<?=$arResult['BASKET_QUANTITY']?>">
-                            <button class="btn btn-quad white inc">
+                            <input type="text" name="<?=$arParams['PRODUCT_QUANTITY_VARIABLE']?>" class="btn btn-quad counter_value" value="<?=$arResult['BASKET_QUANTITY']?>">
+                            <button class="btn btn-quad grey inc">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.03736 12V6.96264H0V5.02418H5.03736V0H6.97582V5.02418H12V6.96264H6.97582V12H5.03736Z" fill="black" />
                                 </svg>
@@ -419,19 +499,6 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
                             <button class="btn btn-md btn-blue add-to-favorite">Добавить в избранное</button>
                         </div>
                         <? else : ?>
-                        <div class="counter">
-                            <!-- <button class="btn btn-quad white dec">
-                                <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 3V0H12V3H0Z" fill="black" />
-                                </svg>
-                            </button>
-                            <input type="text" name="<?=$arParams['PRODUCT_QUANTITY_VARIABLE']?>" class="btn btn-quad counter_value" value="1">
-                            <button class="btn btn-quad white inc">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.03736 12V6.96264H0V5.02418H5.03736V0H6.97582V5.02418H12V6.96264H6.97582V12H5.03736Z" fill="black" />
-                                </svg>
-                            </button> -->
-                        </div>
                         <div class="catalog-element__control_buttons">
                             <button class="btn btn-primary js-add-to-cart" data-id="<?=$arResult['ID']?>" rel="nofollow">Добавить в корзину</button>
                             <button class="btn btn-md btn-blue add-to-favorite">Добавить в избранное</button>
@@ -466,52 +533,6 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
                     для розничных покупок посмотрите нас на маркетплейсах
                 </div>
             </div>
-                    <!-- <div class="catalog-element__control">
-                        <div class="counter">
-                            <a href="javascript:void(0)" class="btn btn-quad white dec">
-                                <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 3V0H12V3H0Z" fill="black" />
-                                </svg>
-                            </a>
-                            <input type="text" name="count" class="btn btn-quad counter_value" value="1" />
-                            <a href="javascript:void(0)" class="btn btn-quad white inc">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.03736 12V6.96264H0V5.02418H5.03736V0H6.97582V5.02418H12V6.96264H6.97582V12H5.03736Z" fill="black" />
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="catalog-element__control_buttons">
-                            <button class="btn btn-md btn-blue add-to-favorite">Добавить в избранное</button>
-                            <button class="btn btn-md btn-primary">Отправить запрос</button>
-                        </div>
-                    </div>
-					<?if (!empty($arResult['PROPERTIES']['MARKETPLACE_LINK']['VALUE']) || !empty($arResult['PROPERTIES']['MARKETPLACE_LINK_2']['VALUE'])):?>
-						<div class="catalog-element__control_bottom">
-							<div class="catalog-element__volume_control_text">Или купить на маркетплейсах</div>
-							<div class="markets">
-								<?if (!empty($arResult['PROPERTIES']['MARKETPLACE_LINK']['VALUE'])):?>
-								<div class="makets__item">
-									<a href="<?=$arResult['PROPERTIES']['MARKETPLACE_LINK']['VALUE']?>" target="_blank">
-										<img src="/assets/img/icons/vi.svg" width="56" height="56" alt="Wildberries">
-									</a>
-								</div>
-								<?endif;?>
-								<?if (!empty($arResult['PROPERTIES']['MARKETPLACE_LINK_2']['VALUE'])):?>
-								<div class="makets__item">
-									<a href="<?=$arResult['PROPERTIES']['MARKETPLACE_LINK_2']['VALUE']?>" target="_blank">
-										<img src="/assets/img/icons/ozon.svg" width="56" height="56" alt="Ozon">
-									</a>
-								</div>
-								<?endif;?>
-							</div>
-						</div>
-					<?endif;?>
-                </div> -->
-                <!-- <div class="catalog-element__notice">
-                    <span class="notice_checkbox"></span>
-                    Только оптовые заказы, для розничных покупок посмотрите нас на маркетплейсах
-                </div> -->
-            <!-- </div> -->
         </div>
     </div>
 </section>
@@ -531,5 +552,179 @@ if (!empty($arResult['PROPERTIES']['FILES']['VALUE']))
         panes.forEach(function(p) { p.classList.toggle('active', p.getAttribute('data-tab') === tab); });
     });
 })();
+</script>
+
+<script>
+	function bindCounter(el) {
+		var c = el.querySelector('.counter');
+		if (!c || c.dataset.counterBound) return;
+		c.dataset.counterBound = '1';
+		c.addEventListener('click', function(ev) {
+			var inp = c.querySelector('.counter_value');
+			if (!inp) return;
+			if (ev.target.closest('.inc')) {
+				inp.value = parseInt(inp.value, 10) + 1;
+			} else if (ev.target.closest('.dec')) {
+				var v = parseInt(inp.value, 10);
+				if (v > 0) inp.value = v - 1;
+			}
+		});
+	}
+
+	document.addEventListener('click', function(e) {
+		if (e.target.closest('.js-add-to-cart')) {
+			const btn = e.target.closest('.js-add-to-cart');
+			const card = e.target.closest('.card')
+			const cardBottom = card.querySelector('.catalog__item_bottom')
+
+			if (!btn) return;
+			btn.disabled = true
+			e.preventDefault();
+
+			BX.ajax({
+				url: '/local/ajax/cart.php',
+				method: 'POST',
+				dataType: 'json',
+				data: {
+					action: 'add',
+					id: btn.dataset.id,
+					quantity: 1
+				},
+				onsuccess: function(response) {
+					BX.onCustomEvent('OnBasketChange');
+					BX.ajax({
+						url: location.href,
+						method: 'GET',
+						dataType: 'html',
+						processData: false,
+						onsuccess: (res) => {
+							const parser = new DOMParser();
+							const doc = parser.parseFromString(res, 'text/html');
+							const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
+							if (newCardBottom) {
+								cardBottom.replaceWith(newCardBottom);
+								bindCounter(newCardBottom);
+							}
+						}
+					})
+				}
+			});
+		}
+
+		if (e.target.closest('.js-remove-to-cart')) {
+			const btn = e.target.closest('.js-remove-to-cart');
+			const card = e.target.closest('.card')
+			const cardBottom = card.querySelector('.catalog__item_bottom')
+
+			if (!btn) return;
+			btn.disabled = true
+			e.preventDefault();
+
+			BX.ajax({
+				url: '/local/ajax/cart.php',
+				method: 'POST',
+				dataType: 'json',
+				data: {
+					action: 'delete',
+					id: btn.dataset.id
+				},
+				onsuccess: function(response) {
+					BX.onCustomEvent('OnBasketChange');
+					BX.ajax({
+						url: location.href,
+						method: 'GET',
+						dataType: 'html',
+						processData: false,
+						onsuccess: (res) => {
+							const parser = new DOMParser();
+							const doc = parser.parseFromString(res, 'text/html');
+							const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
+							if (newCardBottom) {
+								cardBottom.replaceWith(newCardBottom);
+							}
+						}
+					})
+				}
+			});
+		}
+
+		if (e.target.closest('.dec')) {
+			const btn = e.target.closest('.dec');
+			const card = e.target.closest('.card')
+			const cardBottom = card.querySelector('.catalog__item_bottom')
+			const qty = card.querySelector('[name=quantity]').value
+
+			if (!btn) return;
+			btn.disabled = true
+
+			if (parseInt(qty, 10) <= 0) {
+				BX.ajax({
+					url: '/local/ajax/cart.php',
+					method: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'delete',
+						id: card.dataset.basketId
+					},
+					onsuccess: function(response) {
+						BX.onCustomEvent('OnBasketChange');
+						BX.ajax({
+							url: location.href,
+							method: 'GET',
+							dataType: 'html',
+							processData: false,
+							onsuccess: (res) => {
+								btn.disabled = false
+								const parser = new DOMParser();
+								const doc = parser.parseFromString(res, 'text/html');
+								const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
+								if (newCardBottom) cardBottom.replaceWith(newCardBottom);
+							}
+						})
+					}
+				});
+			} else {
+				BX.ajax({
+					url: '/local/ajax/cart.php',
+					method: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'update',
+						id: card.dataset.basketId,
+						quantity: qty
+					},
+					onsuccess: function(response) {
+						BX.onCustomEvent('OnBasketChange');
+						btn.disabled = false
+					}
+				});
+			}
+		}
+
+		if (e.target.closest('.inc')) {
+			const btn = e.target.closest('.inc');
+			const card = e.target.closest('.card')
+			const counter = card.querySelector('[name=quantity]')
+			const qty = counter.value
+
+			if (!btn) return;
+			btn.disabled = true
+
+			BX.ajax({
+				url: '/local/ajax/cart.php',
+				method: 'POST',
+				dataType: 'json',
+				data: {
+					action: 'update',
+					id: card.dataset.basketId,
+					quantity: qty
+				},
+				onsuccess: function(response) {
+					BX.onCustomEvent('OnBasketChange');
+					btn.disabled = false
+				},
+			});
+		}
+	});
 </script>
 <!-- component-end -->

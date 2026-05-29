@@ -1,5 +1,13 @@
 <?php
 $arUrlRewrite=array (
+  8 => 
+  array (
+    'CONDITION' => '#^/catalog/([^/]+?)/([^/]+?)/\\??(.*)#',
+    'RULE' => 'SECTION_CODE=$1&ELEMENT_CODE=$2&$3',
+    'ID' => 'bitrix:catalog.top',
+    'PATH' => '/index.php',
+    'SORT' => 100,
+  ),
   0 => 
   array (
     'CONDITION' => '#^/services/#',
@@ -16,7 +24,7 @@ $arUrlRewrite=array (
     'PATH' => '/products/index.php',
     'SORT' => 100,
   ),
-  4 => 
+  6 => 
   array (
     'CONDITION' => '#^/catalog/#',
     'RULE' => '',
@@ -24,7 +32,7 @@ $arUrlRewrite=array (
     'PATH' => '/catalog/index.php',
     'SORT' => 100,
   ),
-  2 => 
+  7 => 
   array (
     'CONDITION' => '#^/news/#',
     'RULE' => '',

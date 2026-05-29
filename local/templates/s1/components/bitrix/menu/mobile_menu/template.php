@@ -46,9 +46,11 @@
 							<? endif; ?>
 						</li>
 					<?else:?>
-						<li class="mm__nav_item">
-							<a href="<?=$arItem["LINK"]?>"class="link btn btn-sm mm__nav_link">
+						<li class="mm__nav_item current<? if (!empty($sections)) : ?> accordion<? endif; ?>">
+							<? if (!empty($sections)) : ?><span class="accordion_title"><? endif; ?>
+							<a href="<?=$arItem["LINK"]?>"class="link mm__nav_link">
 								<?=$arItem["TEXT"]?>
+							</a>
 								<? if (!empty($sections)) : ?>
 									<span class="icon"> 
 										<svg width="9" height="6" viewBox="0 0 9 6" fill="none"
@@ -58,10 +60,10 @@
 										</svg> 
 									</span>
 								<? endif; ?>
-							</a>
+							<? if (!empty($sections)) : ?></span><? endif; ?>
 							<? if (!empty($sections)) : ?>
-								<div class="sublist">
-									<ul>
+								<div class="sublist accordion_content">
+                            		<ul class="accordion_body">
 										<? foreach ($sections as $section) : ?>
 											<li class="subitem"> <a href="<?=$arItem["LINK"] . $section['CODE'] . '/' ?>" class="link"><?=$section['NAME'] ?></a> </li>
 										<? endforeach; ?>

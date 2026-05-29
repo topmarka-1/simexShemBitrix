@@ -1,0 +1,32 @@
+.partners.section-dark {
+  background-image: url(../../../../assets/img/dark-pattern.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.partners.section-dark .swiper-pagination-fraction, .partners.section-dark .swiper-pagination-fraction .swiper-pagination-current {
+  color: #ffffff;
+  color: var(--clr-white);
+}
+.partners .heading {
+  margin-bottom: 1.5rem;
+}
+.partners .heading h2 {
+  max-width: 1200px;
+}
+.partners__slider_control {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.partners__slider_control-btn {
+  box-shadow: 0px 0px 17.4px 0px rgba(0, 0, 0, 0.1098039216);
+}
+.partners__slider_control .swiper-pagination-fraction .swiper-pagination-total {
+  font-size: clamp(18px, 0.127388535vw + 17.5541401274px, 20px);
+}
+.partners__slider_navigation {
+  display: flex;
+  gap: 8px;
+}

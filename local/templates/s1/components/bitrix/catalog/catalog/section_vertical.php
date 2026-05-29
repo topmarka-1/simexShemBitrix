@@ -259,6 +259,19 @@ $sectionName = 'Вся продукция';
                             }
                         });
                     }
+                    els = document.querySelectorAll('.tab');
+                    if (els.length) {
+                        Array.from(els).forEach(function(btn) {
+                            btn.addEventListener('click', function() {
+                                var id = btn.dataset.tab;
+                                document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+                                document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+                                btn.classList.add('active');
+                                var content = document.querySelector('[data-content="' + id + '"]');
+                                if (content) content.classList.add('active');
+                            });
+                        });
+                    }
                     els = document.querySelectorAll('.anim-fade-in, .anim-fade-in-up, .anim-fade-in-left, .anim-fade-in-right, .anim-scale-in, .anim-stagger');
                     if (els.length) {
                         if (window.IntersectionObserver) {

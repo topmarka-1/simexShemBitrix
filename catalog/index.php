@@ -12,7 +12,7 @@ $APPLICATION->SetTitle("Каталог");
 		"ADD_PICT_PROP" => "-",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
 		"ADD_SECTIONS_CHAIN" => "Y",
-		"AJAX_MODE" => "Y",
+		"AJAX_MODE" => "N",
 		"AJAX_OPTION_ADDITIONAL" => "",
 		"AJAX_OPTION_HISTORY" => "Y",
 		"AJAX_OPTION_JUMP" => "N",
@@ -21,7 +21,7 @@ $APPLICATION->SetTitle("Каталог");
 		"CACHE_FILTER" => "N",
 		"CACHE_GROUPS" => "Y",
 		"CACHE_TIME" => "36000000",
-		"CACHE_TYPE" => "A",
+		"CACHE_TYPE" => "N",
 		"COMMON_ADD_TO_BASKET_ACTION" => "ADD",
 		"COMMON_SHOW_CLOSE_POPUP" => "Y",
 		"COMPATIBLE_MODE" => "N",
@@ -232,7 +232,7 @@ $APPLICATION->SetTitle("Каталог");
 		"SET_LAST_MODIFIED" => "N",
 		"SET_STATUS_404" => "Y",
 		"SET_TITLE" => "Y",
-		"SHOW_404" => "N",
+		"SHOW_404" => "Y",
 		"SHOW_DEACTIVATED" => "N",
 		"SHOW_DISCOUNT_PERCENT" => "N",
 		"SHOW_MAX_QUANTITY" => "N",
@@ -313,6 +313,7 @@ $APPLICATION->SetTitle("Каталог");
 			0 => "",
 			1 => "",
 		),
+		"FILE_404" => "",
 		"SEF_URL_TEMPLATES" => array(
 			"sections" => "",
 			"section" => "#SECTION_CODE#/",
@@ -327,5 +328,13 @@ $APPLICATION->SetTitle("Каталог");
 		)
 	),
 	false
+);?>
+
+<?php $APPLICATION->IncludeFile(
+	SITE_TEMPLATE_PATH . '/include/getCatalog.php',
+	[],
+	[
+		'MODE'      => 'php',
+	]
 );?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
