@@ -1,5 +1,5 @@
 <?php
-if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 /**
  * @global CMain $APPLICATION
@@ -8,7 +8,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 global $APPLICATION;
 
 //delayed function must return a string
-if(empty($arResult))
+if (empty($arResult))
 	return "";
 
 $strReturn = '';
@@ -20,8 +20,7 @@ $css = $APPLICATION->GetCSSArray();
 $strReturn .= '<div class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList"><div class="container"><ul class="breadcrumbs__list">';
 
 $itemSize = count($arResult);
-for($index = 0; $index < $itemSize; $index++)
-{
+for ($index = 0; $index < $itemSize; $index++) {
 	$title = htmlspecialcharsex($arResult[$index]["TITLE"]);
 	$arrow = '<span class="separator">
                     <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,30 +28,31 @@ for($index = 0; $index < $itemSize; $index++)
                     </svg>
                 </span>';
 
-	if($arResult[$index]["LINK"] <> "" && $index != $itemSize-1)
-	{
+	if ($arResult[$index]["LINK"] <> "" && $index != $itemSize - 1) {
 		$strReturn .= '
-			<li class="breadcrumbs__item" id="bx_breadcrumb_'.$index.'" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+			<li class="breadcrumbs__item" id="bx_breadcrumb_' . $index . '" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 				
-				<a href="'.$arResult[$index]["LINK"].'" title="'.$title.'" itemprop="item">
-					<span itemprop="name">'.$title.'</span>
+				<a href="' . $arResult[$index]["LINK"] . '" title="' . $title . '" itemprop="item">
+					<span itemprop="name">' . $title . '</span>
 				</a>
-				'.$arrow.'
-				<meta itemprop="position" content="'.($index + 1).'" />
+				' . $arrow . '
+				<meta itemprop="position" content="' . ($index + 1) . '" />
 			</li>';
-	}
-	else
-	{
+	} else {
 		$strReturn .= '
 			<li class="breadcrumbs__item">
 				<span>
-				<span>'.$title.'</span>
+				<span>' . $title . '</span>
                 </span>
 			</li>';
 	}
 }
 
-$strReturn .= '</ul></div></div>';
+$strReturn .= '</ul>
+<a href="javascript:void" onclick="history.back()" class="btn btn-link back-link"><svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.70703 8.35356L0.707031 4.35356L4.70703 0.353561" stroke="CurrentColor"/>
+</svg>Назад</a>
+</div></div>';
 
 return $strReturn;
 

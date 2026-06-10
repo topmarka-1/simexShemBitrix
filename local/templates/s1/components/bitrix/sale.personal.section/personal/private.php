@@ -1,41 +1,27 @@
 <?php
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
-{
-	die();
-}
-
-/** @global CMain $APPLICATION */
-/** @global CUser $USER */
-/** @var PersonalOrderSection $component */
-/** @var array $arParams */
-/** @var array $arResult */
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 use Bitrix\Main\Localization\Loc;
 
-if ($arParams['SHOW_PRIVATE_PAGE'] !== 'Y')
-{
-	LocalRedirect($arParams['SEF_FOLDER']);
+if ($arParams['SHOW_PRIVATE_PAGE'] !== 'Y') {
+    LocalRedirect($arParams['SEF_FOLDER']);
 }
 
-if ($arParams["MAIN_CHAIN_NAME"] <> '')
-{
-	$APPLICATION->AddChainItem(htmlspecialcharsbx($arParams["MAIN_CHAIN_NAME"]), $arResult['SEF_FOLDER']);
-}
-$APPLICATION->AddChainItem(Loc::getMessage("SPS_CHAIN_PRIVATE"));
-if ($arParams['SET_TITLE'] == 'Y')
-{
-	$APPLICATION->SetTitle(Loc::getMessage("SPS_TITLE_PRIVATE"));
-}
+$currentPage = 'private';
+require __DIR__ . '/include/init.php';
+require __DIR__ . '/include/shell_start.php';
 
-?><?$APPLICATION->IncludeComponent(
-	"bitrix:main.profile",
-	"",
-	Array(
-		"SET_TITLE" =>$arParams["SET_TITLE"],
-		"AJAX_MODE" => $arParams['AJAX_MODE_PRIVATE'],
-		"SEND_INFO" => $arParams["SEND_INFO_PRIVATE"],
-		"CHECK_RIGHTS" => $arParams['CHECK_RIGHTS_PRIVATE'],
-		"EDITABLE_EXTERNAL_AUTH_ID" => $arParams['EDITABLE_EXTERNAL_AUTH_ID'],
-	),
-	$component
+$APPLICATION->IncludeComponent(
+    "bitrix:main.profile",
+    "my_profile",
+    array(
+        "SET_TITLE" => $arParams["SET_TITLE"],
+        "AJAX_MODE" => $arParams['AJAX_MODE_PRIVATE'],
+        "SEND_INFO" => $arParams["SEND_INFO_PRIVATE"],
+        "CHECK_RIGHTS" => $arParams['CHECK_RIGHTS_PRIVATE'],
+        "EDITABLE_EXTERNAL_AUTH_ID" => $arParams['EDITABLE_EXTERNAL_AUTH_ID'],
+    ),
+    $component
 );
+
+require __DIR__ . '/include/shell_end.php';

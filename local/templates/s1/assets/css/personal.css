@@ -117,12 +117,18 @@
     top: 2rem
 }
 
+.section-gray .personal__aside {
+    background: var(--clr-white);
+}
+
 .personal__aside_nav ul {
     display: flex;
     flex-direction: column;
     gap: 1rem
 }
-
+.personal__aside_nav .btn.active {
+        background: var(--clr-accent);
+    }
 .personal__sections {
     display: flex;
     flex-direction: column;
@@ -784,7 +790,7 @@ margin-bottom: 2rem;
     .personal__aside_nav ul {
         flex-direction: row
     }
-
+    
     .personal__item {
         padding: 20px
     }

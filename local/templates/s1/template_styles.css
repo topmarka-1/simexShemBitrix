@@ -1194,7 +1194,19 @@ h6,
     padding: 20px 36px;
     font-size: 1rem
 }
-
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    gap: 12px;
+    color: var(--clr-base);
+}
+.back-link {
+    margin-top: 10px;
+}
+.btn-link:hover {
+    color: var(--clr-accent);
+}
 .btn-sm {
     align-items: center;
     justify-content: center;
@@ -2037,6 +2049,7 @@ h6,
     cursor: pointer;
     background-color: #f5f6f7;
     background-color: var(--clr-white-100);
+    color: var(--clr-base);
     transition: background-color .3s;
     font-weight: 500
 }
@@ -4972,6 +4985,11 @@ body.compensate-for-scrollbar {
         max-width: calc(100% - 10px)
     }
 }
-
+.catalog__list.grid .catalog__item_image {
+    height: 278px;
+}  
+.catalog__list.grid .catalog__item_title {
+    margin-top: auto;
+}
 /*# sourceMappingURL=index.css.map*/
 
