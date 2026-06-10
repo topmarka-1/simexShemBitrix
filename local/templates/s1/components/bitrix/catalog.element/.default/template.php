@@ -199,7 +199,8 @@ if ($article) {
     $dctFilter = [
             'IBLOCK_ID'=> $arResult['ORIGINAL_PARAMETERS']['IBLOCK_ID'],
             'SECTION_CODE'=> $arResult['ORIGINAL_PARAMETERS']['SECTION_CODE'],
-            'PROPERTY_CML2_ARTICLE' => $article
+            'PROPERTY_CML2_ARTICLE' => $article,
+    'PROPERTY_OTOBRAZHAT_NA_SAYTE' => 'да'
          ];
     /*
     CIBlockElement::GetList(
@@ -266,7 +267,7 @@ if ($article) {
                         <div class="catalog-element__picture_thumbs swiper">
                             <div class="swiper-wrapper">
                                 <?foreach ($morePhotos as $photo):?>
-                                <div class="swiper-slide">
+                                <div class="swiper-slide catalog-element__picture_thumbs_slide">
                                     <img src="<?=$photo['SRC']?>" width="58" height="68" alt="<?=$alt?>">
                                 </div>
                                 <?endforeach;?>

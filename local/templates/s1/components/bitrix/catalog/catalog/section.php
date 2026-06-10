@@ -29,6 +29,7 @@ if ($isFilter)
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 		"ACTIVE" => "Y",
 		"GLOBAL_ACTIVE" => "Y",
+		"PROPERTY_OTOBRAZHAT_NA_SAYTE" => "Да"
 	);
 	if (0 < intval($arResult["VARIABLES"]["SECTION_ID"]))
 		$arFilter["ID"] = $arResult["VARIABLES"]["SECTION_ID"];

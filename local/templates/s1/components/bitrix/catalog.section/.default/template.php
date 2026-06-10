@@ -162,7 +162,7 @@ if ($showTopPager)
 				if (isset($item['MIN_PRICE']) || isset($item['RATIO_PRICE']))
 					$minPrice = (isset($item['RATIO_PRICE']) ? $item['RATIO_PRICE'] : $item['MIN_PRICE']);
 				?>
-				<article class="catalog__item card" data-basket-id="<?=$item['ID']?>" data-product-id="<?=$item['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($uniqueId);?>" data-entity="item">
+				<article class="catalog__item card" itemscope itemtype="https://schema.org/Product" data-basket-id="<?=$item['ID']?>" data-product-id="<?=$item['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($uniqueId);?>" data-entity="item">
 					<button class="btn btn-quad light favourite_btn" data-item="<?=$item['ID']?>">
 						<svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<mask id="path-1-inside-1_350_1421" fill="white">
@@ -173,9 +173,9 @@ if ($showTopPager)
 					</button>
 					<a href="<?=$detailUrl?>" class="catalog__item_image">
 						<?if ($pictureSrc):?>
-							<img src="<?=$pictureSrc?>" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="166" height="252">
+							<img itemprop="image" src="<?=$pictureSrc?>" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="166" height="252">
 						<?else:?>
-							<img src="<?=$this->GetFolder()?>/images/no_photo.png" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="166" height="252">
+							<img itemprop="image" src="<?=$this->GetFolder()?>/images/no_photo.png" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="166" height="252">
 						<?endif;?>
 					</a>
 					<div class="catalog__item_content">
@@ -183,10 +183,10 @@ if ($showTopPager)
 							<?if ($item['PROPERTIES']['NOVINKA']['VALUE']):?><span class="tag filter-tag">Новинка</span><?endif;?>
 						</div>
 						<a href="<?=$detailUrl?>" class="catalog__item_title">
-							<h4><?=$productTitle($item)?></h4>
+							<h4 itemprop="name"><?=$productTitle($item)?></h4>
 						</a>
 						<div class="catalog__item_char">
-							<div class="article">Арт. <?=$item['PROPERTIES']['CML2_ARTICLE']['VALUE']?></div>
+							<div class="article" itemprop="sku">Арт. <?=$item['PROPERTIES']['CML2_ARTICLE']['VALUE']?></div>
 							<div class="char__list">
 								<? $un = $unitName($item); if ($un): ?>
 								<div class="char__item">
@@ -194,9 +194,15 @@ if ($showTopPager)
 									<div class="char__item_value"><?=$item['PROPERTIES']['OBEM_VES_NETTO']['VALUE']?> <?=$item['PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE']?>.</div>
 								</div>
 								<? endif; ?>
-								<div class="char__item">
+								<div class="char__item" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 									<span class="char__item_name">Стоимость</span>
-									<div class="char__item_value"><? $printPrice($item); ?></div>
+									<div class="char__item_value">
+										<? if ($minPrice && $minPrice['DISCOUNT_VALUE']): ?>
+											<meta itemprop="priceCurrency" content="<?=$minPrice['CURRENCY']?>">
+											<meta itemprop="price" content="<?=$minPrice['DISCOUNT_VALUE']?>">
+										<? endif; ?>
+										<? $printPrice($item); ?>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -245,20 +251,20 @@ if ($showTopPager)
 
 				$detailUrl = $item['DETAIL_PAGE_URL'];
 				?>
-				<article class="catalog__item card" data-basket-id="<?=$item['ID']?>" data-product-id="<?=$item['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($uniqueId);?>" data-entity="item">
+				<article class="catalog__item card" itemscope itemtype="https://schema.org/Product" data-basket-id="<?=$item['ID']?>" data-product-id="<?=$item['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($uniqueId);?>" data-entity="item">
 					<a href="<?=$detailUrl?>" class="catalog__item_image">
 						<?if ($pictureSrc):?>
-							<img src="<?=$pictureSrc?>" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="71" height="108">
+							<img itemprop="image" src="<?=$pictureSrc?>" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="71" height="108">
 						<?else:?>
-							<img src="<?=$this->GetFolder()?>/images/no_photo.png" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="71" height="108">
+							<img itemprop="image" src="<?=$this->GetFolder()?>/images/no_photo.png" alt="<?=htmlspecialcharsbx($imgTitle($item))?>" width="71" height="108">
 						<?endif;?>
 					</a>
 					<div class="catalog__item_content">
 						<div class="catalog__item_col">
 							<a href="<?=$detailUrl?>" class="catalog__item_title">
-								<h5><?=$productTitle($item)?></h5>
+								<h5 itemprop="name"><?=$productTitle($item)?></h5>
 							</a>
-							<div class="article">Арт. <?=$item['PROPERTIES']['CML2_ARTICLE']['VALUE']?></div>
+							<div class="article" itemprop="sku">Арт. <?=$item['PROPERTIES']['CML2_ARTICLE']['VALUE']?></div>
 						</div>
 						<div class="catalog__item_col">
 							<div class="catalog__item_char">
@@ -273,9 +279,15 @@ if ($showTopPager)
 							</div>
 						</div>
 						<div class="catalog__item_col">
-							<div class="char__item">
+							<div class="char__item" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 								<span class="char__item_name">Стоимость</span>
-								<div class="char__item_value"><? $printPrice($item); ?></div>
+								<div class="char__item_value">
+									<? if ($minPrice && $minPrice['DISCOUNT_VALUE']): ?>
+										<meta itemprop="priceCurrency" content="<?=$minPrice['CURRENCY']?>">
+										<meta itemprop="price" content="<?=$minPrice['DISCOUNT_VALUE']?>">
+									<? endif; ?>
+									<? $printPrice($item); ?>
+								</div>
 							</div>
 							<div class="catalog__item_bottom" id="catalog-item-bottom-<?=$item['ID']?>">
 								<? if ($item['BASKET_QUANTITY']) : ?>
@@ -327,20 +339,20 @@ if ($showTopPager)
 			{
 				$detailUrl = $item['DETAIL_PAGE_URL'];
 				?>
-				<article class="catalog__item card" data-basket-id="<?=$item['ID']?>" data-product-id="<?=$item['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($uniqueId);?>" data-entity="item">
+				<article class="catalog__item card" itemscope itemtype="https://schema.org/Product" data-basket-id="<?=$item['ID']?>" data-product-id="<?=$item['PRODUCT_ID']?>" id="<?=$this->GetEditAreaId($uniqueId);?>" data-entity="item">
 					<a href="<?=$detailUrl?>" class="catalog__item_title">
-						<h6><?=$productTitle($item)?></h6>
+						<h6 itemprop="name"><?=$productTitle($item)?></h6>
 					</a>
 					<div class="catalog__item_col">
 						<div class="char__item">
 							<span class="char__item_name">Артикул</span>
-							<div class="char__item_value"><?=$item['PROPERTIES']['CML2_ARTICLE']['VALUE'] ? 'Арт. '.$item['PROPERTIES']['CML2_ARTICLE']['VALUE'] : '—'?></div>
+							<div class="char__item_value" itemprop="sku"><?=$item['PROPERTIES']['CML2_ARTICLE']['VALUE'] ? 'Арт. '.$item['PROPERTIES']['CML2_ARTICLE']['VALUE'] : '—'?></div>
 						</div>
 						<div class="char__item">
 							<span class="char__item_name"><? $un = $unitName($item); echo $un ?: 'Объем'; ?></span>
 							<div class="char__item_value"><?=$item['PROPERTIES']['OBEM_VES_NETTO']['VALUE']?> <?=$item['PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE']?>.</div>
 						</div>
-						<div class="char__item">
+						<div class="char__item" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 							<span class="char__item_name">Цена</span>
 							<div class="char__item_value price"><? $printPrice($item); ?></div>
 						</div>

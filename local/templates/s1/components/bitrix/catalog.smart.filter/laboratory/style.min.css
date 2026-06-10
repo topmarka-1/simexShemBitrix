@@ -1,0 +1,256 @@
+/* ---------- Smart filter (Bitrix) ---------- */
+
+.bx-filter {
+    font-family: "Manrope", sans-serif;
+}
+
+.bx-filter .bx-filter-parameters-box-title {
+    font-family: "Inter Tight", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #232C42;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.bx-filter .bx-filter-parameters-box-title:hover {
+    color: #f9d840;
+}
+
+.bx-filter .bx-filter-parameters-box-title .bx-filter-parameters-box-hint {
+    display: none;
+}
+
+.bx-filter .bx-filter-parameters-box-container {
+    padding-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #ecedee;
+}
+
+/* ---------- Price inputs ---------- */
+
+.bx-filter .bx-filter-parameters-box-container .bx-filter-input-container {
+    width: 100%;
+}
+
+.bx-filter .bx-filter-parameters-box-container .bx-filter-input-container input.min-price,
+.bx-filter .bx-filter-parameters-box-container .bx-filter-input-container input.max-price {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #D7D8D9;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    color: #232C42;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.bx-filter .bx-filter-parameters-box-container .bx-filter-input-container input.min-price:focus,
+.bx-filter .bx-filter-parameters-box-container .bx-filter-input-container input.max-price:focus {
+    border-color: #232C42;
+}
+
+.bx-filter .bx-ft-sub {
+    display: block;
+    font-size: 12px;
+    color: #7A7C81;
+    margin-bottom: 6px;
+}
+
+/* ---------- Slider track ---------- */
+
+.bx-filter .bx-ui-slider-track-container {
+    padding: 16px 0;
+}
+
+.bx-filter .bx-ui-slider-track {
+    position: relative;
+    height: 6px;
+    background: #ecedee;
+    border-radius: 4px;
+}
+
+/* pricebar — unavailable (grey bg) */
+.bx-filter .bx-ui-slider-pricebar-vd {
+    position: absolute;
+    top: 0;
+    height: 6px;
+    background: #ecedee;
+    border-radius: 4px;
+}
+
+/* pricebar — available but not selected (lighter bg) */
+.bx-filter .bx-ui-slider-pricebar-vn {
+    position: absolute;
+    top: 0;
+    height: 6px;
+    background: #ecedee;
+    border-radius: 4px;
+}
+
+/* pricebar — selected (yellow fill) */
+.bx-filter .bx-ui-slider-pricebar-v {
+    position: absolute;
+    top: 0;
+    height: 6px;
+    background: #f9d840;
+    border-radius: 4px;
+}
+
+/* ---------- Range handles ---------- */
+
+.bx-filter .bx-ui-slider-range {
+    position: absolute;
+    top: -7px;
+    height: 20px;
+}
+
+.bx-filter .bx-ui-slider-handle {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: #f9d840;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bx-filter .bx-ui-slider-handle:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.bx-filter .bx-ui-slider-handle.left {
+    left: -10px;
+}
+
+.bx-filter .bx-ui-slider-handle.right {
+    right: -10px;
+}
+
+/* ---------- Scale parts (optional, hide by default) ---------- */
+
+.bx-filter .bx-ui-slider-part {
+    display: none;
+}
+
+/* ---------- Price labels ---------- */
+
+.bx-filter .bx-filter-popup-result {
+    font-size: 14px;
+    color: #232C42;
+    font-weight: 500;
+}
+
+/* ---------- Checkbox items ---------- */
+
+.bx-filter .bx-filter-param-label {
+    display: flex !important;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #7A7C81;
+    cursor: pointer;
+    padding: 1rem 0;
+    transition: color 0.3s;
+}
+
+.bx-filter .bx-filter-param-label:hover {
+    color: #232C42;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-input-checkbox {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-param-text {
+    position: relative;
+    padding-left: 36px;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-param-text::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 1px solid #D7D8D9;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.bx-filter .bx-filter-param-label .bx-filter-param-text::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: #f9d840;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.bx-filter .bx-filter-param-label input:checked ~ .bx-filter-param-text::after {
+    opacity: 1;
+}
+
+/* ---------- Buttons ---------- */
+
+.bx-filter .bx-filter-button-box {
+    padding-top: 12px;
+}
+
+.bx-filter .bx-filter-button-box .btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px 48px;
+    border-radius: 12px;
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.5s;
+    border: none;
+    text-decoration: none;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:first-child {
+    background: #f9d840;
+    color: #232C42;
+    margin-bottom: 12px;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:first-child:hover {
+    background: #FFE159;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:last-child {
+    background: #ecedee;
+    color: #959697;
+}
+
+.bx-filter .bx-filter-button-box .btn-link:last-child:hover {
+    background: #FFE159;
+    color: #232C42;
+}

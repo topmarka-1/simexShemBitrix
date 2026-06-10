@@ -1,4 +1,9 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+@file_put_contents(
+	$_SERVER['DOCUMENT_ROOT'].'/upload/section_debug.log',
+	'[section.php] LOADED at '.date('Y-m-d H:i:s').' URL: '.($_SERVER['REQUEST_URI'] ?? 'unknown')."\n",
+	FILE_APPEND | LOCK_EX
+);
 /** @var array $arParams */
 /** @var array $arResult */
 /** @global CMain $APPLICATION */

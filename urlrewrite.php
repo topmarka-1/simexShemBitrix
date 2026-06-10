@@ -1,13 +1,5 @@
 <?php
 $arUrlRewrite=array (
-  8 => 
-  array (
-    'CONDITION' => '#^/catalog/([^/]+?)/([^/]+?)/\\??(.*)#',
-    'RULE' => 'SECTION_CODE=$1&ELEMENT_CODE=$2&$3',
-    'ID' => 'bitrix:catalog.top',
-    'PATH' => '/index.php',
-    'SORT' => 100,
-  ),
   0 => 
   array (
     'CONDITION' => '#^/services/#',
@@ -24,12 +16,36 @@ $arUrlRewrite=array (
     'PATH' => '/products/index.php',
     'SORT' => 100,
   ),
+  13 => 
+  array (
+    'CONDITION' => '#^/personal/#',
+    'RULE' => '',
+    'ID' => 'bitrix:sale.personal.section',
+    'PATH' => '/personal/index.php',
+    'SORT' => 100,
+  ),
   6 => 
   array (
     'CONDITION' => '#^/catalog/#',
     'RULE' => '',
     'ID' => 'bitrix:catalog',
     'PATH' => '/catalog/index.php',
+    'SORT' => 100,
+  ),
+  12 => 
+  array (
+    'CONDITION' => '#^/novosti/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/novosti/index.php',
+    'SORT' => 100,
+  ),
+  11 => 
+  array (
+    'CONDITION' => '#^/brands/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/brands/index.php',
     'SORT' => 100,
   ),
   7 => 
@@ -39,5 +55,13 @@ $arUrlRewrite=array (
     'ID' => 'bitrix:news',
     'PATH' => '/news/index.php',
     'SORT' => 100,
+  ),
+  10 => 
+  array (
+    'CONDITION' => '#^/brands/[a-zA-Z0-9_-]+(?:/.*)?$#',
+    'RULE' => '&$1',
+    'ID' => 'bitrix:catalog.section',
+    'PATH' => '/local/templates/s1/components/bitrix/news/brands/detail.php',
+    'SORT' => 200,
   ),
 );

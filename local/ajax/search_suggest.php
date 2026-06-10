@@ -23,6 +23,7 @@ $arFilter = array(
     'IBLOCK_ID' => 14,
     'ACTIVE' => 'Y',
     '?NAME' => '%'.$q.'%',
+    'PROPERTY_OTOBRAZHAT_NA_SAYTE' => 'да'
 );
 
 if ($sectionId > 0)

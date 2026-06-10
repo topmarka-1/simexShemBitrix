@@ -1,8 +1,22 @@
 <?php
+$__debug_file = __FILE__;
+$__debug_line = __LINE__;
+@file_put_contents(
+	$_SERVER['DOCUMENT_ROOT'].'/upload/detail_debug.log',
+	'[detail.php] LOADED at '.date('Y-m-d H:i:s').' URL: '.($_SERVER['REQUEST_URI'] ?? 'unknown').' FILE: '.$__debug_file.':'.$__debug_line."\n",
+	FILE_APPEND | LOCK_EX
+);
+
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 {
+	@file_put_contents(
+		$_SERVER['DOCUMENT_ROOT'].'/upload/detail_debug.log',
+		'[detail.php] DIE at '.date('Y-m-d H:i:s')."\n",
+		FILE_APPEND | LOCK_EX
+	);
 	die();
 }
+
 /** @var array $arParams */
 /** @var array $arResult */
 /** @global CMain $APPLICATION */
@@ -14,7 +28,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
-$this->setFrameMode(true);
 
 $ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:news.detail",
@@ -73,6 +86,12 @@ $ElementID = $APPLICATION->IncludeComponent(
 );?>
 
 <?
+file_put_contents(
+	$_SERVER['DOCUMENT_ROOT'].'/upload/detail_debug.log',
+	'[detail.php] After IncludeComponent, $ElementID='.var_export($ElementID,true)."\n",
+	FILE_APPEND
+);
+
 $GLOBALS['ourFilter'] = ['!=ID' => $arResult["VARIABLES"]["ELEMENT_ID"]];
 $APPLICATION->IncludeComponent("bitrix:news.list", "news_our", Array(
 	"ACTIVE_DATE_FORMAT" => "j M Y",	// Формат показа даты

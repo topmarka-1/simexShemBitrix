@@ -2,7 +2,7 @@ function initHeroSlider() {
 	var heroSlider = document.querySelector(".hero__images_slider");
 	var heroContent = document.querySelector(".hero__content");
 	var heroContentSlider = document.querySelector(".hero__content_slider");
-	if (!heroSlider || !heroContentSlider || !heroContent) return;
+	if (!heroSlider) return;
 
 	new Swiper(heroContentSlider, {
 		loop: true, allowTouchMove: false, effect: "fade", speed: 1500,
@@ -38,7 +38,8 @@ function initTopCatalogSlider() {
 	var el = document.querySelector(".catalog-top");
 	if (!el) return;
 	new Swiper(el, {
-		slidesPerView: 4, spaceBetween: 16, modules: [Swiper.Grid], grid: { fill: "row", rows: 2 },
+		slidesPerView: 4, spaceBetween: 16, createElements: true,
+		grid: { fill: "row", rows: 2 },
 		breakpoints: {
 			320: { slidesPerView: 1.2, spaceBetween: 14, grid: { rows: 1 } },
 			576: { slidesPerView: 1.5, spaceBetween: 14, grid: { rows: 1 } },
@@ -57,7 +58,7 @@ function initPartnersSlider() {
 	new Swiper(el, {
 		slidesPerView: 1.2, slidesPerGroup: 1, loop: true, speed: 1000,
 		autoplay: { delay: 5000, disableOnInteraction: false },
-		pagination: { el: ".partners__slider_pagination", type: "fraction", formatFractionCurrent: function(n) { return n.toString().padStart(2,"0"); }, formatFractionTotal: function(n) { return n.toString().padStart(2,"0"); } },
+		pagination: { el: ".partners__slider_pagination", type: "fraction", formatFractionCurrent: function (n) { return n.toString().padStart(2, "0"); }, formatFractionTotal: function (n) { return n.toString().padStart(2, "0"); } },
 		navigation: { prevEl: control.querySelector(".swiper_prev"), nextEl: control.querySelector(".swiper_next") },
 		breakpoints: { 350: { slidesPerView: 1.5 }, 576: { slidesPerView: 2 }, 991: { slidesPerView: 3 }, 1200: { slidesPerView: 4 } },
 	});
@@ -71,7 +72,7 @@ function initSertificatesSlider() {
 	new Swiper(el, {
 		slidesPerView: 1.2, slidesPerGroup: 1, spaceBetween: 12, loop: true, speed: 1000,
 		autoplay: { delay: 5000, disableOnInteraction: false },
-		pagination: { el: ".sertificates__slider_pagination", type: "fraction", formatFractionCurrent: function(n) { return n.toString().padStart(2,"0"); }, formatFractionTotal: function(n) { return n.toString().padStart(2,"0"); } },
+		pagination: { el: ".sertificates__slider_pagination", type: "fraction", formatFractionCurrent: function (n) { return n.toString().padStart(2, "0"); }, formatFractionTotal: function (n) { return n.toString().padStart(2, "0"); } },
 		navigation: { prevEl: control.querySelector(".swiper_prev"), nextEl: control.querySelector(".swiper_next") },
 		breakpoints: { 350: { slidesPerView: 1.5, spaceBetween: 12 }, 576: { slidesPerView: 2, spaceBetween: 24 }, 991: { slidesPerView: 3, spaceBetween: 32 }, 1200: { slidesPerView: 4, spaceBetween: 40 }, 1440: { slidesPerView: 4, spaceBetween: 50 } },
 	});
@@ -84,8 +85,9 @@ function initAboutAdvsSlider() {
 	var control = container.querySelector(".about__advs_slider_control");
 	new Swiper(el, {
 		slidesPerView: 1.1, slidesPerGroup: 1, spaceBetween: 12, loop: true, speed: 1000,
+		createElements: true,
 		autoplay: { delay: 5000, disableOnInteraction: false },
-		pagination: { el: ".about__advs_slider_pagination", type: "fraction", formatFractionCurrent: function(n) { return n.toString().padStart(2,"0"); }, formatFractionTotal: function(n) { return n.toString().padStart(2,"0"); } },
+		pagination: { el: ".about__advs_slider_pagination", type: "fraction", formatFractionCurrent: function (n) { return n.toString().padStart(2, "0"); }, formatFractionTotal: function (n) { return n.toString().padStart(2, "0"); } },
 		navigation: { prevEl: control.querySelector(".swiper_prev"), nextEl: control.querySelector(".swiper_next") },
 		breakpoints: { 350: { slidesPerView: 1.2, spaceBetween: 8 }, 576: { slidesPerView: 1.8, spaceBetween: 12 }, 991: { slidesPerView: 2, spaceBetween: 16 }, 1200: { slidesPerView: 2, spaceBetween: 20 }, 1440: { slidesPerView: 2, spaceBetween: 25 } },
 	});
@@ -112,10 +114,11 @@ function initNewCatalogSlider() {
 
 function inithistoryOrderSliders() {
 	document.querySelectorAll(".history__order_list.swiper").forEach(function (item) {
-		new Swiper(item, {
+		var slider = new Swiper(item, {
 			slidesPerView: 1.2, observer: true, observeParents: true, slidesPerGroup: 1, spaceBetween: 8, autoHeight: true,
 			breakpoints: { 320: { slidesPerView: 1.2, spaceBetween: 8 }, 375: { slidesPerView: 1.5, spaceBetween: 8 }, 450: { slidesPerView: 1.8, spaceBetween: 8 }, 576: { slidesPerView: 2.1, spaceBetween: 8 }, 768: { slidesPerView: 2.5, spaceBetween: 12 }, 991: { slidesPerView: 3.5, spaceBetween: 16 }, 1200: { slidesPerView: 4.1, spaceBetween: 16 }, 1400: { slidesPerView: 4.8, spaceBetween: 20 } },
 		});
+		item.swiperInstance = slider;
 	});
 }
 
@@ -127,7 +130,7 @@ function initGallerySlider() {
 	new Swiper(el, {
 		slidesPerView: 1.2, slidesPerGroup: 1, spaceBetween: 8, loop: true, speed: 1000,
 		autoplay: { delay: 7000, disableOnInteraction: false },
-		pagination: { el: ".gallery__slider_pagination", type: "fraction", formatFractionCurrent: function(n) { return n.toString().padStart(2,"0"); }, formatFractionTotal: function(n) { return n.toString().padStart(2,"0"); } },
+		pagination: { el: ".gallery__slider_pagination", type: "fraction", formatFractionCurrent: function (n) { return n.toString().padStart(2, "0"); }, formatFractionTotal: function (n) { return n.toString().padStart(2, "0"); } },
 		navigation: { prevEl: control.querySelector(".swiper_prev"), nextEl: control.querySelector(".swiper_next") },
 		breakpoints: { 350: { slidesPerView: 1.5, spaceBetween: 8 }, 576: { slidesPerView: 1.8, spaceBetween: 12 }, 991: { slidesPerView: 2, spaceBetween: 16 }, 1200: { slidesPerView: 2, spaceBetween: 24 } },
 	});

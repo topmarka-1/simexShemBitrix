@@ -46,7 +46,18 @@ $newsYear = (int)($_GET['year'] ?? 0);
 							>
 						</div>
 						<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="news__item_title">
-							<h5><?echo $arItem['PROPERTIES']['TITLE']['VALUE'] ? $arItem['PROPERTIES']['TITLE']['~VALUE']['TEXT'] : $arItem["NAME"];?></h5>
+							<h5><?
+                                $titleProp = $arItem['PROPERTIES']['TITLE'] ?? null;
+                                if ($titleProp && !empty($titleProp['VALUE'])) {
+                                    if (is_array($titleProp['~VALUE'])) {
+                                        echo $titleProp['~VALUE']['TEXT'];
+                                    } else {
+                                        echo $titleProp['~VALUE'];
+                                    }
+                                } else {
+                                    echo $arItem["NAME"];
+                                }
+                            ?></h5>
 						</a>
 						<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="btn btn-primary">Подробнее</a>
 					</article>

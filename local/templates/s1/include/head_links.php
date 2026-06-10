@@ -8,7 +8,7 @@
                 stroke="CurrentColor" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg> 
     </a> 
-    <a href="/lk" class="btn btn-quad search_btn"> 
+    <a href="/search" class="btn btn-quad search_btn"> 
         <svg width="16" height="16"
             viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -16,7 +16,7 @@
                 fill="CurrentColor"></path>
         </svg> 
     </a> 
-    <a href="/lk" class="btn btn-quad favourite_btn"> 
+    <a href="/favorites/" class="btn btn-quad favourite_btn"> 
         <svg width="17"
             height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -65,7 +65,7 @@
 	),
 	false
 );?>
-    <a href="/lk" class="btn btn-quad profile_btn"> 
+    <a href="/personal" class="btn btn-quad profile_btn"> 
         <svg width="16" height="16"
             viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"

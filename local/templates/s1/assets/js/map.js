@@ -1,7 +1,7 @@
 var resizeHandler = null;
 
 function setMap() {
-	let mapContainers = document.querySelectorAll(".map");
+	var mapContainers = document.querySelectorAll(".map");
 	if (mapContainers.length === 0) return;
 
 	if (resizeHandler) {
@@ -60,11 +60,22 @@ function contactsMap() {
 	var mapContainer = document.querySelector("#contacts-map");
 	if (!mapContainer) return;
 
-	var offices = [
-		{ city: "nn", title: "Производство и склад готовой продукции", coords: [56.263252, 43.614438] },
-		{ city: "msk", title: "Представительство в Москве", coords: [55.772021, 37.876593] },
-		{ city: "spb", title: "Представительство в Санкт-Петербурге", coords: [59.932928, 30.446869] },
-	];
+	const mapCards = document.querySelectorAll('.contact-card')
+
+
+
+	var offices = Array.from(mapCards).map(card => ({
+			city: card.dataset.city,
+			title: card.dataset.title,
+			coords: JSON.parse(card.dataset.coord)
+		}))
+		console.log(offices);
+	
+	// [
+	// 	{ city: "nn", title: "Производство и склад готовой продукции", coords: [56.263252, 43.614438] },
+	// 	{ city: "msk", title: "Представительство в Москве", coords: [55.772021, 37.876593] },
+	// 	{ city: "spb", title: "Представительство в Санкт-Петербурге", coords: [59.932928, 30.446869] },
+	// ];
 
 	ymaps.ready(function () {
 		var map = new ymaps.Map("contacts-map", {
@@ -101,6 +112,13 @@ function contactsMap() {
 
 			cards.forEach(function (card) {
 				card.style.display = city === "all" || card.dataset.city === city ? "" : "none";
+
+				const btn = card.querySelector('.route-btn')
+				const coord = JSON.parse(card.dataset.coord)
+				const url = `https://yandex.ru/maps/?rtext=~${coord[0]},${coord[1]}&rtt=auto`;
+				btn.addEventListener('click', function(){
+					window.open(url, '_blank');
+				})
 			});
 
 			if (filtered.length === 1) {

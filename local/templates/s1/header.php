@@ -8,14 +8,16 @@
     <meta name="robots" content="noindex,nofollow">
     <link rel="shortcut icon" href="<?=SITE_TEMPLATE_PATH?>/assets/img/favicon/favicon.svg" type="image/x-icon">
     
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <?
-//     global $APPLICATION;
-// $css = $APPLICATION->GetCSS();
-// echo "<pre>";
-// print_r($css);
-// echo "</pre>";
-    ?>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css"
+        />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/assets/css/personal.css");?>
     <?$APPLICATION->ShowHead();?>
 <title><?$APPLICATION->ShowTitle()?></title>
 </head>

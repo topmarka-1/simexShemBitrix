@@ -20,18 +20,19 @@ $this->setFrameMode(true);
 	$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 	$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 	?>
-				<? if ($arItem['PROPERTIES']['ADVS_TITLE']['VALUE']) : ?>
-					<? 
-						$advsTexts = $arItem['PROPERTIES']['ADVS_TEXT']['VALUE'];
-						$advsImages = $arItem['PROPERTIES']['ADVS_IMG']['VALUE'];
-					?>
+				<?
+					$advsTitleVal = $arItem['PROPERTIES']['ADVS_TITLE']['VALUE'] ?? null;
+					if (!empty($advsTitleVal) && is_array($advsTitleVal)):
+						$advsTexts = $arItem['PROPERTIES']['ADVS_TEXT']['VALUE'] ?? [];
+						$advsImages = $arItem['PROPERTIES']['ADVS_IMG']['VALUE'] ?? [];
+				?>
 					<div class="about__advs">
 						<div class="heading">
 							<h2>Компания «Симэкс-Хим» специализируется
 								на контрактном производстве высококачественных масел</h2>
 						</div>
 						<div class="about__advs_list">
-							<? foreach ($arItem['PROPERTIES']['ADVS_TITLE']['VALUE'] as $k => $advs) : ?>
+							<? foreach ($advsTitleVal as $k => $advs) : ?>
 								<div class="about__advs_item">
 									<div class="about__advs_item_img">
 										<img src="<?=\CFile::ResizeImageGet($advsImages[$k], array('width'=>568, 'height'=>380))['src']; ?>" width="568" height="380" alt="advs <?=$k + 1?>">

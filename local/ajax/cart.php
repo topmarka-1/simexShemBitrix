@@ -55,13 +55,19 @@ try {
                 try {
                     $baseCurrency = CurrencyManager::getBaseCurrency();
                     $basket = Sale\Basket::loadItemsForFUser($fUserId, SITE_ID);
+
+                    $product = \CIBlockElement::GetByID($productId)->GetNext();
+                    $name = $product ? $product['NAME'] : 'Товар #' . $productId;
+
                     $item = $basket->createItem('catalog', $productId);
                     $item->setFields([
+                        'NAME' => $name,
                         'QUANTITY' => $quantity,
                         'CURRENCY' => $baseCurrency,
                         'LID' => SITE_ID,
                         'PRICE' => 0,
                         'CUSTOM_PRICE' => 'Y',
+                        'CAN_BUY' => 'Y',
                     ]);
                     $r = $item->save();
                     if (!$r->isSuccess()) {
@@ -171,6 +177,9 @@ try {
         default:
             throw new Exception('Неизвестное действие');
     }
+
+    \Bitrix\Sale\BasketComponentHelper::clearFUserBasketQuantity($fUserId, SITE_ID);
+    \Bitrix\Sale\BasketComponentHelper::clearFUserBasketPrice($fUserId, SITE_ID);
 
     /*
      * Количество товаров

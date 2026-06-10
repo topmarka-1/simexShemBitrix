@@ -129,7 +129,7 @@
     height: 100%;
     -o-object-fit: contain;
     object-fit: contain;
-    aspect-ratio: 300/456;
+    /* aspect-ratio: 300/456; */
     margin: 0 auto;
     display: block
 }
@@ -141,9 +141,9 @@
     overflow: visible
 }
 
-.catalog-element__picture_thumbs_slide {
+.catalog-element__picture_thumbs_slide.swiper-slide {
     aspect-ratio: 1;
-    width: auto;
+    width: 62px;
     border-radius: 18px;
     background: #ffffff;
     background: var(--clr-white);

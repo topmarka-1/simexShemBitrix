@@ -20650,7 +20650,14 @@ const toggleDropdown = () => {
             }
           } else {
             const text = e.currentTarget.querySelector("span.text").textContent;
-            title.querySelector("span.text").textContent = text;
+            if (window.innerWidth <= 1650) {
+              const valueEl = title.querySelector("span.text .catalog__sort_value");
+              if (valueEl) {
+                valueEl.textContent = text;
+              } else {
+                title.querySelector("span.text").textContent = text;
+              }
+            }
             dropdown.classList.remove("active");
           }
         }

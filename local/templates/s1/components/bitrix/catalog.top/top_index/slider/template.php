@@ -1,99 +1,101 @@
 <?php
-    if (! defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
-    die();
-    }
+if (! defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
+	die();
+}
+
 use Bitrix\Catalog\ProductTable;
-    /** @var array $arParams */
-    /** @var array $arResult */
-    /** @global CMain $APPLICATION */
-    /** @global CUser $USER */
-    /** @global CDatabase $DB */
-    /** @var CBitrixComponentTemplate $this */
-    /** @var string $templateName */
-    /** @var string $templateFile */
-    /** @var string $templateFolder */
-    /** @var string $componentPath */
-    /** @var CBitrixComponent $component */
-    /** @var array $skuTemplate */
-    /** @var array $templateData */
-    $this->setFrameMode(true);
 
-    if (! empty($arResult['ITEMS'])) {
-    $arResult['SKU_PROPS'] = reset($arResult['SKU_PROPS']);
-    $skuTemplate           = [];
-    if (! empty($arResult['SKU_PROPS'])) {
-        foreach ($arResult['SKU_PROPS'] as $arProp) {
-            $propId               = $arProp['ID'];
-            $skuTemplate[$propId] = [
-                'SCROLL' => [
-                    'START'  => '',
-                    'FINISH' => '',
-                ],
-                'FULL'   => [
-                    'START'  => '',
-                    'FINISH' => '',
-                ],
-                'ITEMS'  => [],
-            ];
-            $templateRow = '';
-            if ('TEXT' == $arProp['SHOW_MODE']) {
-                $skuTemplate[$propId]['SCROLL']['START'] = '<div class="bx_item_detail_size full" id="#ITEM#_prop_' . $propId . '_cont">' .
-                '<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
-                    '<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
-                $skuTemplate[$propId]['SCROLL']['FINISH'] = '</ul></div>' .
-                    '<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style=""></div>' .
-                    '<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style=""></div>' .
-                    '</div></div>';
+/** @var array $arParams */
+/** @var array $arResult */
+/** @global CMain $APPLICATION */
+/** @global CUser $USER */
+/** @global CDatabase $DB */
+/** @var CBitrixComponentTemplate $this */
+/** @var string $templateName */
+/** @var string $templateFile */
+/** @var string $templateFolder */
+/** @var string $componentPath */
+/** @var CBitrixComponent $component */
+/** @var array $skuTemplate */
+/** @var array $templateData */
+$this->setFrameMode(true);
 
-                $skuTemplate[$propId]['FULL']['START'] = '<div class="bx_item_detail_size" id="#ITEM#_prop_' . $propId . '_cont">' .
-                '<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
-                    '<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
-                $skuTemplate[$propId]['FULL']['FINISH'] = '</ul></div>' .
-                    '<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style="display: none;"></div>' .
-                    '<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style="display: none;"></div>' .
-                    '</div></div>';
-                foreach ($arProp['VALUES'] as $value) {
-                    $value['NAME']                               = htmlspecialcharsbx($value['NAME']);
-                    $skuTemplate[$propId]['ITEMS'][$value['ID']] = '<li data-treevalue="' . $propId . '_' . $value['ID'] .
-                        '" data-onevalue="' . $value['ID'] . '" style="width: #WIDTH#;" title="' . $value['NAME'] . '"><i></i><span class="cnt">' . $value['NAME'] . '</span></li>';
-                }
-                unset($value);
-            } elseif ('PICT' == $arProp['SHOW_MODE']) {
-                $skuTemplate[$propId]['SCROLL']['START'] = '<div class="bx_item_detail_scu full" id="#ITEM#_prop_' . $propId . '_cont">' .
-                '<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
-                    '<div class="bx_scu_scroller_container"><div class="bx_scu"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
-                $skuTemplate[$propId]['SCROLL']['FINISH'] = '</ul></div>' .
-                    '<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style=""></div>' .
-                    '<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style=""></div>' .
-                    '</div></div>';
+if (! empty($arResult['ITEMS'])) {
+	$arResult['SKU_PROPS'] = reset($arResult['SKU_PROPS']);
+	$skuTemplate           = [];
+	if (! empty($arResult['SKU_PROPS'])) {
+		foreach ($arResult['SKU_PROPS'] as $arProp) {
+			$propId               = $arProp['ID'];
+			$skuTemplate[$propId] = [
+				'SCROLL' => [
+					'START'  => '',
+					'FINISH' => '',
+				],
+				'FULL'   => [
+					'START'  => '',
+					'FINISH' => '',
+				],
+				'ITEMS'  => [],
+			];
+			$templateRow = '';
+			if ('TEXT' == $arProp['SHOW_MODE']) {
+				$skuTemplate[$propId]['SCROLL']['START'] = '<div class="bx_item_detail_size full" id="#ITEM#_prop_' . $propId . '_cont">' .
+					'<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
+					'<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
+				$skuTemplate[$propId]['SCROLL']['FINISH'] = '</ul></div>' .
+					'<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style=""></div>' .
+					'<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style=""></div>' .
+					'</div></div>';
 
-                $skuTemplate[$propId]['FULL']['START'] = '<div class="bx_item_detail_scu" id="#ITEM#_prop_' . $propId . '_cont">' .
-                '<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
-                    '<div class="bx_scu_scroller_container"><div class="bx_scu"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
-                $skuTemplate[$propId]['FULL']['FINISH'] = '</ul></div>' .
-                    '<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style="display: none;"></div>' .
-                    '<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style="display: none;"></div>' .
-                    '</div></div>';
-                foreach ($arProp['VALUES'] as $value) {
-                    $value['NAME']                               = htmlspecialcharsbx($value['NAME']);
-                    $skuTemplate[$propId]['ITEMS'][$value['ID']] = '<li data-treevalue="' . $propId . '_' . $value['ID'] .
-                        '" data-onevalue="' . $value['ID'] . '" style="width: #WIDTH#; padding-top: #WIDTH#;"><i title="' . $value['NAME'] . '"></i>' .
-                        '<span class="cnt"><span class="cnt_item" style="background-image:url(\'' . $value['PICT']['SRC'] . '\');" title="' . $value['NAME'] . '"></span></span></li>';
-                }
-                unset($value);
-            }
-        }
-        unset($templateRow, $arProp);
-    }
-    }
+				$skuTemplate[$propId]['FULL']['START'] = '<div class="bx_item_detail_size" id="#ITEM#_prop_' . $propId . '_cont">' .
+					'<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
+					'<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
+				$skuTemplate[$propId]['FULL']['FINISH'] = '</ul></div>' .
+					'<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style="display: none;"></div>' .
+					'<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style="display: none;"></div>' .
+					'</div></div>';
+				foreach ($arProp['VALUES'] as $value) {
+					$value['NAME']                               = htmlspecialcharsbx($value['NAME']);
+					$skuTemplate[$propId]['ITEMS'][$value['ID']] = '<li data-treevalue="' . $propId . '_' . $value['ID'] .
+						'" data-onevalue="' . $value['ID'] . '" style="width: #WIDTH#;" title="' . $value['NAME'] . '"><i></i><span class="cnt">' . $value['NAME'] . '</span></li>';
+				}
+				unset($value);
+			} elseif ('PICT' == $arProp['SHOW_MODE']) {
+				$skuTemplate[$propId]['SCROLL']['START'] = '<div class="bx_item_detail_scu full" id="#ITEM#_prop_' . $propId . '_cont">' .
+					'<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
+					'<div class="bx_scu_scroller_container"><div class="bx_scu"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
+				$skuTemplate[$propId]['SCROLL']['FINISH'] = '</ul></div>' .
+					'<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style=""></div>' .
+					'<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style=""></div>' .
+					'</div></div>';
 
-    $intRowsCount = count($arResult['ITEMS']);
-    $strRand      = $this->randString();
-    $strContID    = 'cat_top_cont_' . $strRand;
-	
+				$skuTemplate[$propId]['FULL']['START'] = '<div class="bx_item_detail_scu" id="#ITEM#_prop_' . $propId . '_cont">' .
+					'<span class="bx_item_section_name_gray">' . htmlspecialcharsbx($arProp['NAME']) . '</span>' .
+					'<div class="bx_scu_scroller_container"><div class="bx_scu"><ul id="#ITEM#_prop_' . $propId . '_list" style="width: #WIDTH#;">';
+				$skuTemplate[$propId]['FULL']['FINISH'] = '</ul></div>' .
+					'<div class="bx_slide_left" id="#ITEM#_prop_' . $propId . '_left" data-treevalue="' . $propId . '" style="display: none;"></div>' .
+					'<div class="bx_slide_right" id="#ITEM#_prop_' . $propId . '_right" data-treevalue="' . $propId . '" style="display: none;"></div>' .
+					'</div></div>';
+				foreach ($arProp['VALUES'] as $value) {
+					$value['NAME']                               = htmlspecialcharsbx($value['NAME']);
+					$skuTemplate[$propId]['ITEMS'][$value['ID']] = '<li data-treevalue="' . $propId . '_' . $value['ID'] .
+						'" data-onevalue="' . $value['ID'] . '" style="width: #WIDTH#; padding-top: #WIDTH#;"><i title="' . $value['NAME'] . '"></i>' .
+						'<span class="cnt"><span class="cnt_item" style="background-image:url(\'' . $value['PICT']['SRC'] . '\');" title="' . $value['NAME'] . '"></span></span></li>';
+				}
+				unset($value);
+			}
+		}
+		unset($templateRow, $arProp);
+	}
+}
+
+$intRowsCount = count($arResult['ITEMS']);
+$strRand      = $this->randString();
+$strContID    = 'cat_top_cont_' . $strRand;
+
 ?>
 
-<section class="section catalog section-round-top" id="<? echo $strContID; ?>" >
+<section class="section catalog section-round-top" id="<? echo $strContID; ?>">
 	<div class="container">
 		<div class="heading">
 			<h2>Популярные товары</h2>
@@ -113,61 +115,56 @@ use Bitrix\Catalog\ProductTable;
 
 
 
-		<?
-		$boolFirst = true;
-		$arRowIDs = array();
-		foreach ($arResult['ITEMS'] as $keyRow => $arOneRow)
-		{
-			$strRowID = 'cat-top-'.$keyRow.'_'.$strRand;
-			$arRowIDs[] = $strRowID;
+			<?
+			$boolFirst = true;
+			$arRowIDs = array();
+			foreach ($arResult['ITEMS'] as $keyRow => $arOneRow) {
+				$strRowID = 'cat-top-' . $keyRow . '_' . $strRand;
+				$arRowIDs[] = $strRowID;
 			?>
-			<!-- <div id="<? echo $strRowID; ?>" class="bx_catalog_tile_slide <? echo ($boolFirst ? 'active' : 'notactive'); ?>"> -->
+				<!-- <div id="<? echo $strRowID; ?>" class="bx_catalog_tile_slide <? echo ($boolFirst ? 'active' : 'notactive'); ?>"> -->
 				<?
-				foreach ($arOneRow as $keyItem => $arItem)
-				{
+				foreach ($arOneRow as $keyItem => $arItem) {
 					$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], $strElementEdit);
 					$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], $strElementDelete, $arElementDeleteParams);
 					$strMainID = $this->GetEditAreaId($arItem['ID']);
 					$arItem['CAN_BUY'] = true;
 					$arItemIDs = array(
 						'ID' => $strMainID,
-						'PICT' => $strMainID.'_pict',
-						'SECOND_PICT' => $strMainID.'_secondpict',
-						'MAIN_PROPS' => $strMainID.'_main_props',
+						'PICT' => $strMainID . '_pict',
+						'SECOND_PICT' => $strMainID . '_secondpict',
+						'MAIN_PROPS' => $strMainID . '_main_props',
 
-						'QUANTITY' => $strMainID.'_quantity',
-						'QUANTITY_DOWN' => $strMainID.'_quant_down',
-						'QUANTITY_UP' => $strMainID.'_quant_up',
-						'QUANTITY_MEASURE' => $strMainID.'_quant_measure',
-						'BUY_LINK' => $strMainID.'_buy_link',
-						'BASKET_ACTIONS' => $strMainID.'_basket_actions',
-						'NOT_AVAILABLE_MESS' => $strMainID.'_not_avail',
-						'SUBSCRIBE_LINK' => $strMainID.'_subscribe',
-						'COMPARE_LINK' => $strMainID.'_compare_link',
+						'QUANTITY' => $strMainID . '_quantity',
+						'QUANTITY_DOWN' => $strMainID . '_quant_down',
+						'QUANTITY_UP' => $strMainID . '_quant_up',
+						'QUANTITY_MEASURE' => $strMainID . '_quant_measure',
+						'BUY_LINK' => $strMainID . '_buy_link',
+						'BASKET_ACTIONS' => $strMainID . '_basket_actions',
+						'NOT_AVAILABLE_MESS' => $strMainID . '_not_avail',
+						'SUBSCRIBE_LINK' => $strMainID . '_subscribe',
+						'COMPARE_LINK' => $strMainID . '_compare_link',
 
-						'PRICE' => $strMainID.'_price',
-						'DSC_PERC' => $strMainID.'_dsc_perc',
-						'SECOND_DSC_PERC' => $strMainID.'_second_dsc_perc',
+						'PRICE' => $strMainID . '_price',
+						'DSC_PERC' => $strMainID . '_dsc_perc',
+						'SECOND_DSC_PERC' => $strMainID . '_second_dsc_perc',
 
-						'PROP_DIV' => $strMainID.'_sku_tree',
-						'PROP' => $strMainID.'_prop_',
-						'DISPLAY_PROP_DIV' => $strMainID.'_sku_prop',
-						'BASKET_PROP_DIV' => $strMainID.'_basket_prop'
+						'PROP_DIV' => $strMainID . '_sku_tree',
+						'PROP' => $strMainID . '_prop_',
+						'DISPLAY_PROP_DIV' => $strMainID . '_sku_prop',
+						'BASKET_PROP_DIV' => $strMainID . '_basket_prop'
 					);
 
-					$strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $strMainID);
+					$strObName = 'ob' . preg_replace("/[^a-zA-Z0-9_]/", "x", $strMainID);
 
-					if ($arResult['MODULES']['catalog'] && $arItem['PRODUCT']['TYPE'] === ProductTable::TYPE_SERVICE)
-					{
+					if ($arResult['MODULES']['catalog'] && $arItem['PRODUCT']['TYPE'] === ProductTable::TYPE_SERVICE) {
 						$messageNotAvailable = ($arParams['MESS_NOT_AVAILABLE_SERVICE'] ?: GetMessage('CT_BCT_TPL_MESS_PRODUCT_NOT_AVAILABLE_SERVICE'));
-					}
-					else
-					{
+					} else {
 						$messageNotAvailable = ($arParams['MESS_NOT_AVAILABLE'] ?: GetMessage('CT_BCT_TPL_MESS_PRODUCT_NOT_AVAILABLE'));
 					}
 
 					$productTitle = (
-						isset($arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'])&& $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
+						isset($arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] != ''
 						? $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
 						: $arItem['NAME']
 					);
@@ -180,11 +177,12 @@ use Bitrix\Catalog\ProductTable;
 					$minPrice = false;
 					if (isset($arItem['MIN_PRICE']) || isset($arItem['RATIO_PRICE']))
 						$minPrice = (isset($arItem['RATIO_PRICE']) ? $arItem['RATIO_PRICE'] : $arItem['MIN_PRICE']);
-					?>
+					// printR($arItem);
+				?>
 					<div class="swiper-slide" id="<? echo $strMainID; ?>">
-						<article class="catalog__item card" data-basket-id="<?=$arItem['ID']?>"
-    							data-product-id="<?=$arItem['PRODUCT_ID']?>"> 
-							<button class="btn btn-quad light favourite_btn"> 
+						<article class="catalog__item card" itemscope itemtype="https://schema.org/Product" data-basket-id="<?= $arItem['ID'] ?>"
+							data-product-id="<?= $arItem['PRODUCT_ID'] ?>">
+							<button class="btn btn-quad light favourite_btn" data-item="<?= $arItem['ID'] ?>">
 								<svg
 									width="13" height="12" viewBox="0 0 13 12" fill="none"
 									xmlns="http://www.w3.org/2000/svg">
@@ -197,30 +195,30 @@ use Bitrix\Catalog\ProductTable;
 										d="M3.07848 0L2.73925 0.0398261L2.40637 0.116732L2.08112 0.229343L1.77111 0.379034L1.47635 0.564431L1.20192 0.780041L0.949081 1.02586L0.719116 1.29915L0.519644 1.59716L0.350665 1.91577L0.212177 2.25223L0.105453 2.60243L0.0355747 2.96223L0 3.32753V3.69696L0.0355747 4.06363L0.105453 4.42206L0.212177 4.77226L0.350665 5.10872L0.519644 5.42596L0.719116 5.72534L0.949081 5.99863L6.05015 11.5149C6.29203 11.7765 6.70547 11.7765 6.94741 11.515L12.0509 5.99863L12.2783 5.72534L12.4804 5.42596L12.6493 5.10872L12.7878 4.77226L12.8945 4.42206L12.9644 4.06363L13 3.69696V3.32753L12.9644 2.96223L12.8945 2.60243L12.7878 2.25223L12.6493 1.91577L12.4804 1.59716L12.2783 1.29915L12.0509 1.02586L11.7981 0.780041L11.5237 0.564431L11.2276 0.379034L10.9163 0.229343L10.5936 0.116732L10.2608 0.0398261L9.92152 0H9.58229L9.24433 0.0398261L8.91018 0.116732L8.5862 0.229343L8.27492 0.379034L7.98143 0.564431L7.70573 0.780041L7.45289 1.02586L6.49873 2.05722L5.54711 1.02586L5.29427 0.780041L5.01857 0.564431L4.72381 0.379034L4.41253 0.229343L4.08982 0.116732L3.75567 0.0398261L3.41771 0H3.07848ZM3.08991 0.704509H3.40373L3.71755 0.745708L4.02121 0.826734L4.3147 0.948959L4.59421 1.10552L4.85213 1.29778L5.08718 1.523L6.49873 3.05013L7.91282 1.523L8.14787 1.29778L8.40579 1.10552L8.6853 0.948959L8.97879 0.826734L9.28245 0.745708L9.59627 0.704509H9.90882L10.2214 0.745708L10.525 0.826734L10.8198 0.948959L11.098 1.10552L11.3559 1.29778L11.5923 1.523L11.8006 1.77844L11.9785 2.05722L12.1246 2.35798L12.2364 2.67521L12.3114 3.00481L12.3482 3.34264V3.68185L12.3114 4.01831L12.2364 4.34928L12.1246 4.66789L11.9785 4.96864L11.8006 5.24743L11.5923 5.50011L6.94742 10.5207C6.70548 10.7822 6.29203 10.7822 6.05016 10.5206L1.40774 5.50011L1.19937 5.24743L1.02023 4.96864L0.875391 4.66789L0.763585 4.34928L0.688624 4.01831L0.651779 3.68185V3.34264L0.688624 3.00481L0.763585 2.67521L0.875391 2.35798L1.02023 2.05722L1.19937 1.77844L1.40774 1.523L1.64279 1.29778L1.90197 1.10552L2.17895 0.948959L2.47244 0.826734L2.77864 0.745708L3.08991 0.704509Z"
 										stroke="#191B22" stroke-width="16" mask="url(#path-1-inside-1_350_1421)">
 									</path>
-								</svg> 
-							</button> 
-							<a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>" class="catalog__item_image"> 
-								<img
-									src="<? echo $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $imgTitle; ?>"  width="166" height="252"> 
+								</svg>
+							</button>
+							<a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>" class="catalog__item_image">
+								<img itemprop="image"
+									src="<? echo $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $imgTitle; ?>" width="166" height="252">
 							</a>
 							<div class="catalog__item_content">
-								<div class="catalog__item_tags"> 
+								<div class="catalog__item_tags">
 									<? if ($arItem['DISPLAY_PROPERTIES']['NOVINKA']['VALUE']) : ?><span class="tag filter-tag">Новинка</span><? endif; ?>
 									<!-- <span class="tag filter-tag">Акция</span>  -->
 								</div> <a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"
 									class="catalog__item_title">
-									<h4><? echo $productTitle; ?></h4>
+									<h4 itemprop="name"><? echo $productTitle; ?></h4>
 								</a>
 								<div class="catalog__item_char">
-									<div class="article">Арт. <?=$arItem['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'] ?></div>
+									<div class="article" itemprop="sku">Арт. <?= $arItem['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'] ?></div>
 									<div class="char__list">
-										<div class="char__item"> <span class="char__item_name"><?=$arItem['DISPLAY_PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE'] == 'кг' ? 'Вес' : 'Объем' ?></span>
-											<div class="char__item_value"><?=$arItem['DISPLAY_PROPERTIES']['OBEM_VES_NETTO']['VALUE']?> <?=$arItem['DISPLAY_PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE']?>.</div>
+										<div class="char__item"> <span class="char__item_name"><?= $arItem['DISPLAY_PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE'] == 'кг' ? 'Вес' : 'Объем' ?></span>
+											<div class="char__item_value"><?= $arItem['DISPLAY_PROPERTIES']['OBEM_VES_NETTO']['VALUE'] ?> <?= $arItem['DISPLAY_PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE'] ?>.</div>
 										</div>
 										<!-- <div class="char__item"> <span class="char__item_name">Вес брутто</span>
 											<div class="char__item_value">219,5 кг.</div>
 										</div> -->
-										<div id="<? echo $arItemIDs['PRICE']; ?>" class="char__item">
+										<div id="<? echo $arItemIDs['PRICE']; ?>" class="char__item" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 											<span class="char__item_name">Стоимость</span>
 											<div class="char__item_value">
 												<?
@@ -228,6 +226,10 @@ use Bitrix\Catalog\ProductTable;
 												if ($hasPrice):
 													if ($USER->IsAuthorized()):
 														if (!empty($minPrice)):
+												?>
+															<meta itemprop="priceCurrency" content="<?= $minPrice['CURRENCY'] ?>">
+															<meta itemprop="price" content="<?= $minPrice['DISCOUNT_VALUE'] ?>">
+															<?
 															if ('N' == $arParams['PRODUCT_DISPLAY_MODE'] && isset($arItem['OFFERS']) && !empty($arItem['OFFERS'])):
 																echo GetMessage(
 																	'CT_BCT_TPL_MESS_PRICE_SIMPLE_MODE',
@@ -246,176 +248,191 @@ use Bitrix\Catalog\ProductTable;
 																echo $minPrice['PRINT_DISCOUNT_VALUE'];
 															endif;
 															if ('Y' == $arParams['SHOW_OLD_PRICE'] && $minPrice['DISCOUNT_VALUE'] < $minPrice['VALUE']):
-																?> <span><? echo $minPrice['PRINT_VALUE']; ?></span><?
-															endif;
-														endif;
-														echo $arItem['ITEM_PRICES'][0]['PRINT_PRICE'];
-													else:
-														?>Цена по запросу<?
-													endif;
-												else:
-													?>Цена по запросу<?
-												endif;
-												unset($minPrice);
-												?>
+															?> <span><? echo $minPrice['PRINT_VALUE']; ?></span><?
+																											endif;
+																										endif;
+																										echo $arItem['ITEM_PRICES'][0]['PRINT_PRICE'];
+																									else:
+																												?>Цена по запросу<?
+																																	endif;
+																																else:
+																																		?>Цена по запросу<?
+																																endif;
+																																unset($minPrice);
+																								?>
 											</div>
 										</div>
-										
+
 									</div>
 								</div>
-								<div class="catalog__item_bottom" id="catalog-item-bottom-<?=$arItem['ID']?>">
+								<div class="catalog__item_bottom" id="catalog-item-bottom-<?= $arItem['ID'] ?>">
 									<? if ($arItem['BASKET_QUANTITY']) : ?>
-										<div class="counter"> 
-											<button class="btn btn-quad grey dec"> 
+										<div class="counter">
+											<button class="btn btn-quad grey dec">
 												<svg width="12"
 													height="3" viewBox="0 0 12 3" fill="none"
 													xmlns="http://www.w3.org/2000/svg">
 													<path d="M0 3V0H12V3H0Z" fill="black"></path>
-												</svg> 
-											</button> 
+												</svg>
+											</button>
 											<input type="text" name="<? echo $arParams["PRODUCT_QUANTITY_VARIABLE"]; ?>"
-												class="btn btn-quad counter_value" value="<? echo $arItem['BASKET_QUANTITY']; ?>" data-value="<? echo $arItem['BASKET_QUANTITY']; ?>"> 
+												class="btn btn-quad counter_value" value="<? echo $arItem['BASKET_QUANTITY']; ?>" data-value="<? echo $arItem['BASKET_QUANTITY']; ?>">
 											<button
-												class="btn btn-quad grey inc"> 
+												class="btn btn-quad grey inc">
 												<svg width="12" height="12"
 													viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path
 														d="M5.03736 12V6.96264H0V5.02418H5.03736V0H6.97582V5.02418H12V6.96264H6.97582V12H5.03736Z"
 														fill="black"></path>
-												</svg> 
-											</button> 
-										</div> 
+												</svg>
+											</button>
+										</div>
 									<? endif; ?>
 									<? if ($arItem['BASKET_QUANTITY']) : ?>
-										<button id="<? echo $arItemIDs['BUY_LINK']; ?>" class="btn btn-grey js-remove-to-cart" data-id="<?=$arItem['ID']?>" rel="nofollow">
-										Убрать из корзины
-									</button>
+										<button id="<? echo $arItemIDs['BUY_LINK']; ?>" class="btn btn-grey js-remove-to-cart" data-id="<?= $arItem['ID'] ?>" rel="nofollow">
+											Убрать из корзины
+										</button>
 									<? else : ?>
-									<button id="<? echo $arItemIDs['BUY_LINK']; ?>" class="btn btn-primary js-add-to-cart" data-id="<?=$arItem['ID']?>" rel="nofollow">
-										Добавить в корзину
-									</button>
+										<button id="<? echo $arItemIDs['BUY_LINK']; ?>" class="btn btn-primary js-add-to-cart" data-id="<?= $arItem['ID'] ?>" rel="nofollow">
+											Добавить в корзину
+										</button>
 									<? endif; ?>
 								</div>
 							</div>
 							<div id="<? echo $arItemIDs['BASKET_ACTIONS']; ?>">
-   
-						</div>
+
+							</div>
 
 							<div
 								id="<? echo $arItemIDs['NOT_AVAILABLE_MESS']; ?>"
-								style="display:none;"
-							></div>
+								style="display:none;"></div>
 
 							<div
 								id="<? echo $arItemIDs['PICT']; ?>"
-								style="display:none;"
-							></div>
+								style="display:none;"></div>
 						</article>
 					</div>
 					<?php
-						$arJSParams = array(
-							'PRODUCT_TYPE' => $arItem['PRODUCT']['TYPE'],
-							'SHOW_QUANTITY' => true,
-							'SHOW_ADD_BASKET_BTN' => false,
-							'SHOW_BUY_BTN' => true,
-							'SHOW_ABSENT' => true,
+					$arJSParams = array(
+						'PRODUCT_TYPE' => $arItem['PRODUCT']['TYPE'],
+						'SHOW_QUANTITY' => true,
+						'SHOW_ADD_BASKET_BTN' => false,
+						'SHOW_BUY_BTN' => true,
+						'SHOW_ABSENT' => true,
 
-							'VISUAL' => array(
-								'ID' => $arItemIDs['ID'],
-								'PICT_ID' => $arItemIDs['PICT'],
-								'QUANTITY_ID' => $arItemIDs['QUANTITY'],
-								'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
-								'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
-								'BUY_ID' => $arItemIDs['BUY_LINK'],
-								'BASKET_ACTIONS_ID' => $arItemIDs['BASKET_ACTIONS'],
-								'NOT_AVAILABLE_MESS' => $arItemIDs['NOT_AVAILABLE_MESS'],
-							),
+						'VISUAL' => array(
+							'ID' => $arItemIDs['ID'],
+							'PICT_ID' => $arItemIDs['PICT'],
+							'QUANTITY_ID' => $arItemIDs['QUANTITY'],
+							'QUANTITY_UP_ID' => $arItemIDs['QUANTITY_UP'],
+							'QUANTITY_DOWN_ID' => $arItemIDs['QUANTITY_DOWN'],
+							'BUY_ID' => $arItemIDs['BUY_LINK'],
+							'BASKET_ACTIONS_ID' => $arItemIDs['BASKET_ACTIONS'],
+							'NOT_AVAILABLE_MESS' => $arItemIDs['NOT_AVAILABLE_MESS'],
+						),
 
-							'PRODUCT' => array(
-								'ID' => $arItem['ID'],
-								'NAME' => $productTitle,
-								'PICT' => $arItem['PREVIEW_PICTURE'],
-								'CAN_BUY' => $arItem['CAN_BUY'],
-								'CHECK_QUANTITY' => $arItem['CHECK_QUANTITY'],
-								'MAX_QUANTITY' => $arItem['CATALOG_QUANTITY'],
-								'STEP_QUANTITY' => $arItem['CATALOG_MEASURE_RATIO'],
-								'QUANTITY_FLOAT' => is_double($arItem['CATALOG_MEASURE_RATIO']),
-							),
+						'PRODUCT' => array(
+							'ID' => $arItem['ID'],
+							'NAME' => $productTitle,
+							'PICT' => $arItem['PREVIEW_PICTURE'],
+							'CAN_BUY' => $arItem['CAN_BUY'],
+							'CHECK_QUANTITY' => $arItem['CHECK_QUANTITY'],
+							'MAX_QUANTITY' => $arItem['CATALOG_QUANTITY'],
+							'STEP_QUANTITY' => $arItem['CATALOG_MEASURE_RATIO'],
+							'QUANTITY_FLOAT' => is_double($arItem['CATALOG_MEASURE_RATIO']),
+						),
 
-							'BASKET' => array(
-								'ADD_PROPS' => false,
-								'QUANTITY' => $arParams['PRODUCT_QUANTITY_VARIABLE'],
-								'PROPS' => $arParams['PRODUCT_PROPS_VARIABLE'],
-								'EMPTY_PROPS' => true,
-								'BASKET_URL' => $arParams['~BASKET_URL'],
-								'ADD_URL_TEMPLATE' => $arResult['~ADD_URL_TEMPLATE'],
-								'BUY_URL_TEMPLATE' => $arResult['~BUY_URL_TEMPLATE']
-							)
-						);
+						'BASKET' => array(
+							'ADD_PROPS' => false,
+							'QUANTITY' => $arParams['PRODUCT_QUANTITY_VARIABLE'],
+							'PROPS' => $arParams['PRODUCT_PROPS_VARIABLE'],
+							'EMPTY_PROPS' => true,
+							'BASKET_URL' => $arParams['~BASKET_URL'],
+							'ADD_URL_TEMPLATE' => $arResult['~ADD_URL_TEMPLATE'],
+							'BUY_URL_TEMPLATE' => $arResult['~BUY_URL_TEMPLATE']
+						)
+					);
 					?>
 
 					<!-- <script>
-						//var <?// echo $strObName; ?> = new JCCatalogTopSlider(
-						//	<?// echo CUtil::PhpToJSObject($arJSParams, false, true); ?>
+						//var <? // echo $strObName; 
+								?> = new JCCatalogTopSlider(
+						//	<? // echo CUtil::PhpToJSObject($arJSParams, false, true); 
+								?>
 						//);
 					</script> -->
-					<?
+				<?
 				}
 				?>
-			
-			<!-- </div> -->
-			
+
+				<!-- </div> -->
+
 			<?
-			$boolFirst = false;
-		}
-		?>
+				$boolFirst = false;
+			}
+			?>
 		</div>
-		<div class="catalog__bottom"> 
-			<a href="/catalog/" class="btn btn-light btn-full">Перейти в каталог</a> 
+		<div class="catalog__bottom">
+			<a href="/catalog/" class="btn btn-light btn-full">Перейти в каталог</a>
 		</div>
 	</div>
 	<?
-	if (1 < $intRowsCount)
-	{
+	if (1 < $intRowsCount) {
 		$arJSParams = array(
 			'cont' => $strContID,
 			'left' => array(
-				'id' => $strContID.'_left_arr',
+				'id' => $strContID . '_left_arr',
 				'className' => 'bx_catalog_tile_slider_arrow_left'
 			),
 			'right' => array(
-				'id' => $strContID.'_right_arr',
+				'id' => $strContID . '_right_arr',
 				'className' => 'bx_catalog_tile_slider_arrow_right'
 			),
 			'rows' => $arRowIDs,
 			'rotate' => (0 < $arParams['ROTATE_TIMER']),
 			'rotateTimer' => $arParams['ROTATE_TIMER']
 		);
-		if ('Y' == $arParams['SHOW_PAGINATION'])
-		{
+		if ('Y' == $arParams['SHOW_PAGINATION']) {
 			$arJSParams['pagination'] = array(
-				'id' => $strContID.'_pagination',
+				'id' => $strContID . '_pagination',
 				'className' => 'bx_catalog_tile_slider_pagination'
 			);
 		}
-		?>
+	?>
 		<!-- <script>
-			//var ob<?// echo $strContID; ?> = new JCCatalogTopSliderList(<?// echo CUtil::PhpToJSObject($arJSParams, false, true); ?>);
+			//var ob<? // echo $strContID; 
+					?> = new JCCatalogTopSliderList(<? // echo CUtil::PhpToJSObject($arJSParams, false, true); 
+													?>);
 		</script> -->
-		<?
+	<?
 	}
 	?>
-	
+
 </section>
 <script>
+	function createCounterHTML(id, quantity) {
+		return '<div class="counter">'
+			+ '<button class="btn btn-quad grey dec">'
+			+ '<svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">'
+			+ '<path d="M0 3V0H12V3H0Z" fill="black"></path></svg></button>'
+			+ '<input type="text" name="quantity" class="btn btn-quad counter_value" value="' + quantity + '" data-value="' + quantity + '">'
+			+ '<button class="btn btn-quad grey inc">'
+			+ '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">'
+			+ '<path d="M5.03736 12V6.96264H0V5.02418H5.03736V0H6.97582V5.02418H12V6.96264H6.97582V12H5.03736Z" fill="black"></path>'
+			+ '</svg></button></div>'
+			+ '<button class="btn btn-grey js-remove-to-cart" data-id="' + id + '">Убрать из корзины</button>';
+	}
+
+	function createAddButtonHTML(id) {
+		return '<button class="btn btn-primary js-add-to-cart" data-id="' + id + '">Добавить в корзину</button>';
+	}
+
 	document.addEventListener('click', function(e) {
 		if (e.target.closest('.js-add-to-cart')) {
 			const btn = e.target.closest('.js-add-to-cart');
 			const card = e.target.closest('.card')
 			const cardBottom = card.querySelector('.catalog__item_bottom')
-			// const counter = card.querySelector('[name=quantity]')
-			// const qty = counter.value
-			
+
 			if (!btn) {
 				return;
 			}
@@ -434,30 +451,10 @@ use Bitrix\Catalog\ProductTable;
 					quantity: 1
 				},
 				onsuccess: function(response) {
+					if (response.success) {
+						cardBottom.innerHTML = createCounterHTML(btn.dataset.id, 1);
+					}
 					BX.onCustomEvent('OnBasketChange');
-					BX.ajax({
-						url: location.href,
-						method: 'GET',
-						dataType: 'html',
-						processData: false,
-						onsuccess: (res) => {
-
-							// const newCardBottom = $(res).find(`#${cardBottom.id}`);
-
-							// if (newCardBottom) {
-							// 	$(cardBottom).replaceWith($(newCardBottom));
-							// }
-							const parser = new DOMParser();
-							const doc = parser.parseFromString(res, 'text/html');
-
-							const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
-
-							if (newCardBottom) {
-								cardBottom.replaceWith(newCardBottom);
-							}
-						}
-					})
-					
 				}
 			});
 		}
@@ -465,12 +462,8 @@ use Bitrix\Catalog\ProductTable;
 		if (e.target.closest('.js-remove-to-cart')) {
 			const btn = e.target.closest('.js-remove-to-cart');
 			const card = e.target.closest('.card')
-			const counter = card.querySelector('[name=quantity]')
-			const qty = counter.value
-			const basketId = card.dataset.basketId;
 			const cardBottom = card.querySelector('.catalog__item_bottom')
-			
-			
+
 			if (!btn) {
 				return;
 			}
@@ -487,29 +480,10 @@ use Bitrix\Catalog\ProductTable;
 					id: btn.dataset.id
 				},
 				onsuccess: function(response) {
+					if (response.success) {
+						cardBottom.innerHTML = createAddButtonHTML(btn.dataset.id);
+					}
 					BX.onCustomEvent('OnBasketChange');
-					BX.ajax({
-						url: location.href,
-						method: 'GET',
-						dataType: 'html',
-						processData: false,
-						onsuccess: (res) => {
-
-							// const newCardBottom = $(res).find(`#${cardBottom.id}`);
-
-							// if (newCardBottom) {
-							// 	$(cardBottom).replaceWith($(newCardBottom));
-							// }
-							const parser = new DOMParser();
-							const doc = parser.parseFromString(res, 'text/html');
-
-							const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
-
-							if (newCardBottom) {
-								cardBottom.replaceWith(newCardBottom);
-							}
-						}
-					})
 				}
 			});
 		}
@@ -517,68 +491,35 @@ use Bitrix\Catalog\ProductTable;
 		if (e.target.closest('.dec')) {
 			const btn = e.target.closest('.dec');
 			const card = e.target.closest('.card')
-			const cardBottom = card.querySelector('.catalog__item_bottom')
 			const counter = card.querySelector('[name=quantity]')
-			const qty = counter.value
+			const cardBottom = card.querySelector('.catalog__item_bottom')
 
 			if (!btn) return;
-			btn.disabled = true
 
-			if (qty <= 0) {
-				BX.ajax({
-				url: '/local/ajax/cart.php',
-				method: 'POST',
-				dataType: 'json',
-				data: {
-					action: 'delete',
-					id: card.dataset.basketId
-				},
-				onsuccess: function(response) {
-					BX.onCustomEvent('OnBasketChange');
-					BX.ajax({
-						url: location.href,
-						method: 'GET',
-						dataType: 'html',
-						processData: false,
-						onsuccess: (res) => {
-							btn.disabled = false
-							const parser = new DOMParser();
-							const doc = parser.parseFromString(res, 'text/html');
-							const newCardBottom = doc.querySelector(`#${cardBottom.id}`);
-							if (newCardBottom) {
-								cardBottom.replaceWith(newCardBottom);
-							}
-						}
-					})
-				}
-			});
-			} else {
+			e.preventDefault();
+
+			const currentVal = parseInt(counter.value);
+
+			if (currentVal <= 1) {
 				BX.ajax({
 					url: '/local/ajax/cart.php',
 					method: 'POST',
 					dataType: 'json',
 					data: {
-						action: 'update',
-						id: card.dataset.basketId,
-						quantity: qty
+						action: 'delete',
+						id: card.dataset.basketId
 					},
 					onsuccess: function(response) {
+						if (response.success) {
+							cardBottom.innerHTML = createAddButtonHTML(card.dataset.basketId);
+						}
 						BX.onCustomEvent('OnBasketChange');
-						btn.disabled = false
 					}
 				});
+				return;
 			}
-		}
 
-		if (e.target.closest('.inc')) {
-			const btn = e.target.closest('.inc');
-			const card = e.target.closest('.card')
-			const cardBottom = card.querySelector('.catalog__item_bottom')
-			const counter = card.querySelector('[name=quantity]')
-			const qty = counter.value
-
-			if (!btn) return;
-			btn.disabled = true
+			counter.value = currentVal - 1;
 
 			BX.ajax({
 				url: '/local/ajax/cart.php',
@@ -587,14 +528,44 @@ use Bitrix\Catalog\ProductTable;
 				data: {
 					action: 'update',
 					id: card.dataset.basketId,
-					quantity: qty
+					quantity: counter.value
 				},
 				onsuccess: function(response) {
+					if (response.success) {
+						counter.setAttribute('data-value', counter.value);
+					}
 					BX.onCustomEvent('OnBasketChange');
-					btn.disabled = false
-				},
+				}
 			});
 		}
-		
-	});
+
+		if (e.target.closest('.inc')) {
+			const btn = e.target.closest('.inc');
+			const card = e.target.closest('.card')
+			const counter = card.querySelector('[name=quantity]')
+
+			if (!btn) return;
+
+			e.preventDefault();
+
+			counter.value++
+
+			BX.ajax({
+				url: '/local/ajax/cart.php',
+				method: 'POST',
+				dataType: 'json',
+				data: {
+					action: 'update',
+					id: card.dataset.basketId,
+					quantity: counter.value
+				},
+				onsuccess: function(response) {
+					if (response.success) {
+						counter.setAttribute('data-value', counter.value);
+					}
+					BX.onCustomEvent('OnBasketChange');
+				}
+			});
+		}
+	})
 </script>

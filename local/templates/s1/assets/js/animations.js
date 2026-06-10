@@ -42,11 +42,12 @@ function initCounters() {
 function animateNumber(el, target) {
 	var isFloat = target % 1 !== 0;
 	var duration = Math.min(Math.max(target * 0.02, 0.8), 3);
+	var suffix = el.textContent.replace(/^[\d\s.,]+/, "");
 	var start = { val: 0 };
 	gsap.to(start, {
 		val: target, duration: duration, ease: "power2.out",
 		onUpdate: function () {
-			el.textContent = isFloat ? start.val.toFixed(1) : Math.round(start.val).toString();
+			el.textContent = (isFloat ? start.val.toFixed(1) : Math.round(start.val).toString()) + suffix;
 		},
 	});
 }

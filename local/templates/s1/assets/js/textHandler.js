@@ -68,13 +68,13 @@ function textHandler() {
 	collectTextNodes(root);
 
 	function processQueue() {
-		var startTime = Date.now();
+		var startTime = new Date().getTime();
 		while (allNodes.length > 0) {
 			var node = allNodes.shift();
 			var originalValue = node.nodeValue;
 			var result = tp.execute(originalValue);
 			if (originalValue !== result) node.nodeValue = result;
-			if (Date.now() - startTime > 50) {
+			if (new Date().getTime() - startTime > 50) {
 				setTimeout(processQueue, 10);
 				return;
 			}
@@ -82,26 +82,4 @@ function textHandler() {
 	}
 
 	processQueue();
-}
-
-function splitTitles() {
-	var titles = document.querySelectorAll(".h1, .h2, .h3");
-	Array.from(titles).forEach(function (h) {
-		if (h.classList.contains("is-splitted")) return;
-		var rows = h.innerHTML.trim().split("<br>");
-		h.textContent = "";
-		rows.forEach(function (row) {
-			var words = row.split(" ");
-			words.forEach(function (word, i) {
-				var container = document.createElement("span");
-				container.className = "title-anim-container";
-				var content = document.createElement("span");
-				content.className = "title-anim-content";
-				content.innerHTML = i === words.length - 1 ? word : word + "&nbsp;";
-				container.appendChild(content);
-				h.appendChild(container);
-			});
-			h.appendChild(document.createElement("br"));
-		});
-	});
 }

@@ -1,3 +1,19 @@
+/* ---------- SCROLL ---------- */
+function scrollTopHide(selector) {
+	var elem = document.querySelector(selector);
+	if (elem) elem.classList.remove("show");
+}
+function scrollTopShow(selector) {
+	var elem = document.querySelector(selector);
+	if (elem) elem.classList.add("show");
+}
+function showFixedHeader() {
+	$(".head.fixed").css({ transition: "all 0.7s" }).addClass("show").removeClass("hide");
+}
+function hideFixedHeader() {
+	$(".head.fixed").css({ transition: "all 0.4s" }).removeClass("show").addClass("hide");
+}
+
 /* ---------- POPUP ---------- */
 function openPopup(selector) {
 	var popup = $(selector);
@@ -83,12 +99,32 @@ function toggleDropdown() {
 					var defaultTitle = title.dataset.defaultTitle || "";
 					textEl.textContent = values.length ? values.join(", ") : defaultTitle;
 					if (restEl) {
-						restEl.textContent = "";
-						restEl.style.display = "none";
+						var fitCount = 0;
+						var testText = "";
+						for (var i = 0; i < values.length; i++) {
+							var candidate = i === 0 ? values[i] : testText + ", " + values[i];
+							textEl.textContent = candidate;
+							if (textEl.scrollWidth > textEl.clientWidth) break;
+							testText = candidate;
+							fitCount = i + 1;
+						}
+						var rest = values.length - fitCount;
+						if (rest > 0) {
+							textEl.textContent = testText;
+							restEl.textContent = "+" + rest;
+						}
+						restEl.style.display = rest > 0 ? "inline-block" : "none";
 					}
 				} else {
 					var text = e.currentTarget.querySelector("span.text").textContent;
-					title.querySelector("span.text").textContent = text;
+					if (window.innerWidth <= 1650) {
+						var valueEl = title.querySelector("span.text .catalog__sort_value");
+						if (valueEl) {
+							valueEl.textContent = text;
+						} else {
+							title.querySelector("span.text").textContent = text;
+						}
+					}
 					dropdown.classList.remove("active");
 				}
 			});

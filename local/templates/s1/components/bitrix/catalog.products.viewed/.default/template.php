@@ -149,9 +149,9 @@ $containerName = 'catalog-products-viewed-container';
 							);
 							?>
 							<div class="swiper-slide" id="<? echo $strMainID; ?>">
-								<article class="catalog__item card" data-basket-id="<?=$item['ID']?>"
+								<article class="catalog__item card" itemscope itemtype="https://schema.org/Product" data-basket-id="<?=$item['ID']?>"
 										data-product-id="<?=$item['PRODUCT_ID']?>"> 
-									<button class="btn btn-quad light favourite_btn"> 
+									<button class="btn btn-quad light favourite_btn" data-item="<?=$item['ID']?>"> 
 										<svg
 											width="13" height="12" viewBox="0 0 13 12" fill="none"
 											xmlns="http://www.w3.org/2000/svg">
@@ -167,7 +167,7 @@ $containerName = 'catalog-products-viewed-container';
 										</svg> 
 									</button> 
 									<a href="<? echo $item['DETAIL_PAGE_URL']; ?>" class="catalog__item_image"> 
-										<img
+										<img itemprop="image"
 											src="<? echo $item['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $imgTitle; ?>"  width="166" height="252"> 
 									</a>
 									<div class="catalog__item_content">
@@ -176,10 +176,10 @@ $containerName = 'catalog-products-viewed-container';
 											<!-- <span class="tag filter-tag">Акция</span>  -->
 										</div> <a href="<? echo $item['DETAIL_PAGE_URL']; ?>"
 											class="catalog__item_title">
-											<h4><? echo $productTitle; ?></h4>
+											<h4 itemprop="name"><? echo $productTitle; ?></h4>
 										</a>
 										<div class="catalog__item_char">
-											<div class="article">Арт. <?=$item['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'] ?></div>
+											<div class="article" itemprop="sku">Арт. <?=$item['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'] ?></div>
 											<div class="char__list">
 												<div class="char__item"> <span class="char__item_name"><?=$item['DISPLAY_PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE'] == 'кг' ? 'Вес' : 'Объем' ?></span>
 													<div class="char__item_value"><?=$item['DISPLAY_PROPERTIES']['OBEM_VES_NETTO']['VALUE']?> <?=$item['DISPLAY_PROPERTIES']['EDINITSA_IZMERENIYA_OBEMA_VESA_NETTO']['VALUE']?>.</div>
@@ -187,7 +187,7 @@ $containerName = 'catalog-products-viewed-container';
 												<!-- <div class="char__item"> <span class="char__item_name">Вес брутто</span>
 													<div class="char__item_value">219,5 кг.</div>
 												</div> -->
-												<div id="<? echo $itemIDs['PRICE']; ?>" class="char__item">
+												<div id="<? echo $itemIDs['PRICE']; ?>" class="char__item" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 													<span class="char__item_name">Стоимость</span>
 													<div class="char__item_value">
 														<?
@@ -195,6 +195,10 @@ $containerName = 'catalog-products-viewed-container';
 														if ($hasPrice):
 															if ($USER->IsAuthorized()):
 																if (!empty($minPrice)):
+																	?>
+																	<meta itemprop="priceCurrency" content="<?=$minPrice['CURRENCY']?>">
+																	<meta itemprop="price" content="<?=$minPrice['DISCOUNT_VALUE']?>">
+																	<?
 																	if ('N' == $arParams['PRODUCT_DISPLAY_MODE'] && isset($item['OFFERS']) && !empty($item['OFFERS'])):
 																		echo GetMessage(
 																			'CT_BCT_TPL_MESS_PRICE_SIMPLE_MODE',
