@@ -80,16 +80,14 @@ if ($USER->IsAuthorized() && Loader::includeModule('sale')) {
     ]);
     while ($orderData = $orderRes->fetch()) {
         $statusName = 'Неизвестно';
-        $status = Sale\OrderStatus::getList([
-            'filter' => ['ID' => $orderData['STATUS_ID']],
-            'select' => ['ID', 'NAME'],
-        ])->fetch();
+        $status = CSaleStatus::GetByID($orderData['STATUS_ID']);
         if ($status) {
             $statusName = $status['NAME'];
         }
 
         $basketItemsOrder = [];
-        $basket = Sale\Basket::loadItemsForOrder($orderData['ID']);
+        $orderObj = Sale\Order::load($orderData['ID']);
+        $basket = $orderObj ? $orderObj->getBasket() : [];
         foreach ($basket as $basketItem) {
             $itemImg = '';
             $productId = $basketItem->getProductId();
@@ -244,7 +242,7 @@ if ($action && $action['ACTIVE_TO']) {
     </div>
 <?php } ?>
 <?php if (!empty($orders)) { ?>
-    <div class="personal__item white">
+    <!-- <div class="personal__item white">
         <div class="personal__item_heading">
             <h5>История покупок</h5>
         </div>
@@ -326,7 +324,7 @@ if ($action && $action['ACTIVE_TO']) {
                 <?php } ?>
             </div>
         </div>
-    </div>
+    </div> -->
 <?php } ?>
 <?
 //  $APPLICATION->IncludeComponent(

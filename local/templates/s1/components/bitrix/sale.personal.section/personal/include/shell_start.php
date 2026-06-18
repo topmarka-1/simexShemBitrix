@@ -6,6 +6,7 @@ global $USER, $APPLICATION;
 $isAjax = ($_SERVER['HTTP_X_BX_AJAX'] ?? '') === 'Y';
 if ($isAjax) return;
 
+$APPLICATION->SetAdditionalCSS('/local/components/custom/favorites.elements/templates/.default/style.css');
 ?>
 <div class="personal section anim-fade-in-up">
     <div class="container">

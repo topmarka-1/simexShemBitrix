@@ -2456,6 +2456,17 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				this.deliveryBlockNode.style.display = 'none';
 			}
 
+			if (this.result.PAY_SYSTEM && this.result.PAY_SYSTEM.length > 0)
+			{
+				BX.addClass(this.paySystemBlockNode, 'bx-active');
+				this.paySystemBlockNode.removeAttribute('style');
+			}
+			else
+			{
+				BX.removeClass(this.paySystemBlockNode, 'bx-active');
+				this.paySystemBlockNode.style.display = 'none';
+			}
+
 			this.orderSaveBlockNode.style.display = this.result.SHOW_AUTH ? 'none' : '';
 			this.mobileTotalBlockNode.style.display = this.result.SHOW_AUTH ? 'none' : '';
 
@@ -3276,23 +3287,28 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.basket)
 			{
-				this.basketHiddenBlockNode.appendChild(BX.lastChild(node));
-				node.appendChild(BX.firstChild(this.basketHiddenBlockNode));
-			}
-			else
-			{
-				basketContent = node.querySelector('.bx-soa-section-content');
-				basketTable = BX.create('DIV', {props: {className: 'bx-soa-item-table'}});
-
-				if (!basketContent)
+				var lastChild = BX.lastChild(node);
+				if (BX.type.isDomNode(lastChild))
 				{
-					basketContent = this.getNewContainer();
-					node.appendChild(basketContent);
+					this.basketHiddenBlockNode.appendChild(lastChild);
+					var firstHidden = BX.firstChild(this.basketHiddenBlockNode);
+					if (BX.type.isDomNode(firstHidden))
+						node.appendChild(firstHidden);
 				}
 				else
 				{
-					BX.cleanNode(basketContent);
+					this.initialized.basket = false;
+					return this.editActiveBasketBlock(activeNodeMode);
 				}
+			}
+			else
+			{
+				var oldBasketContents = node.querySelectorAll('.bx-soa-section-content');
+				for (var bi = 0; bi < oldBasketContents.length; bi++)
+					BX.remove(oldBasketContents[bi]);
+				basketContent = this.getNewContainer();
+				node.appendChild(basketContent);
+				basketTable = BX.create('DIV', {props: {className: 'bx-soa-item-table'}});
 
 				this.editBasketItems(basketTable, true);
 
@@ -3332,8 +3348,12 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.basket)
 			{
-				this.basketHiddenBlockNode.appendChild(node.querySelector('.bx-soa-section-content'));
-				this.basketBlockNode.appendChild(BX.firstChild(this.basketHiddenBlockNode));
+				var basketContent = node.querySelector('.bx-soa-section-content');
+				if (BX.type.isDomNode(basketContent))
+					this.basketHiddenBlockNode.appendChild(basketContent);
+				var firstHidden = BX.firstChild(this.basketHiddenBlockNode);
+				if (BX.type.isDomNode(firstHidden))
+					this.basketBlockNode.appendChild(firstHidden);
 			}
 			else
 			{
@@ -4256,19 +4276,25 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.region)
 			{
-				BX.remove(BX.lastChild(node));
-				node.appendChild(BX.firstChild(this.regionHiddenBlockNode));
+				var lastChild = BX.lastChild(node);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
+				var firstHidden = BX.firstChild(this.regionHiddenBlockNode);
+				if (BX.type.isDomNode(firstHidden))
+					node.appendChild(firstHidden);
+				else
+				{
+					this.initialized.region = false;
+					this.editActiveRegionBlock(activeNodeMode);
+				}
 			}
 			else
 			{
-				regionContent = node.querySelector('.bx-soa-section-content');
-				if (!regionContent)
-				{
-					regionContent = this.getNewContainer();
-					node.appendChild(regionContent);
-				}
-				else
-					BX.cleanNode(regionContent);
+				var oldRegContents = node.querySelectorAll('.bx-soa-section-content');
+				for (var ri = 0; ri < oldRegContents.length; ri++)
+					BX.remove(oldRegContents[ri]);
+				regionContent = this.getNewContainer();
+				node.appendChild(regionContent);
 
 				this.getErrorContainer(regionContent);
 
@@ -4310,12 +4336,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.region)
 			{
-				this.regionHiddenBlockNode.appendChild(regionContent);
+				if (BX.type.isDomNode(regionContent))
+					this.regionHiddenBlockNode.appendChild(regionContent);
 			}
 			else
 			{
 				this.editActiveRegionBlock(false);
-				BX.remove(BX.lastChild(this.regionBlockNode));
+				var lastChild = BX.lastChild(this.regionBlockNode);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
 			}
 
 			newContent = this.getNewContainer(true);
@@ -4401,8 +4430,10 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 					BX.removeClass(this.regionBlockNode, 'bx-step-error');
 			}
 
-			BX.bind(node.querySelector('.alert.alert-danger'), 'click', BX.proxy(this.showByClick, this));
-			BX.bind(node.querySelector('.alert.alert-warning'), 'click', BX.proxy(this.showByClick, this));
+			var alertDanger = node.querySelector('.alert.alert-danger');
+			if (alertDanger) BX.bind(alertDanger, 'click', BX.proxy(this.showByClick, this));
+			var alertWarning = node.querySelector('.alert.alert-warning');
+			if (alertWarning) BX.bind(alertWarning, 'click', BX.proxy(this.showByClick, this));
 		},
 
 		getSelectedPersonType: function()
@@ -4884,19 +4915,25 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.paySystem)
 			{
-				BX.remove(BX.lastChild(node));
-				node.appendChild(BX.firstChild(this.paySystemHiddenBlockNode));
+				var lastChild = BX.lastChild(node);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
+				var firstHidden = BX.firstChild(this.paySystemHiddenBlockNode);
+				if (BX.type.isDomNode(firstHidden))
+					node.appendChild(firstHidden);
+				else
+				{
+					this.initialized.paySystem = false;
+					this.editActivePaySystemBlock(activeNodeMode);
+				}
 			}
 			else
 			{
-				paySystemContent = node.querySelector('.bx-soa-section-content');
-				if (!paySystemContent)
-				{
-					paySystemContent = this.getNewContainer();
-					node.appendChild(paySystemContent);
-				}
-				else
-					BX.cleanNode(paySystemContent);
+				var oldPsContents = node.querySelectorAll('.bx-soa-section-content');
+				for (var pi = 0; pi < oldPsContents.length; pi++)
+					BX.remove(oldPsContents[pi]);
+				paySystemContent = this.getNewContainer();
+				node.appendChild(paySystemContent);
 
 				this.getErrorContainer(paySystemContent);
 				paySystemNode = BX.create('DIV', {props: {className: 'bx-soa-pp row'}});
@@ -4917,12 +4954,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.paySystem)
 			{
-				this.paySystemHiddenBlockNode.appendChild(paySystemContent);
+				if (BX.type.isDomNode(paySystemContent))
+					this.paySystemHiddenBlockNode.appendChild(paySystemContent);
 			}
 			else
 			{
 				this.editActivePaySystemBlock(false);
-				BX.remove(BX.lastChild(this.paySystemBlockNode));
+				var lastChild = BX.lastChild(this.paySystemBlockNode);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
 			}
 
 			newContent = this.getNewContainer(true);
@@ -5226,8 +5266,10 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			node.innerHTML += addedHtml;
 
 			node.appendChild(BX.create('DIV', {style: {clear: 'both'}}));
-			BX.bind(node.querySelector('.alert.alert-danger'), 'click', BX.proxy(this.showByClick, this));
-			BX.bind(node.querySelector('.alert.alert-warning'), 'click', BX.proxy(this.showByClick, this));
+			var alertDangerPs = node.querySelector('.alert.alert-danger');
+			if (alertDangerPs) BX.bind(alertDangerPs, 'click', BX.proxy(this.showByClick, this));
+			var alertWarningPs = node.querySelector('.alert.alert-warning');
+			if (alertWarningPs) BX.bind(alertWarningPs, 'click', BX.proxy(this.showByClick, this));
 		},
 
 		getSelectedPaySystem: function()
@@ -5342,6 +5384,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			this.checkPickUpShow();
 
 			this.initialized.delivery = true;
+
+			this.updateDeliveryAddressField();
 		},
 
 		editActiveDeliveryBlock: function(activeNodeMode)
@@ -5351,19 +5395,27 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.delivery)
 			{
-				BX.remove(BX.lastChild(node));
-				node.appendChild(BX.firstChild(this.deliveryHiddenBlockNode));
+				var lastChild = BX.lastChild(node);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
+				var firstHidden = BX.firstChild(this.deliveryHiddenBlockNode);
+				if (BX.type.isDomNode(firstHidden))
+				{
+					node.appendChild(firstHidden);
+				}
+				else
+				{
+					this.initialized.delivery = false;
+					this.editActiveDeliveryBlock(activeNodeMode);
+				}
 			}
 			else
 			{
-				deliveryContent = node.querySelector('.bx-soa-section-content');
-				if (!deliveryContent)
-				{
-					deliveryContent = this.getNewContainer();
-					node.appendChild(deliveryContent);
-				}
-				else
-					BX.cleanNode(deliveryContent);
+				var oldDelContents = node.querySelectorAll('.bx-soa-section-content');
+				for (var di = 0; di < oldDelContents.length; di++)
+					BX.remove(oldDelContents[di]);
+				deliveryContent = this.getNewContainer();
+				node.appendChild(deliveryContent);
 
 				this.getErrorContainer(deliveryContent);
 
@@ -5406,7 +5458,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			var deliveryInfoContainer = BX.create('DIV', {props: {className: 'col-sm-5 bx-soa-pp-desc-container'}}),
 				currentDelivery, logotype, name, logoNode,
-				subTitle, label, title, price, period,
+				subTitle, label, title, period,
 				clear, infoList, extraServices, extraServicesNode;
 
 			BX.cleanNode(deliveryInfoContainer);
@@ -5451,22 +5503,6 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				]
 			});
 
-			if (currentDelivery.PRICE >= 0)
-			{
-				price = BX.create('LI', {
-					children: [
-						BX.create('DIV', {
-							props: {className: 'bx-soa-pp-list-termin'},
-							html: this.params.MESS_PRICE + ':'
-						}),
-						BX.create('DIV', {
-							props: {className: 'bx-soa-pp-list-description'},
-							children: this.getDeliveryPriceNodes(currentDelivery)
-						})
-					]
-				});
-			}
-
 			if (currentDelivery.PERIOD_TEXT && currentDelivery.PERIOD_TEXT.length)
 			{
 				period = BX.create('LI', {
@@ -5478,7 +5514,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 
 			clear = BX.create('DIV', {style: {clear: 'both'}});
-			infoList = BX.create('UL', {props: {className: 'bx-soa-pp-list'}, children: [price, period]});
+			infoList = BX.create('UL', {props: {className: 'bx-soa-pp-list'}, children: [period]});
 			extraServices = this.getDeliveryExtraServices(currentDelivery);
 
 			if (extraServices.length)
@@ -5501,28 +5537,69 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				this.deliveryCachedInfo[currentDelivery.ID] = currentDelivery;
 		},
 
+		updateDeliveryAddressField: function()
+		{
+			var addressId = this.getAddressPropertyId();
+			if (!addressId) return;
+
+			var currentDelivery = this.getSelectedDelivery();
+			var isPickup = currentDelivery && currentDelivery.STORE && currentDelivery.STORE.length > 0;
+
+			var addressWrap = BX('bx-soa-delivery-address-wrap');
+			if (!addressWrap)
+			{
+				if (isPickup) return;
+				addressWrap = BX.create('DIV', {
+					props: {id: 'bx-soa-delivery-address-wrap', className: 'bx-soa-delivery-address-wrap'}
+				});
+				this.deliveryBlockNode.appendChild(addressWrap);
+
+				var addressProperty = null, group, property, groupIterator = this.propertyCollection.getGroupIterator(), propsIterator;
+				while (group = groupIterator())
+				{
+					propsIterator = group.getIterator();
+					while (property = propsIterator())
+					{
+						if (property.getId() == addressId)
+						{
+							addressProperty = property;
+							break;
+						}
+					}
+					if (addressProperty) break;
+				}
+				if (!addressProperty) return;
+
+				var addressGroup = BX.create('DIV', {
+					props: {className: 'form-group'}
+				});
+
+				var labelText = addressProperty.isRequired()
+					? '<span class="bx-authform-starrequired">*</span> '
+					: '';
+				labelText += BX.util.htmlspecialchars(addressProperty.getName());
+
+				var label = BX.create('LABEL', {
+					attrs: {'for': 'soa-property-' + addressId},
+					props: {className: 'bx-soa-custom-label'},
+					html: labelText
+				});
+				addressGroup.appendChild(label);
+
+				var controlContainer = BX.create('DIV', {
+					props: {className: 'soa-property-container'}
+				});
+				addressProperty.appendTo(controlContainer);
+				addressGroup.appendChild(controlContainer);
+				addressWrap.appendChild(addressGroup);
+			}
+
+			addressWrap.style.display = isPickup ? 'none' : '';
+		},
+
 		getDeliveryPriceNodes: function(delivery)
 		{
-			var priceNodesArray;
-
-			if (typeof delivery.DELIVERY_DISCOUNT_PRICE !== 'undefined'
-				&& parseFloat(delivery.DELIVERY_DISCOUNT_PRICE) != parseFloat(delivery.PRICE))
-			{
-				if (parseFloat(delivery.DELIVERY_DISCOUNT_PRICE) > parseFloat(delivery.PRICE))
-					priceNodesArray = [delivery.DELIVERY_DISCOUNT_PRICE_FORMATED];
-				else
-					priceNodesArray = [
-						delivery.DELIVERY_DISCOUNT_PRICE_FORMATED,
-						BX.create('BR'),
-						BX.create('SPAN', {props: {className: 'bx-price-old'}, html: delivery.PRICE_FORMATED})
-					];
-			}
-			else
-			{
-				priceNodesArray = [delivery.PRICE_FORMATED];
-			}
-
-			return priceNodesArray;
+			return [];
 		},
 
 		getDeliveryExtraServices: function(delivery)
@@ -5596,12 +5673,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.delivery)
 			{
-				this.deliveryHiddenBlockNode.appendChild(deliveryContent);
+				if (BX.type.isDomNode(deliveryContent))
+					this.deliveryHiddenBlockNode.appendChild(deliveryContent);
 			}
 			else
 			{
 				this.editActiveDeliveryBlock(false);
-				BX.remove(BX.lastChild(this.deliveryBlockNode));
+				var lastChild = BX.lastChild(this.deliveryBlockNode);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
 			}
 
 			newContent = this.getNewContainer(true);
@@ -5647,27 +5727,6 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				logoNode.setAttribute('style', 'background-image: url("' + logotype + '");');
 			}
 			labelNodes.push(logoNode);
-
-			if (item.PRICE >= 0 || typeof item.DELIVERY_DISCOUNT_PRICE !== 'undefined')
-			{
-				labelNodes.push(
-					BX.create('DIV', {
-						props: {className: 'bx-soa-pp-delivery-cost'},
-						html: typeof item.DELIVERY_DISCOUNT_PRICE !== 'undefined'
-							? item.DELIVERY_DISCOUNT_PRICE_FORMATED
-							: item.PRICE_FORMATED})
-				);
-			}
-			else if (deliveryCached && (deliveryCached.PRICE >= 0 || typeof deliveryCached.DELIVERY_DISCOUNT_PRICE !== 'undefined'))
-			{
-				labelNodes.push(
-					BX.create('DIV', {
-						props: {className: 'bx-soa-pp-delivery-cost'},
-						html: typeof deliveryCached.DELIVERY_DISCOUNT_PRICE !== 'undefined'
-							? deliveryCached.DELIVERY_DISCOUNT_PRICE_FORMATED
-							: deliveryCached.PRICE_FORMATED})
-				);
-			}
 
 			label = BX.create('DIV', {
 				props: {
@@ -5747,19 +5806,25 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 						children: arNodes
 					})
 				);
-				node.appendChild(
-					BX.create('DIV', {
-						props: {className: 'col-sm-3 bx-soa-pp-price'},
-						children: this.getDeliveryPriceNodes(selectedDelivery)
-					})
-				);
+				var priceChildren = this.getDeliveryPriceNodes(selectedDelivery);
+				if (priceChildren.length)
+				{
+					node.appendChild(
+						BX.create('DIV', {
+							props: {className: 'col-sm-3 bx-soa-pp-price'},
+							children: priceChildren
+						})
+					);
+				}
 			}
 			else
 				node.appendChild(BX.create('STRONG', {text: BX.message('SOA_DELIVERY_SELECT_ERROR')}));
 
 			node.appendChild(BX.create('DIV', {style: {clear: 'both'}}));
-			BX.bind(node.querySelector('.alert.alert-danger'), 'click', BX.proxy(this.showByClick, this));
-			BX.bind(node.querySelector('.alert.alert-warning'), 'click', BX.proxy(this.showByClick, this));
+			var alertDanger3 = node.querySelector('.alert.alert-danger');
+			if (alertDanger3) BX.bind(alertDanger3, 'click', BX.proxy(this.showByClick, this));
+			var alertWarning3 = node.querySelector('.alert.alert-warning');
+			if (alertWarning3) BX.bind(alertWarning3, 'click', BX.proxy(this.showByClick, this));
 		},
 
 		selectDelivery: function(event)
@@ -5893,13 +5958,11 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			}
 			else
 			{
-				pickUpContent = node.querySelector('.bx-soa-section-content');
-				if (!pickUpContent)
-				{
-					pickUpContent = this.getNewContainer();
-					node.appendChild(pickUpContent);
-				}
-				BX.cleanNode(pickUpContent);
+				var oldPickContents = node.querySelectorAll('.bx-soa-section-content');
+				for (var pui = 0; pui < oldPickContents.length; pui++)
+					BX.remove(oldPickContents[pui]);
+				pickUpContent = this.getNewContainer();
+				node.appendChild(pickUpContent);
 
 				pickUpContentCol = BX.create('DIV', {props: {className: 'col-xs-12'}});
 				this.editPickUpMap(pickUpContentCol);
@@ -5929,12 +5992,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.pickup)
 			{
-				this.pickUpHiddenBlockNode.appendChild(pickUpContent);
+				if (BX.type.isDomNode(pickUpContent))
+					this.pickUpHiddenBlockNode.appendChild(pickUpContent);
 			}
 			else
 			{
 				this.editActivePickUpBlock(false);
-				BX.remove(BX.lastChild(this.pickUpBlockNode));
+				var lastChild = BX.lastChild(this.pickUpBlockNode);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
 			}
 
 			newContent = this.getNewContainer();
@@ -6551,7 +6617,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			if (!this.propsBlockNode || !this.propsHiddenBlockNode || !this.result.ORDER_PROP)
 				return;
 
-			if (active)
+			if (active || !this.result.SHOW_AUTH)
 				this.editActivePropsBlock(true);
 			else
 				this.editFadePropsBlock();
@@ -6566,20 +6632,26 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.props)
 			{
-				BX.remove(BX.lastChild(node));
-				node.appendChild(BX.firstChild(this.propsHiddenBlockNode));
+				var lastChild = BX.lastChild(node);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
+				var firstHidden = BX.firstChild(this.propsHiddenBlockNode);
+				if (BX.type.isDomNode(firstHidden))
+					node.appendChild(firstHidden);
+				else
+				{
+					this.initialized.props = false;
+					this.editActivePropsBlock(activeNodeMode);
+				}
 				this.maps && setTimeout(BX.proxy(this.maps.propsMapFocusWaiter, this.maps), 200);
 			}
 			else
 			{
-				propsContent = node.querySelector('.bx-soa-section-content');
-				if (!propsContent)
-				{
-					propsContent = this.getNewContainer();
-					node.appendChild(propsContent);
-				}
-				else
-					BX.cleanNode(propsContent);
+				var oldPropsContents = node.querySelectorAll('.bx-soa-section-content');
+				for (var pri = 0; pri < oldPropsContents.length; pri++)
+					BX.remove(oldPropsContents[pri]);
+				propsContent = this.getNewContainer();
+				node.appendChild(propsContent);
 
 				this.getErrorContainer(propsContent);
 
@@ -6629,12 +6701,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (this.initialized.props)
 			{
-				this.propsHiddenBlockNode.appendChild(propsContent);
+				if (BX.type.isDomNode(propsContent))
+					this.propsHiddenBlockNode.appendChild(propsContent);
 			}
 			else
 			{
 				this.editActivePropsBlock(false);
-				BX.remove(BX.lastChild(this.propsBlockNode));
+				var lastChild = BX.lastChild(this.propsBlockNode);
+				if (BX.type.isDomNode(lastChild))
+					BX.remove(lastChild);
 			}
 
 			newContent = this.getNewContainer();
@@ -6690,8 +6765,33 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 					this.showError(this.propsBlockNode, validPropsErrors);
 			}
 
-			BX.bind(node.querySelector('.alert.alert-danger'), 'click', BX.proxy(this.showByClick, this));
-			BX.bind(node.querySelector('.alert.alert-warning'), 'click', BX.proxy(this.showByClick, this));
+			var alertDanger2 = node.querySelector('.alert.alert-danger');
+			if (alertDanger2) BX.bind(alertDanger2, 'click', BX.proxy(this.showByClick, this));
+			var alertWarning2 = node.querySelector('.alert.alert-warning');
+			if (alertWarning2) BX.bind(alertWarning2, 'click', BX.proxy(this.showByClick, this));
+		},
+
+		getAddressPropertyId: function()
+		{
+			if (this.addressPropertyId !== undefined)
+				return this.addressPropertyId;
+
+			this.addressPropertyId = 0;
+			if (this.result.ORDER_PROP && this.result.ORDER_PROP.properties)
+			{
+				for (var pId in this.result.ORDER_PROP.properties)
+				{
+					if (
+						this.result.ORDER_PROP.properties.hasOwnProperty(pId)
+						&& this.result.ORDER_PROP.properties[pId].CODE === 'ADDRESS'
+					)
+					{
+						this.addressPropertyId = parseInt(this.result.ORDER_PROP.properties[pId].ID);
+						break;
+					}
+				}
+			}
+			return this.addressPropertyId;
 		},
 
 		editPropsItems: function(propsNode)
@@ -6700,7 +6800,8 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				return;
 
 			var propsItemsContainer = BX.create('DIV', {props: {className: 'col-sm-12 bx-soa-customer'}}),
-				group, property, groupIterator = this.propertyCollection.getGroupIterator(), propsIterator;
+				group, property, groupIterator = this.propertyCollection.getGroupIterator(), propsIterator,
+				addressId = this.getAddressPropertyId();
 
 			if (!propsItemsContainer)
 				propsItemsContainer = this.propsBlockNode.querySelector('.col-sm-12.bx-soa-customer');
@@ -6714,6 +6815,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 						this.deliveryLocationInfo.loc == property.getId()
 						|| this.deliveryLocationInfo.zip == property.getId()
 						|| this.deliveryLocationInfo.city == property.getId()
+						|| property.getId() == addressId
 					)
 						continue;
 
@@ -8135,7 +8237,6 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			var total = this.result.TOTAL,
 				priceHtml, params = {},
 				discText, valFormatted, i,
-				curDelivery, deliveryError, deliveryValue,
 				showOrderButton = this.params.SHOW_TOTAL_ORDER_BUTTON === 'Y';
 
 			BX.cleanNode(this.totalInfoBlockNode);
@@ -8176,39 +8277,9 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				}
 			}
 
-			params = {};
-			curDelivery = this.getSelectedDelivery();
-			deliveryError = curDelivery && curDelivery.CALCULATE_ERRORS && curDelivery.CALCULATE_ERRORS.length;
-
-			if (deliveryError)
-			{
-				deliveryValue = BX.message('SOA_NOT_CALCULATED');
-				params.error = deliveryError;
-			}
-			else
-			{
-				if (parseFloat(total.DELIVERY_PRICE) === 0)
-				{
-					deliveryValue = this.params.MESS_PRICE_FREE;
-					params.free = true;
-				}
-				else
-				{
-					deliveryValue = total.DELIVERY_PRICE_FORMATED;
-				}
-
-				if (
-					curDelivery && typeof curDelivery.DELIVERY_DISCOUNT_PRICE !== 'undefined'
-					&& parseFloat(curDelivery.PRICE) > parseFloat(curDelivery.DELIVERY_DISCOUNT_PRICE)
-				)
-				{
-					deliveryValue += '<br><span class="bx-price-old">' + curDelivery.PRICE_FORMATED + '</span>';
-				}
-			}
-
 			if (this.result.DELIVERY.length)
 			{
-				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_DELIVERY'), deliveryValue, params));
+				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_DELIVERY'), this.params.MESS_PRICE_FREE || BX.message('SOA_PRICE_FREE') || 'бесплатно', {free: true}));
 			}
 
 			if (this.options.showDiscountPrice)
@@ -8229,11 +8300,6 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			else
 			{
 				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_SUM_IT'), total.ORDER_TOTAL_PRICE_FORMATED, {total: true}));
-			}
-
-			if (parseFloat(total.PAY_SYSTEM_PRICE) >= 0 && this.result.DELIVERY.length)
-			{
-				this.totalInfoBlockNode.appendChild(this.createTotalUnit(BX.message('SOA_PAYSYSTEM_PRICE'), '~' + total.PAY_SYSTEM_PRICE_FORMATTED));
 			}
 
 			if (!this.result.SHOW_AUTH)
@@ -8270,10 +8336,12 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			BX.cleanNode(this.mobileTotalBlockNode);
 			this.mobileTotalBlockNode.appendChild(this.totalInfoBlockNode.cloneNode(true));
-			BX.bind(this.mobileTotalBlockNode.querySelector('a.bx-soa-price-not-calc'), 'click', BX.delegate(function(){
+			var priceNotCalc = this.mobileTotalBlockNode.querySelector('a.bx-soa-price-not-calc');
+			if (priceNotCalc) BX.bind(priceNotCalc, 'click', BX.delegate(function(){
 				this.animateScrollTo(this.deliveryBlockNode);
 			}, this));
-			BX.bind(this.mobileTotalBlockNode.querySelector('a.btn-order-save'), 'click', BX.proxy(this.clickOrderSaveAction, this));
+			var orderSaveBtn = this.mobileTotalBlockNode.querySelector('a.btn-order-save');
+			if (orderSaveBtn) BX.bind(orderSaveBtn, 'click', BX.proxy(this.clickOrderSaveAction, this));
 		},
 
 		createTotalUnit: function(name, value, params)

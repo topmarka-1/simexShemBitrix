@@ -1,118 +1,129 @@
 <?
-if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 
-	<?if ($arResult["isFormErrors"] == "Y"):?><?=$arResult["FORM_ERRORS_TEXT"];?><?endif;?>
-	<? if ($arResult["FORM_NOTE"]) : ?>
-		<div class="form__success">
-			<div class="form__success_icon">
-				<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<rect width="72" height="72" rx="36" fill="#58875A"/>
-					<path d="M29 36.2353L33.8462 41L43 32" stroke="white" stroke-width="3"/>
-				</svg>
+<? if ($arResult["isFormErrors"] == "Y"): ?><?= $arResult["FORM_ERRORS_TEXT"]; ?><? endif; ?>
+<? if ($arResult["FORM_NOTE"]) : ?>
+	<div class="form__success">
+		<div class="form__success_icon">
+			<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<rect width="72" height="72" rx="36" fill="#58875A" />
+				<path d="M29 36.2353L33.8462 41L43 32" stroke="white" stroke-width="3" />
+			</svg>
+		</div>
+		<div class="form__success_content text-content">
+			<div class="form__success_title">
+				<div class="h3">Спасибо!<br>Ваша заявка принята!<? //=$arResult["FORM_NOTE"]
+																?></div>
 			</div>
-			<div class="form__success_content text-content">
-				<div class="form__success_title">
-					<div class="h3">Спасибо!<br>Ваша заявка принята!<?//=$arResult["FORM_NOTE"]?></div>
-				</div>
 
-			</div>
-			
 		</div>
 
-	<? endif; ?>
-	<?if ($arResult["isFormNote"] != "Y")
-	{
-	?>
-	<?=$arResult["FORM_HEADER"]?>
+	</div>
+
+<? endif; ?>
+<? if ($arResult["isFormNote"] != "Y") {
+?>
+	<?= $arResult["FORM_HEADER"] ?>
 	<?
-	if ($arResult["isFormDescription"] == "Y" || $arResult["isFormTitle"] == "Y" || $arResult["isFormImage"] == "Y")
-	{
+	if ($arResult["isFormDescription"] == "Y" || $arResult["isFormTitle"] == "Y" || $arResult["isFormImage"] == "Y") {
 	?>
 		<?
-	/***********************************************************************************
+		/***********************************************************************************
 						form header
-	***********************************************************************************/
-	if ($arResult["isFormTitle"])
-	{
-	?>
-	<?
-	} //endif ;
-
-		
-	} // endif
+		 ***********************************************************************************/
+		if ($arResult["isFormTitle"]) {
 		?>
+	<?
+		} //endif ;
+
+
+	} // endif
+	?>
 	<?
 	// printR($arResult);
 	/***********************************************************************************
 							form questions
-	***********************************************************************************/
+	 ***********************************************************************************/
 	?>
 	<!-- <div class="login-form"> -->
-		
-		<div class="form__content">
-			
-			<div class="request__form_title"><?=$arResult["FORM_TITLE"]?></div>
-			<div class="request__form_fields">
-				<?
-				foreach ($arResult["QUESTIONS"] as $FIELD_SID => $arQuestion)
-				{
-				?>
-					<? if ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'hidden') : ?>
-						<? switch ($arQuestion['CAPTION']) {
-							case 'ip':
-								?>
-								<input type="hidden" name="form_hidden_<?=$arQuestion['STRUCTURE'][0]['ID'] ?>" value="<?=$_SERVER['REMOTE_ADDR'] ?>">
-								<?
-								break;
-							case 'user_agent':
-								?>
-								<input type="hidden" name="form_hidden_<?=$arQuestion['STRUCTURE'][0]['ID'] ?>" value="<?=$_SERVER['HTTP_USER_AGENT'] ?>">
-								<?
-								break;
-							case 'page':
-								?>
-								<input type="hidden" name="form_hidden_<?=$arQuestion['STRUCTURE'][0]['ID'] ?>" value="<?=$APPLICATION->GetCurPage() ?>">
-								<?
-								break;
-							default:
-								echo $arQuestion['HTML_CODE'];
-								break;
-						} ?>
-					<? elseif ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'checkbox') : ?>
 
-					<? else : ?>
-						<div class="form__field">
-							<div class="form__field_title ">
-								<?=$arQuestion["CAPTION"]?>
-							</div>
-							<label class="label-text">
-								<?=$arQuestion["HTML_CODE"]?>
-							</label>
+	<div class="form__content">
+
+		<div class="request__form_title"><?= $arResult["FORM_TITLE"] ?></div>
+		<div class="request__form_fields">
+			<?
+			printR($arResult);
+			foreach ($arResult["QUESTIONS"] as $FIELD_SID => $arQuestion) {
+			?>
+				<? if ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'hidden') : ?>
+					<? switch ($arQuestion['CAPTION']) {
+						case 'ip':
+					?>
+							<input type="hidden" name="form_hidden_<?= $arQuestion['STRUCTURE'][0]['ID'] ?>" value="<?= $_SERVER['REMOTE_ADDR'] ?>">
+						<?
+							break;
+						case 'user_agent':
+						?>
+							<input type="hidden" name="form_hidden_<?= $arQuestion['STRUCTURE'][0]['ID'] ?>" value="<?= $_SERVER['HTTP_USER_AGENT'] ?>">
+						<?
+							break;
+						case 'page':
+						?>
+							<input type="hidden" name="form_hidden_<?= $arQuestion['STRUCTURE'][0]['ID'] ?>" value="<?= $APPLICATION->GetCurPage() ?>">
+					<?
+							break;
+						default:
+							echo $arQuestion['HTML_CODE'];
+							break;
+					} ?>
+				<? elseif ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'checkbox') : ?>
+				<? elseif ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'file') : ?>
+					<div class="form__field">
+						<div class="form__field_title ">
+							<?= $arQuestion["CAPTION"] ?>
 						</div>
-					<? endif; ?>
-				<?
-				} //endwhile
-				?>
-				<?
-				if($arResult["isUseCaptcha"] == "Y")
-				{
-				?>
-						<tr>
-							<th colspan="2"><b><?=GetMessage("FORM_CAPTCHA_TABLE_TITLE")?></b></th>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td><input type="hidden" name="captcha_sid" value="<?=htmlspecialcharsbx($arResult["CAPTCHACode"]);?>" /><img src="/bitrix/tools/captcha.php?captcha_sid=<?=htmlspecialcharsbx($arResult["CAPTCHACode"]);?>" width="180" height="40" /></td>
-						</tr>
-						<tr>
-							<td><?=GetMessage("FORM_CAPTCHA_FIELD_TITLE")?><?=$arResult["REQUIRED_SIGN"];?></td>
-							<td><input type="text" name="captcha_word" size="30" maxlength="50" value="" class="inputtext" /></td>
-						</tr>
-				<?
-				} // isUseCaptcha
-				?>
-				<!-- <div class="form__field">
+						<label class="label-file">
+							<input name="form_file_<?= $arQuestion['STRUCTURE'][0]['ID'] ?>" type="file">
+							<span class="btn btn-round accent">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M9.4252 4.8315C11.8669 2.38983 15.8256 2.38983 18.2673 4.8315C20.709 7.27317 20.709 11.2319 18.2673 13.6736L12.2544 19.6865C10.3987 21.5421 7.39014 21.5421 5.5345 19.6865C3.67886 17.8308 3.67886 14.8223 5.5345 12.9666L10.4863 8.0148C11.5606 6.94054 13.3023 6.94054 14.3766 8.0148C15.4508 9.08907 15.4508 10.8308 14.3766 11.9051L10.1322 16.1495C9.83927 16.4424 9.3644 16.4424 9.0715 16.1495C8.77861 15.8566 8.77861 15.3817 9.0715 15.0888L13.3159 10.8444C13.8044 10.3559 13.8044 9.56395 13.3159 9.07546C12.8274 8.58698 12.0354 8.58698 11.547 9.07546L6.59516 14.0273C5.3253 15.2971 5.3253 17.356 6.59516 18.6258C7.86501 19.8957 9.92385 19.8957 11.1937 18.6258L17.2066 12.6129C19.0625 10.757 19.0625 7.74804 17.2066 5.89216C15.3507 4.03627 12.3418 4.03627 10.4859 5.89216L5.18035 11.1977C4.88746 11.4906 4.41259 11.4906 4.11969 11.1977C3.8268 10.9048 3.8268 10.4299 4.11969 10.137L9.4252 4.8315Z" fill="CurrentColor"></path>
+								</svg>
+							</span>
+							<span class="text" data-text="<?= $arQuestion['CAPTION'] ?>"><?= $arQuestion['CAPTION'] ?></span>
+						</label>
+					</div>
+				<? else : ?>
+					<div class="form__field">
+						<div class="form__field_title ">
+							<?= $arQuestion["CAPTION"] ?>
+						</div>
+						<label class="label-text">
+							<?= $arQuestion["HTML_CODE"] ?>
+						</label>
+					</div>
+				<? endif; ?>
+			<?
+			} //endwhile
+			?>
+			<?
+			if ($arResult["isUseCaptcha"] == "Y") {
+			?>
+				<tr>
+					<th colspan="2"><b><?= GetMessage("FORM_CAPTCHA_TABLE_TITLE") ?></b></th>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><input type="hidden" name="captcha_sid" value="<?= htmlspecialcharsbx($arResult["CAPTCHACode"]); ?>" /><img src="/bitrix/tools/captcha.php?captcha_sid=<?= htmlspecialcharsbx($arResult["CAPTCHACode"]); ?>" width="180" height="40" /></td>
+				</tr>
+				<tr>
+					<td><?= GetMessage("FORM_CAPTCHA_FIELD_TITLE") ?><?= $arResult["REQUIRED_SIGN"]; ?></td>
+					<td><input type="text" name="captcha_word" size="30" maxlength="50" value="" class="inputtext" /></td>
+				</tr>
+			<?
+			} // isUseCaptcha
+			?>
+			<!-- <div class="form__field">
 					<div class="form__field_title">Выберите мессенджер:</div>
 					<div class="messangers">
 						<label class="label-icon">
@@ -153,37 +164,36 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 						</label>
 					</div>
 				</div> -->
-				<div class="form__field">
-					<input type="hidden" name="web_form_apply" value="Y" /><input type="submit" class="btn btn-primary" name="web_form_submit" value="<?=htmlspecialcharsbx(trim($arResult["arForm"]["BUTTON"]) == '' ? GetMessage("FORM_ADD") : $arResult["arForm"]["BUTTON"]);?>" />
-					<!-- <input type="submit" value="Отправить"> -->
-					<?
-					foreach ($arResult["QUESTIONS"] as $FIELD_SID => $arQuestion)
-					{
-					?>
-						<? if ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'checkbox') : ?>
+			<div class="form__field">
+				<input type="hidden" name="web_form_apply" value="Y" /><input type="submit" class="btn btn-primary" name="web_form_submit" value="<?= htmlspecialcharsbx(trim($arResult["arForm"]["BUTTON"]) == '' ? GetMessage("FORM_ADD") : $arResult["arForm"]["BUTTON"]); ?>" />
+				<!-- <input type="submit" value="Отправить"> -->
+				<?
+				foreach ($arResult["QUESTIONS"] as $FIELD_SID => $arQuestion) {
+				?>
+					<? if ($arQuestion['STRUCTURE'][0]['FIELD_TYPE'] == 'checkbox') : ?>
 
-							<div class="agree">
-								<label class="label-checkbox">
+						<div class="agree">
+							<label class="label-checkbox">
 
-									<input type="checkbox" <?if ($arQuestion['REQUIRED']) : ?>required<?endif;?> name="form_checkbox_<?=$FIELD_SID ?>[]" value="<?=$arQuestion['STRUCTURE'][0]['ID'] ?>">
-									<span class="checkbox"></span>
-									<span class="text"><?=$arQuestion["CAPTION"] ?></span>
-								</label>
-							</div>
+								<input type="checkbox" <? if ($arQuestion['REQUIRED']) : ?>required<? endif; ?> name="form_checkbox_<?= $FIELD_SID ?>[]" value="<?= $arQuestion['STRUCTURE'][0]['ID'] ?>">
+								<span class="checkbox"></span>
+								<span class="text"><?= $arQuestion["CAPTION"] ?></span>
+							</label>
+						</div>
 
-						<? endif; ?>
-					<?
-					} //endwhile
-					?>
-					
-				</div>
-			
+					<? endif; ?>
+				<?
+				} //endwhile
+				?>
+
 			</div>
+
 		</div>
+	</div>
 	<!-- </div> -->
 
-	<?=$arResult["FORM_FOOTER"]?>
-	<?
-	} //endif (isFormNote)
-	?>
-	<!-- </div> -->
+	<?= $arResult["FORM_FOOTER"] ?>
+<?
+} //endif (isFormNote)
+?>
+<!-- </div> -->

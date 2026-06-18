@@ -442,3 +442,109 @@ BX.saleOrderAjax = { // bad solution, actually, a singleton at the page
 		});
 	}
 };
+
+// Патч для обработки ошибок доставки/оплаты - принудительно очищаем ошибки расчёта
+BX(function() {
+	if (!BX.Sale || !BX.Sale.OrderAjaxComponent)
+		return;
+	var component = BX.Sale.OrderAjaxComponent;
+
+	function clearErrors(data) {
+		if (!data) return;
+		if (data.ERROR)
+		{
+			delete data.ERROR.MAIN;
+			delete data.ERROR.DELIVERY;
+			delete data.ERROR.PAY_SYSTEM;
+		}
+		if (data.error)
+			delete data.error;
+	}
+
+	function clearDelivery(data) {
+		if (!data) return;
+		if (data.DELIVERY)
+		{
+			for (var i = 0; i < data.DELIVERY.length; i++)
+			{
+				data.DELIVERY[i].PRICE = 0;
+				data.DELIVERY[i].PRICE_FORMATED = '';
+				data.DELIVERY[i].CALCULATE_ERRORS = false;
+				data.DELIVERY[i].CALCULATE_DESCRIPTION = '';
+			}
+		}
+		if (data.TOTAL)
+		{
+			data.TOTAL.DELIVERY_PRICE = 0;
+			data.TOTAL.DELIVERY_PRICE_FORMATED = '';
+		}
+		data.PAY_SYSTEM = [];
+		delete data.PAY_FROM_ACCOUNT;
+	}
+
+	// Патч refreshOrder
+	if (component.refreshOrder)
+	{
+		var origRefreshOrder = component.refreshOrder;
+		component.refreshOrder = function(result) {
+			if (result && result.order)
+			{
+				clearDelivery(result.order);
+				clearErrors(result.order);
+			}
+			clearErrors(result);
+			return origRefreshOrder.call(this, result);
+		};
+	}
+
+	// Патч saveOrderWithJson
+	if (component.saveOrderWithJson)
+	{
+		var origSaveOrder = component.saveOrderWithJson;
+		component.saveOrderWithJson = function(result) {
+			if (result && result.order)
+			{
+				clearDelivery(result.order);
+				clearErrors(result.order);
+			}
+			clearErrors(result);
+			return origSaveOrder.call(this, result);
+		};
+	}
+
+	// Показываем все разделы сразу (без нажатия "Далее")
+	if (component.changeVisibleContent)
+	{
+		var origChangeVisible = component.changeVisibleContent;
+		component.changeVisibleContent = function() {
+			origChangeVisible.apply(this, arguments);
+			var sections = this.orderBlockNode.querySelectorAll('.bx-soa-section.bx-active');
+			for (var si = 0; si < sections.length; si++)
+			{
+				var sec = sections[si];
+				if (sec.id === this.basketBlockNode.id) continue;
+				var content = sec.querySelector('.bx-soa-section-content');
+				if (content) content.style.display = '';
+				var editStep = sec.querySelector('.bx-soa-editstep');
+				if (editStep) editStep.style.display = 'none';
+				sec.setAttribute('data-visited', 'true');
+				BX.addClass(sec, 'bx-step-completed');
+			}
+			this.switchOrderSaveButtons(true);
+		};
+	}
+
+	// Чиним updateDeliveryAddressField — не перемещаем поле при каждом рендере
+	if (component.updateDeliveryAddressField)
+	{
+		var origUpdateAddr = component.updateDeliveryAddressField;
+		component.updateDeliveryAddressField = function() {
+			var addressId = this.getAddressPropertyId();
+			if (!addressId) return;
+			var addressWrap = BX('bx-soa-delivery-address-wrap');
+			if (!addressWrap) {
+				origUpdateAddr.apply(this, arguments);
+			}
+		};
+	}
+});

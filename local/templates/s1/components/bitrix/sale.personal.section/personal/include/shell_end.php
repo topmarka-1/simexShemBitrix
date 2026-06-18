@@ -142,7 +142,17 @@ if ($isAjax) return;
         }
     }
 
+    function loadCSS(href) {
+        if (!document.querySelector('link[href="' + href + '"]')) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+        }
+    }
+
     function reinitFavorites() {
+        loadCSS('/local/components/custom/favorites.elements/templates/.default/style.css');
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/local/ajax/favourite.php?action=list', true);
         xhr.withCredentials = true;

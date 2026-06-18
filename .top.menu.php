@@ -1,53 +1,52 @@
 <?
-$aMenuLinks = Array(
-	Array(
-		"Каталог", 
-		"catalog/", 
-		Array(), 
-		Array('IBLOCK_ID' => 14), 
-		"" 
+$aMenuLinks = array(
+	array(
+		"Каталог",
+		"catalog/",
+		array(),
+		array('IBLOCK_ID' => 14),
+		""
 	),
-	Array(
-		"О компании", 
-		"about/", 
-		Array(), 
-		Array(), 
-		"" 
+	array(
+		"О компании",
+		"about/",
+		array(),
+		array(),
+		""
 	),
-	Array(
-		"Бренды", 
-		"brands/", 
-		Array(), 
-		Array(), 
-		"" 
+	array(
+		"Бренды",
+		"brands/",
+		array(),
+		array("IBLOCK_SECTION" => "16"),
+		""
 	),
-	Array(
-		"Лаборатория", 
-		"laboratory/", 
-		Array(), 
-		Array(), 
-		"" 
+	array(
+		"Лаборатория",
+		"laboratory/",
+		array(),
+		array(),
+		""
 	),
-	Array(
-		"Купить", 
-		"buy/", 
-		Array(), 
-		Array(), 
-		"" 
+	array(
+		"Купить",
+		"buy/",
+		array(),
+		array(),
+		""
 	),
-	Array(
-		"Новости", 
-		"novosti/", 
-		Array(), 
-		Array(), 
-		"" 
+	array(
+		"Новости",
+		"novosti/",
+		array(),
+		array(),
+		""
 	),
-	Array(
-		"Контакты", 
-		"contacts/", 
-		Array(), 
-		Array(), 
-		"" 
+	array(
+		"Контакты",
+		"contacts/",
+		array(),
+		array(),
+		""
 	)
 );
-?>

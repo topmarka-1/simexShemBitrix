@@ -1,4 +1,4 @@
-<? $isMainPage = $APPLICATION->GetCurPage(false) == '/';?>
+<? $isMainPage = $APPLICATION->GetCurPage(false) == '/'; ?>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -6,73 +6,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="robots" content="noindex,nofollow">
-    <link rel="shortcut icon" href="<?=SITE_TEMPLATE_PATH?>/assets/img/favicon/favicon.svg" type="image/x-icon">
-    
+    <link rel="shortcut icon" href="<?= SITE_TEMPLATE_PATH ?>/assets/img/favicon/favicon.svg" type="image/x-icon">
+
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
     <link
         rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css"
-        />
+        href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css" />
     <link
         rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
-    />
-    <?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/assets/css/personal.css");?>
-    <?$APPLICATION->ShowHead();?>
-<title><?$APPLICATION->ShowTitle()?></title>
+        href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+    <? $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/assets/css/personal.css"); ?>
+    <? $APPLICATION->ShowHead(); ?>
+    <title><? $APPLICATION->ShowTitle() ?></title>
 </head>
+
 <body>
-<div id="panel" style="position:fixed;left:0;right:0;bottom:0;z-index:1001;">
-	<? $APPLICATION->ShowPanel(); ?>
-</div>
+    <div id="panel" style="position:fixed;left:0;right:0;bottom:0;z-index:1001;">
+        <? $APPLICATION->ShowPanel(); ?>
+    </div>
     <div id="wrapper" class="wrapper <?= $isMainPage ? 'index' : '' ?>">
         <header class="header <? $isMainPage ? 'index' : '' ?>">
             <div class="container">
                 <div class="header__row">
-                    <div class="header__col"> 
-                                <button class="btn btn-sm btn-quad primary burger_btn"> 
-                                    <span class="lines"> 
-                                        <span class="line"></span>
-                                        <span class="line"></span> 
-                                    </span> 
-                                </button> 
-                                <? $APPLICATION->IncludeFile(
-                                    SITE_TEMPLATE_PATH . '/include/head_logo.php',
-                                    [],
-                                    [
-                                        'MODE'      => 'html',
-                                    ]
-                                ); ?>
-                            </div>
-                                <?$APPLICATION->IncludeComponent(
-                                    "bitrix:menu",
-                                    "head_menu",
-                                    Array(
-                                    "ALLOW_MULTI_SELECT" => "N",
-                                    "CHILD_MENU_TYPE" => "left",
-                                    "DELAY" => "N",
-                                    "MAX_LEVEL" => "1",
-                                    "MENU_CACHE_GET_VARS" => array(""),
-                                    "MENU_CACHE_TIME" => "3600",
-                                    "MENU_CACHE_TYPE" => "N",
-                                    "MENU_CACHE_USE_GROUPS" => "Y",
-                                    "ROOT_MENU_TYPE" => "top",
-                                    "USE_EXT" => "N"
-                                    )
-                                );?>
-                        
-                    <div class="header__col"> 
-                        <?
-                            $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/include/head_phone.php');
-                        ?>
-                        <?
-                            $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/include/head_links.php',
+                    <div class="header__col">
+                        <button class="btn btn-sm btn-quad primary burger_btn">
+                            <span class="lines">
+                                <span class="line"></span>
+                                <span class="line"></span>
+                            </span>
+                        </button>
+                        <? $APPLICATION->IncludeFile(
+                            SITE_TEMPLATE_PATH . '/include/head_logo.php',
                             [],
                             [
-                            "MODE" => "php"
-                            ]);
+                                'MODE'      => 'html',
+                            ]
+                        ); ?>
+                    </div>
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:menu",
+                        "head_menu",
+                        array(
+                            "ALLOW_MULTI_SELECT" => "N",
+                            "CHILD_MENU_TYPE" => "left",
+                            "DELAY" => "N",
+                            "MAX_LEVEL" => "2",
+                            "MENU_CACHE_GET_VARS" => array(),
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "ROOT_MENU_TYPE" => "top",
+                            "USE_EXT" => "N",
+                            "COMPONENT_TEMPLATE" => "head_menu"
+                        ),
+                        false
+                    ); ?>
+
+                    <div class="header__col">
+                        <?
+                        $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/include/head_phone.php');
                         ?>
-                        
+                        <?
+                        $APPLICATION->IncludeFile(
+                            SITE_TEMPLATE_PATH . '/include/head_links.php',
+                            [],
+                            [
+                                "MODE" => "php"
+                            ]
+                        );
+                        ?>
+
                     </div>
                 </div>
             </div>
@@ -82,34 +85,36 @@
                 <div class="header__row">
                     <div class="header__col"> <button class="btn btn-sm btn-quad primary burger_btn"> <span
                                 class="lines"> <span class="line"></span><span class="line"></span> </span> </button> <a
-                                href="/" class="logo"> <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/simex-logo-dark.svg" width="148"
+                            href="/" class="logo"> <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/simex-logo-dark.svg" width="148"
                                 height="58" loading="lazy" alt="logo image"> </a> </div>
-                            <?$APPLICATION->IncludeComponent(
-                                "bitrix:menu",
-                                "head_menu",
-                                Array(
-                                "ALLOW_MULTI_SELECT" => "N",
-                                "CHILD_MENU_TYPE" => "left",
-                                "DELAY" => "N",
-                                "MAX_LEVEL" => "1",
-                                "MENU_CACHE_GET_VARS" => array(""),
-                                "MENU_CACHE_TIME" => "3600",
-                                "MENU_CACHE_TYPE" => "N",
-                                "MENU_CACHE_USE_GROUPS" => "Y",
-                                "ROOT_MENU_TYPE" => "top",
-                                "USE_EXT" => "N"
-                                )
-                            );?>
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:menu",
+                        "head_menu",
+                        array(
+                            "ALLOW_MULTI_SELECT" => "N",
+                            "CHILD_MENU_TYPE" => "left",
+                            "DELAY" => "N",
+                            "MAX_LEVEL" => "2",
+                            "MENU_CACHE_GET_VARS" => array(""),
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "ROOT_MENU_TYPE" => "top",
+                            "USE_EXT" => "N"
+                        )
+                    ); ?>
                     <div class="header__col">
                         <?
-                            $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/include/head_phone.php');
+                        $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/include/head_phone.php');
                         ?>
                         <?
-                            $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/include/head_links.php',
+                        $APPLICATION->IncludeFile(
+                            SITE_TEMPLATE_PATH . '/include/head_links.php',
                             [],
                             [
-                            "MODE" => "php"
-                            ]);
+                                "MODE" => "php"
+                            ]
+                        );
                         ?>
                     </div>
                 </div>
@@ -123,14 +128,16 @@
                 $APPLICATION->AddChainItem("Оборонно-промышленный комплекс", "/catalog/opk/");
             endif;
             ?>
-            <?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "breadcrumbs", Array(
-                "PATH" => "",	// Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
-                    "SITE_ID" => "s1",	// Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)
-                    "START_FROM" => "0",	// Номер пункта, начиная с которого будет построена навигационная цепочка
+            <? $APPLICATION->IncludeComponent(
+                "bitrix:breadcrumb",
+                "breadcrumbs",
+                array(
+                    "PATH" => "",    // Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
+                    "SITE_ID" => "s1",    // Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)
+                    "START_FROM" => "0",    // Номер пункта, начиная с которого будет построена навигационная цепочка
                     "COMPONENT_TEMPLATE" => ".default"
                 ),
                 false
-            );?>
+            ); ?>
         <? endif; ?>
         <main class="main">
-            

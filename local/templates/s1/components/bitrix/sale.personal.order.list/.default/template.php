@@ -23,7 +23,7 @@ use Bitrix\Sale;
 
 Asset::getInstance()->addJs("/bitrix/components/bitrix/sale.order.payment.change/templates/.default/script.js");
 Asset::getInstance()->addCss("/bitrix/components/bitrix/sale.order.payment.change/templates/.default/style.css");
-// $this->addExternalCss("/bitrix/css/main/bootstrap.css");
+
 
 // --- Orders ---
 $orders = [];
@@ -36,16 +36,14 @@ if ($USER->IsAuthorized() && Loader::includeModule('sale')) {
 	]);
 	while ($orderData = $orderRes->fetch()) {
 		$statusName = 'Неизвестно';
-		$status = Sale\OrderStatus::getList([
-			'filter' => ['ID' => $orderData['STATUS_ID']],
-			'select' => ['ID', 'NAME'],
-		])->fetch();
+		$status = CSaleStatus::GetByID($orderData['STATUS_ID']);
 		if ($status) {
 			$statusName = $status['NAME'];
 		}
 
 		$basketItems = [];
-		$basket = Sale\Basket::loadItemsForOrder($orderData['ID']);
+		$orderObj = Sale\Order::load($orderData['ID']);
+		$basket = $orderObj ? $orderObj->getBasket() : [];
 		foreach ($basket as $basketItem) {
 			$itemImg = '';
 			$productId = $basketItem->getProductId();
@@ -68,7 +66,7 @@ if ($USER->IsAuthorized() && Loader::includeModule('sale')) {
 			'ACCOUNT_NUMBER' => $orderData['ACCOUNT_NUMBER'],
 			'PRICE' => Sale\PriceMaths::roundPrecision($orderData['PRICE']),
 			'CURRENCY' => $orderData['CURRENCY'],
-			'DATE_INSERT' => $orderData['DATE_INSERT']->format('j F в H:i'),
+			'DATE_INSERT' => $orderData['DATE_INSERT']->format('j.m.Y H:i'),
 			'STATUS_NAME' => $statusName,
 			'BASKET_ITEMS' => $basketItems,
 		];
@@ -224,9 +222,9 @@ if (!empty($arResult['ERRORS']['FATAL'])) {
 											</div>
 										</div>
 									<?php } ?>
-									<div class="history__order_pay">
+									<!-- <div class="history__order_pay">
 										<a href="#" class="btn btn-primary">Перейти к оплате</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
